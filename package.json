@@ -7,11 +7,25 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "clean:android": "cd android &&./gradlew clean &&./gradlew cleanBuildCache && cd ../",
+    "clean:ios": "cd ios && xcodebuild clean && cd ../"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.15.15",
+    "@react-native-community/netinfo": "^8.2.0",
+    "@react-native-firebase/app": "^14.5.1",
+    "@react-native-firebase/messaging": "^14.2.2",
+    "@react-navigation/bottom-tabs": "^6.2.0",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/stack": "^6.0.11",
     "react": "17.0.2",
-    "react-native": "0.67.3"
+    "react-native": "0.66.4",
+    "react-native-device-info": "^8.4.8",
+    "react-native-gesture-handler": "^2.1.1",
+    "react-native-safe-area-context": "^4.2.1",
+    "react-native-screens": "^3.13.1",
+    "react-native-vector-icons": "^9.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
