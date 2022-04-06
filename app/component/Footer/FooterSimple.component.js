@@ -20,7 +20,7 @@ class FooterSimple  extends Component {
  
   render() {
     
-    console.log("el valor de ver imagen-->"+this.verImagen);
+   // console.log("el valor de ver imagen-->"+this.verImagen);
     
     return (
 

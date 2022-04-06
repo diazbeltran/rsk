@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity,TouchableHighlight, ImageBackground, } from 'react-native';
+import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity,TouchableHighlight, ImageBackground,TouchableWithoutFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import firebase from 'react-native-firebase';
 // import Boton from '../components/Button/Button.component';
@@ -139,8 +139,8 @@ export default class SplashScreen extends Component {
             <View style={styles.wrapper} >
 
 
-
-
+<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Auth')}>
+<View >
             <View style={{ backgroundColor: 'transparent' }}>
                 
                     <Image source={require('../assets/img/logo_1.png')} style={styles.logo} />
@@ -150,12 +150,12 @@ export default class SplashScreen extends Component {
                     <Image source={require('../assets/img/logo_3.png')} style={styles.logo2} />
                 </View>
 
-
-                {/* <Hint
-                    title={this.state.tituloHint}
-                    ref={this.Hint}
-                /> */}
+                </View>
+               
+                
+                </TouchableWithoutFeedback>
             </View>
+            
         );
     }
 }
