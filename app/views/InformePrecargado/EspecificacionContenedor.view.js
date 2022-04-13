@@ -5,7 +5,7 @@ import Footer from '../../component/Footer/FooterSimple.component';
 import FormLogin from '../../component/Login/FormLogin.component.js';
 import InformeCaja from '../../component/InformeCaja/InformeCaja.component.js'
 import SelectDropdown from 'react-native-select-dropdown'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Select from '../../component/Select/Select.component.js';
 
 import { TouchableHighlight } from 'react-native-gesture-handler';
@@ -35,12 +35,32 @@ export default class EspecificacionContenedor extends Component {
         
     }
 
+    envio_menu = async () => {
+
+        //this.Loading.current.mostrar();
+
+        console.log("aqui");
+                await AsyncStorage.setItem("informeGeneral", "2");
+                await AsyncStorage.setItem("identificacionCarga", "2");
+                await AsyncStorage.setItem("EspecificacionContenedor", "2");
+                await AsyncStorage.setItem("FotosContenedor", "1");
+                await AsyncStorage.setItem("EstibaPallet", "0");
+                await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
+                await AsyncStorage.setItem("Observaciones", "0");
+
+
+        this.props.navigation.navigate('ConsolidacionCarga', {a:'a'})
+    };
+    
+
+
+
     render() {
 
         return (
             <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
                 <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}>
+                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('ConsolidacionCarga')}>
                     <View style={{}}>
                     <Icon2 style={{marginLeft:10}} name="chevron-back" size={30} color="#FFFF" />
                                         
@@ -72,7 +92,7 @@ export default class EspecificacionContenedor extends Component {
                                     <View style={{marginLeft:120, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                        onPress={() => this.props.navigation.navigate('TomarFoto')}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>Tomar fotografia</Text>
                             </TouchableHighlight>
@@ -93,7 +113,7 @@ export default class EspecificacionContenedor extends Component {
                                     <View style={{marginLeft:120, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                        onPress={() => this.props.navigation.navigate('TomarFoto')}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>Tomar fotografia</Text>
                             </TouchableHighlight>
@@ -139,7 +159,7 @@ export default class EspecificacionContenedor extends Component {
                                     <View style={{marginLeft:120, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                        onPress={() => this.props.navigation.navigate('TomarFoto')}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>Tomar fotografia</Text>
                             </TouchableHighlight>
@@ -155,7 +175,7 @@ export default class EspecificacionContenedor extends Component {
                                     <View style={{marginLeft:120, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                        onPress={() => this.props.navigation.navigate('TomarFoto')}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>Tomar fotografia</Text>
                             </TouchableHighlight>
@@ -185,7 +205,7 @@ export default class EspecificacionContenedor extends Component {
                                     <View style={{marginLeft:120, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                        onPress={() => this.props.navigation.navigate('TomarFoto')}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>Tomar fotografia</Text>
                             </TouchableHighlight>
@@ -206,7 +226,7 @@ export default class EspecificacionContenedor extends Component {
                 <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                        onPress={() => this.envio_menu()}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Siguiente</Text>
                             </TouchableHighlight>

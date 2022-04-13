@@ -68,27 +68,13 @@ export default class Login extends Component {
                     </View>
                     <View style={{alignItems:'center'}}>
                         <TouchableHighlight style={{with:10}}
-                        title="Press me"
+                        title="Ingresar"
                         onPress={() => this.props.navigation.navigate('App')}
                             >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }} underlayColor={'red'}>Ingresar</Text>
                             </TouchableHighlight>
 
-                            {/* <TouchableOpacity onPress={async () => {
-                                    if (await CheckConnectivity.fnCheckConnectivity() == true) {
-                                        this.props.navigation.navigate('DatosConstancia', { fechaAccidente: this.state.fechaSeleccionada })
-                                    } else {
-                                        this.setState({ tituloHint: 'Error de conexión' });
-                                        this.Hint.current.mostrarConParametros("No está conectado a internet, por favor encienda WiFi o 3G.");
-                                    }
-
-                                }}>
-                                    <View style={{ backgroundColor: "#E6E6E6", width: "100%", height: this.state.alturaBotonIngreseDatosConstancia, borderRadius: 4, opacity: this.state.opacidadElementosConstancia, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 10, paddingTop: Platform.OS == "ios" ? 5 : 2 }}>
-                                        {this.state.fontLoaded == true ? (<Text style={{ ...styles.textoChicoLigth, marginBottom: 3, opacity: this.state.opacidadElementosConstancia }}>Ingresa datos</Text>) : (<Text>Loading ... </Text>)}
-                                        <Icon3 name="caretright" color="#848484" size={15} style={{ opacity: this.state.opacidadElementosConstancia }}></Icon3>
-                                    </View>
-                                </TouchableOpacity> */}
-
+                           
                                     
                     </View>
                     <View style={{alignItems:'center'}}>

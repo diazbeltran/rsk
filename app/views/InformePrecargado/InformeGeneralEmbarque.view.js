@@ -7,7 +7,7 @@ import InformeCaja from '../../component/InformeCaja/InformeCaja.component.js'
 import SelectDropdown from 'react-native-select-dropdown'
 import Select from '../../component/Select/Select.component.js';
 
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 // import Icon from 'react-native-vector-icons/Feather';
 // import Icon2 from 'react-native-vector-icons/Ionicons';
@@ -35,12 +35,31 @@ export default class InfoGeneralEmbarque extends Component {
         this.exportador = React.createRef();
     }
 
+
+    envio_menu = async () => {
+
+        //this.Loading.current.mostrar();
+
+        console.log("aqui");
+                await AsyncStorage.setItem("informeGeneral", "2");
+                await AsyncStorage.setItem("identificacionCarga", "1");
+                await AsyncStorage.setItem("EspecificacionContenedor", "0");
+                await AsyncStorage.setItem("FotosContenedor", "0");
+                await AsyncStorage.setItem("EstibaPallet", "0");
+                await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
+                await AsyncStorage.setItem("Observaciones", "0");
+
+
+        this.props.navigation.navigate('ConsolidacionCarga')
+    };
+
+
     render() {
 
         return (
             <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
                <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('App')}>
+                <TouchableWithoutFeedback onPress={() => this.props.navigation.goBack()}>
                     <View style={{}}>
                     <Icon style={{marginLeft:10}} name="chevron-back" size={30} color="#FFFF" />
                                         
@@ -48,7 +67,7 @@ export default class InfoGeneralEmbarque extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Informe final de carga </Text><Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>Información general del embarque (Precargado) </Text><Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
 
                 </View>
                
@@ -149,11 +168,11 @@ export default class InfoGeneralEmbarque extends Component {
                 
                 
                 <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
-                        <TouchableHighlight style={{with:10}}
+                <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                         onPress={() => this.envio_menu()}
                             >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Siguiente</Text>
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
                             </TouchableHighlight>
                     </View>
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >

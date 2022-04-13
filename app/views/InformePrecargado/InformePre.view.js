@@ -5,8 +5,13 @@ import Footer from '../../component/Footer/FooterSimple.component';
 import FormLogin from '../../component/Login/FormLogin.component.js';
 import InformeCaja from '../../component/InformeCaja/InformeCaja.component.js'
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+//import ConsultaContenedor from '../Contenedor/ConsultaContenedor.view';
+
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
+
 
 export default class InformePrecargado extends Component {
 
@@ -23,14 +28,29 @@ export default class InformePrecargado extends Component {
 
         
     }
+    envio_menu = async () => {
 
+        //this.Loading.current.mostrar();
+
+        console.log("aqui");
+                await AsyncStorage.setItem("informeGeneral", "1");
+                await AsyncStorage.setItem("identificacionCarga", "0");
+                await AsyncStorage.setItem("EspecificacionContenedor", "0");
+                await AsyncStorage.setItem("FotosContenedor", "0");
+                await AsyncStorage.setItem("EstibaPallet", "0");
+                await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
+                await AsyncStorage.setItem("Observaciones", "0");
+
+
+        this.props.navigation.navigate('ConsolidacionCarga', {a:'a'})
+    };
     render() {
 
         return (
-            <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
+            <View style={{ flex: 1 , backgroundColor: '#6d65a5'}}>
                 <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
 
-                    <Text style={{flex:1,marginLeft:80, color:'white',marginTop:0, fontSize:18}}>Informes precargados </Text><Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:80, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>Informes precargados </Text><Icon style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
                 
@@ -43,11 +63,17 @@ export default class InformePrecargado extends Component {
                 <View style={{alignItems:'center', backgroundColor:'white', flex:0.1, paddingTop:20}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                        onPress={() => this.envio_menu()}
                             >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, 
+                                    paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>
+                                        Ingresar nuevo informe</Text>
                             </TouchableHighlight>
                     </View>
+
+                    
+
+
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
                     
                     <Footer

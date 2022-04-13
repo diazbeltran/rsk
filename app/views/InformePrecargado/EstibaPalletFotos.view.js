@@ -35,8 +35,8 @@ export default class FotosContenedor extends Component {
                 await AsyncStorage.setItem("identificacionCarga", "2");
                 await AsyncStorage.setItem("EspecificacionContenedor", "2");
                 await AsyncStorage.setItem("FotosContenedor", "2");
-                await AsyncStorage.setItem("EstibaPallet", "1");
-                await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
+                await AsyncStorage.setItem("EstibaPallet", "2");
+                await AsyncStorage.setItem("FotosConsolidacionCarga", "1");
                 await AsyncStorage.setItem("Observaciones", "0");
 
 
@@ -58,17 +58,25 @@ export default class FotosContenedor extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Fotos contenedor vacio </Text><Icon2 style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Estiba de pallets</Text><Icon2 style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
 
                 </View>
                
-                <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
-                <ScrollView>
+                <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column', alignItems:'center'}} >
+               
                             
-                                
+                         <View style={{marginTop:20}}>
+                             <Text style={{fontWeight:'bold'}}>AVISO IMPORTANTE</Text>
+                             
+                        </View>       
                             
+                        <View>
+                             <Text>Favor añadir fotos correspondientes</Text>
+                             
+                        </View> 
+
                                     
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                <View style={{height:70, marginLeft:0, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
                                 onPress={() => this.props.navigation.navigate('TomarFoto')}
@@ -91,7 +99,7 @@ export default class FotosContenedor extends Component {
                                 </TouchableWithoutFeedback>
                                 </View>
                                     
-                                <View style={{marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                <View style={{marginLeft:0, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
                                 onPress={() => this.props.navigation.navigate('TomarFoto')}
@@ -128,7 +136,7 @@ export default class FotosContenedor extends Component {
                         
                                 
                             
-                                </ScrollView>
+                               
                             </View>                           
                
                 

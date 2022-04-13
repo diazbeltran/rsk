@@ -42,7 +42,7 @@ class InformeCaja  extends Component {
                     <View style={{ flex: 1, backgroundColor: 'white' , flexDirection: 'column', paddingLeft:30 }}>  
                     <TouchableHighlight style={{with:100, flex:1, paddingBottom:20}}
                     title=""
-                    onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                    // onPress={() => this.props.navigation.navigate('ConsolidacionCarga')}
                     >
                     <Text style={{marginLeft:50, width:200, borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar pallet n de x</Text>
                     </TouchableHighlight>

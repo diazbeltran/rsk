@@ -31,12 +31,12 @@ class FooterSimple  extends Component {
         
 
       <View style={{ flex: 1, backgroundColor: 'steelblue' , flexDirection: 'row'}}>
-                    <View style={{ flex: 1, backgroundColor: '#d99133' }}>                    
+                    <View style={{ flex: 1, backgroundColor: '#f38c1c' }}>                    
                     </View>
-                    <View style={{ flex: 1, backgroundColor: '#679527' }}>
+                    <View style={{ flex: 1, backgroundColor: '#73bb4c' }}>
                     
                     </View>
-                    <View style={{ flex: 1, backgroundColor: '#9e7e9e' }}>
+                    <View style={{ flex: 1, backgroundColor: '#7576b2' }}>
                    
                     </View>
         

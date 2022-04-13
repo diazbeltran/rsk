@@ -1,0 +1,38 @@
+{
+    "informesPrecargados": "Informes precargados 1",
+    "fecha": "11-04-2022",
+    "año": 2022,
+    "autor": "mdiaz",
+    "active": true,
+    "ordenes": [
+      {
+        "ordenEmbarque": "A45645",
+        "exportador": "FoxSoft",
+        "numeroContendor": "345FFD",
+        "tipo": "multimedia",
+        "codigoTipo": 1
+      },
+     
+      {
+        "ordenEmbarque": "A45644",
+        "exportador": "Genesys",
+        "numeroContendor": "345FFD",
+        "tipo": "multimedia",
+        "codigoTipo": 1
+      },
+      {
+        "ordenEmbarque": "A45645",
+        "exportador": "FoxSoft",
+        "numeroContendor": "345FFD",
+        "tipo": "multimedia",
+        "codigoTipo": 1
+      },
+      {
+        "ordenEmbarque": "A45645",
+        "exportador": "FoxSoft",
+        "numeroContendor": "345FFD",
+        "tipo": "multimedia",
+        "codigoTipo": 2
+      }
+    ]
+  }

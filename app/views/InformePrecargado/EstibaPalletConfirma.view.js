@@ -18,7 +18,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 
 
-export default class ConsultaContenedor extends Component {
+export default class ConsultaEstibaConfirma extends Component {
 
     static navigationOptions = {
         header: null,
@@ -45,12 +45,12 @@ export default class ConsultaContenedor extends Component {
         //this.Loading.current.mostrar();
 
         console.log("aqui");
-                await AsyncStorage.setItem("informeGeneral", "1");
-                await AsyncStorage.setItem("identificacionCarga", "0");
-                await AsyncStorage.setItem("EspecificacionContenedor", "0");
-                await AsyncStorage.setItem("FotosContenedor", "0");
-                await AsyncStorage.setItem("EstibaPallet", "0");
-                await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
+                await AsyncStorage.setItem("informeGeneral", "2");
+                await AsyncStorage.setItem("identificacionCarga", "2");
+                await AsyncStorage.setItem("EspecificacionContenedor", "2");
+                await AsyncStorage.setItem("FotosContenedor", "2");
+                await AsyncStorage.setItem("EstibaPallet", "2");
+                await AsyncStorage.setItem("FotosConsolidacionCarga", "1");
                 await AsyncStorage.setItem("Observaciones", "0");
 
 
@@ -63,7 +63,7 @@ export default class ConsultaContenedor extends Component {
         return (
             <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
                 <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('App')}>
+                <TouchableWithoutFeedback onPress={() => this.props.navigation.goBack()}>
                     <View style={{flex:0.1}}>
                     <Icon style={{marginLeft:'50%'}} name="angle-left" size={30} color="#FFFF" />
                                         
@@ -71,20 +71,21 @@ export default class ConsultaContenedor extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Consulta Contenedor</Text>
+                    <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Estiba de Pallets</Text>
                     <Icon style={{marginRight:'10%'}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column', alignItems:'center'}} >
-                    <Text style={{fontWeight:'bold', marginTop:'10%'}}>Contenedor N°345FFD</Text>
-                    <Text style={{marginTop:'2%'}}>¿El contenedor viene vacio?</Text>  
-                    
+                    <Text style={{fontWeight:'bold', marginTop:'10%'}}>Aviso Importante</Text>
+                   <View style={{flex:.3, width:'70%'}}>
+                    <Text style={{marginTop:'2%'}}>Esta a punto de cerrar el contenedor ¿Esta unidad lleva instalación de cortina de atmosfera?</Text>  
+                    </View>
                     <View style={{flexDirection:'row', justifyContent: 'space-around', marginTop:'10%'}}>
                    <View>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.envio_menu()}
+                        onPress={() => this.props.navigation.navigate('EstibaPalletFotos')}
                         >
                         <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#75BE48', color:'white', }}>Si</Text>
                         </TouchableHighlight>
@@ -92,7 +93,7 @@ export default class ConsultaContenedor extends Component {
                    <View>
                        <TouchableHighlight style={{with:10, marginLeft:20}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque')}
+                        onPress={() => this.props.navigation.navigate('EstibaPalletFotos')}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#6f6aaa', color:'white', }}>No</Text>
                             </TouchableHighlight>

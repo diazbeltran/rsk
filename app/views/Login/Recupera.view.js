@@ -34,7 +34,10 @@ export default class InformePrecargado extends Component {
                 
                 
                 <View style={{ flex: 1, backgroundColor: 'white' }} >
-                    
+                <View style={{flex:0.5}}>
+                       <Text style={{marginLeft:'30%', fontWeight:'bold'}}>Recuperar Contraseña</Text> 
+                       
+                    </View>
                     <View>
                        <Text style={{marginLeft:30}}>Ingresar correo electrónico registrado</Text> 
                        <TextInput

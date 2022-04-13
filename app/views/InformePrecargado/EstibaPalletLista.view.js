@@ -6,7 +6,7 @@ import FormLogin from '../../component/Login/FormLogin.component.js';
 import InformeCaja from '../../component/InformeCaja/InformeCaja.component.js'
 import InformePallet from '../../component/InformePallet/InformePallet.component.js'
 import Icon2 from 'react-native-vector-icons/Ionicons';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -25,13 +25,29 @@ export default class EstibaPalletLista extends Component {
 
         
     }
+    envio_menu = async () => {
 
+        //this.Loading.current.mostrar();
+
+        console.log("aqui");
+                await AsyncStorage.setItem("informeGeneral", "2");
+                await AsyncStorage.setItem("identificacionCarga", "2");
+                await AsyncStorage.setItem("EspecificacionContenedor", "2");
+                await AsyncStorage.setItem("FotosContenedor", "2");
+                await AsyncStorage.setItem("EstibaPallet", "2");
+                await AsyncStorage.setItem("FotosConsolidacionCarga", "1");
+                await AsyncStorage.setItem("Observaciones", "0");
+
+
+        this.props.navigation.navigate('ConsolidacionCarga', {a:'a'})
+    };
+    
     render() {
 
         return (
             <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
                 <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}>
+                <TouchableWithoutFeedback onPress={() => this.props.navigation.goBack()}>
                     <View style={{}}>
                     <Icon2 style={{marginLeft:10}} name="chevron-back" size={30} color="#FFFF" />
                                         
@@ -62,7 +78,7 @@ export default class EstibaPalletLista extends Component {
                     
                         <TouchableHighlight style={{with:10}}
                         title=""
-                        onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                        onPress={() => this.props.navigation.navigate('EstibaPalletConfirma')}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
                             </TouchableHighlight>
