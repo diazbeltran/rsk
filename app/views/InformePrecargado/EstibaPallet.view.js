@@ -34,7 +34,7 @@ export default class EstibaPallet extends Component {
         return (
             <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
                 <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}>
+                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('ConsolidacionCarga')}>
                     <View style={{}}>
                     <Icon2 style={{marginLeft:10}} name="chevron-back" size={30} color="#FFFF" />
                                         
@@ -56,7 +56,8 @@ export default class EstibaPallet extends Component {
                         title="Press me"
                         onPress={() => this.props.navigation.navigate('EstibaPalletAgregar')}
                             >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Siguiente</Text>
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>
+                                    Ingresar pallet 1 de 20</Text>
                             </TouchableHighlight>
                     </View>
 

@@ -174,9 +174,17 @@ import SplashScreen from '../views/SplashScreen.js';
 import LoginScreen from '../views/Login/Login.view.js';
 import InformeScreen from '../views/InformePrecargado/InformePre.view.js';
 import ConsultaContenedorScreen from '../views/InformePrecargado/ConsultaContenedor.view.js';
+
+import EstibaPalletConfirma from '../views/InformePrecargado/EstibaPalletConfirma.view.js';
+import EstibaPalletFotos from '../views/InformePrecargado/EstibaPalletFotos.view.js';
+
 import InfoGeneralEmbarque from '../views/InformePrecargado/InformeGeneralEmbarque.view.js';
 import InfoGeneralEmbarqueNuevo from '../views/InformePrecargado/InfoGeneralEmbarqueNuevo.view.js';          
 import IdentificacionCarga from '../views/InformePrecargado/IdentificacionCarga.view.js';
+
+import TomarFoto from '../views/InformePrecargado/TomarFoto.view.js';
+
+
 import EspecificacionContenedor from '../views/InformePrecargado/EspecificacionContenedor.view.js';
 
 import FotosContenedor from '../views/InformePrecargado/FotosContenedor.view.js';
@@ -185,6 +193,9 @@ import FotosCarga from '../views/InformePrecargado/FotosCarga.view.js';
 import EstibaPallet from '../views/InformePrecargado/EstibaPallet.view.js';
 import EstibaPalletAgregar from '../views/InformePrecargado/EstibaPalletAgregar.view.js';
 import EstibaPalletLista from '../views/InformePrecargado/EstibaPalletLista.view.js';
+import ConsolidacionCarga from '../views/InformeCarga/ConsolidacionCargaMenu.view.js';
+
+import CargaMenu from '../views/InformeCarga/CargaMenu.view.js';
 
 
  import Observacion from '../views/InformePrecargado/Observaciones.view.js';
@@ -240,6 +251,12 @@ function AuthNavigator() {
                 component={InformeScreen} />
 
 
+                {/* <Stack.Screen name="ConsultaContenedor" 
+                options={{ headerShown: false }} 
+                component={ConsultaContenedor} /> */}
+
+
+
                 <Stack.Screen name="ConsultaContenedor" 
                 options={{ headerShown: false }} 
                 component={ConsultaContenedorScreen} />
@@ -258,6 +275,13 @@ function AuthNavigator() {
                 options={{ headerShown: false }} 
                 component={InfoFinalEmbarque} />
                 
+                
+
+                <Stack.Screen name="TomarFoto" 
+                options={{ headerShown: false }} 
+                component={TomarFoto} />
+
+
 
                 <Stack.Screen name="IdentificacionCarga" 
                 options={{ headerShown: false }} 
@@ -275,7 +299,9 @@ function AuthNavigator() {
                 component={FotosContenedor} />
 
 
-
+                <Stack.Screen name="ConsolidacionCarga" 
+                options={{ headerShown: false }} 
+                component={ConsolidacionCarga} />
 
 
                 <Stack.Screen name="EstibaPallet" 
@@ -290,6 +316,13 @@ function AuthNavigator() {
                 options={{ headerShown: false }} 
                 component={EstibaPalletLista} />
 
+                <Stack.Screen name="EstibaPalletConfirma" 
+                options={{ headerShown: false }} 
+                component={EstibaPalletConfirma} />
+
+                <Stack.Screen name="EstibaPalletFotos" 
+                options={{ headerShown: false }} 
+                component={EstibaPalletFotos} />
 
 
                  <Stack.Screen name="FotosCarga" 
@@ -308,6 +341,12 @@ function AuthNavigator() {
                 <Stack.Screen name="Recupera" 
                 options={{ headerShown: false }} 
                 component={RecuperaScreen} />
+
+                <Stack.Screen name="CargaMenu" 
+                options={{ headerShown: false }} 
+                component={CargaMenu} />
+
+
              
         </Stack.Navigator>
     );

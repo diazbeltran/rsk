@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, TouchableWithoutFeedback} from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/FooterSimple.component';
-import FormLogin from '../../component/Login/FormLogin.component.js';
 
-import SelectDropdown from 'react-native-select-dropdown'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import Select from '../../component/Select/Select.component.js';
 
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Ionicons';
-export default class FotosCarga extends Component {
+export default class TomarFoto extends Component {
 
     static navigationOptions = {
         header: null,
@@ -21,9 +20,16 @@ export default class FotosCarga extends Component {
         super(props);
         this.state = {
             status: false,
-            Imagen:false
-        };
+            Imagen:false,
 
+            recibidorInicio: {
+                label: " ",
+                value: "0"
+            },
+
+            
+        };
+        this.recibidor = React.createRef();
         
     }
     envio_menu = async () => {
@@ -33,15 +39,17 @@ export default class FotosCarga extends Component {
         console.log("aqui");
                 await AsyncStorage.setItem("informeGeneral", "2");
                 await AsyncStorage.setItem("identificacionCarga", "2");
-                await AsyncStorage.setItem("EspecificacionContenedor", "2");
-                await AsyncStorage.setItem("FotosContenedor", "2");
-                await AsyncStorage.setItem("EstibaPallet", "2");
-                await AsyncStorage.setItem("FotosConsolidacionCarga", "2");
-                await AsyncStorage.setItem("Observaciones", "2");
+                await AsyncStorage.setItem("EspecificacionContenedor", "1");
+                await AsyncStorage.setItem("FotosContenedor", "0");
+                await AsyncStorage.setItem("EstibaPallet", "0");
+                await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
+                await AsyncStorage.setItem("Observaciones", "0");
 
 
         this.props.navigation.navigate('ConsolidacionCarga', {a:'a'})
     };
+    
+
     render() {
 
         return (
@@ -55,47 +63,40 @@ export default class FotosCarga extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:80, color:'white',marginTop:0, fontSize:18}}>Observaciones </Text><Icon2 style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Identificación de carga </Text><Icon2 style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
 
                 </View>
                
-                <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
-                <ScrollView>
+                <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column', alignItems:'center'}} >
+               
                             
-                                
+                                <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>Toma de fotografía</Text> 
                             
-                                    
-                               
-                              <Text style={{marginLeft:20, marginTop:20}}>
+                                <Text style={{marginLeft:20, marginTop:10, marginBottom:'10%',}}>texto texto texto texto texto texto </Text> 
 
-                                  Observación
-                              </Text>
-
-                            <TextInput style={styles.input}>
-
-                            </TextInput>
-
+                           <View style={{flex:0.9, width:'70%', borderWidth:5, alignItems:'center'}}>
+                           <Icon2 style={{marginLeft:10, marginTop:'2%'}} name="ios-qr-code-sharp" size={100} color="black" />
+                           </View>
                         
-
-                           
-                            <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, marginBottom:20}}>
-                            <TouchableHighlight style={{with:10}}
-                            title="Press me"
-                            onPress={() => this.envio_menu()}
+                           <View style={{flex:1, paddingTop:20,  alignItems:'center'}}>
+                           <TouchableHighlight 
+                        title="Press me"
+                        onPress={() => this.props.navigation.goBack()}
                             >
-                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Siguiente</Text>
+                                <Text style={{ marginTop:'0%', borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>
+                                    Volver</Text>
                             </TouchableHighlight>
-                            </View>
-
-                        
-                                
+                           </View>
+                               
                             
-                                </ScrollView>
+                                
                             </View>                           
                
                 
                 
+                <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
                 
+                    </View>
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
                     
                     <Footer
@@ -112,7 +113,7 @@ export default class FotosCarga extends Component {
 const styles = StyleSheet.create({
     input: {
       marginLeft:30,
-      height: 230,
+      height: 40,
       width:'80%',
       margin: 12,
       borderWidth: 1,

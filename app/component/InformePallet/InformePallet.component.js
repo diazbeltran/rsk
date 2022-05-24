@@ -42,7 +42,7 @@ class InformeCaja  extends Component {
                     <View style={{ flex: 1, backgroundColor: 'white' , flexDirection: 'column', paddingLeft:30 }}>  
                     <TouchableHighlight style={{with:100, flex:1, paddingBottom:20}}
                     title=""
-                    onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                    // onPress={() => this.props.navigation.navigate('ConsolidacionCarga')}
                     >
                     <Text style={{marginLeft:50, width:200, borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar pallet n de x</Text>
                     </TouchableHighlight>
@@ -214,6 +214,28 @@ class InformeCaja  extends Component {
                     </View>
 
                   
+
+                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
+
+<View style={{flexDirection:'row'}} >
+<Icon style={{marginLeft:50}} name="check-box-outline-blank" size={30} color="#ef882d" />
+
+<View style={{flex:1, marginLeft:2,paddingBottom:10, color:'#ef882d'}}>
+<Text style={{color:'#ef882d'}}> Confirmo que los datos de los pallets son correctos</Text>    
+</View>
+
+</View>
+
+    
+        <TouchableHighlight style={{with:10}}
+        title=""
+        onPress={() => this.props.navigation.navigate('EstibaPalletConfirma')}
+            >
+                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+            </TouchableHighlight>
+    </View>
+
+    
                     </ScrollView>
         
       </View>

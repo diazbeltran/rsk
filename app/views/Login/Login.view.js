@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button } from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button, Modal } from 'react-native';
 import loginStyle from './login.style.js';
 import Footer from '../../component/Footer/Footer.component';
 import FormLogin from '../../component/Login/FormLogin.component.js';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Entypo';
+
+import WSRestApi from '../../services/wsRestApi.js';
+
+
 export default class Login extends Component {
 
     static navigationOptions = {
@@ -18,6 +22,7 @@ export default class Login extends Component {
             correo:'',
             clave:'',
             email :'',
+            modalVisible:false,
         };
 
         
@@ -36,6 +41,44 @@ export default class Login extends Component {
         }
       }
 
+      ingresar_login= async (correo, pass) =>{
+        let result = "";
+
+        console.log("correo: "+correo);
+        console.log("pass: "+pass);
+        //this.props.navigation.navigate('App')
+
+       // console.log("URL BCI : " + url);
+        await this.consulta_login(correo, pass).then(function (data) {
+          result = data;
+        });
+
+        
+        if (result.state == true) {
+        
+            console.log("hola raton con cola "+JSON.stringify(result.data));
+            this.props.navigation.navigate('App')
+        }else{
+            this.setState({modalVisible:true})
+        }
+
+
+      }
+
+      consulta_login = async (username, password) => {
+        try {
+          let resultado = await WSRestApi.fnWSUsuarioApp(username, password);
+          //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+          return resultado;
+        } catch (error) {
+          console.log("ERROR1??? : " + error);
+          return false
+        }
+      }
+
+
+
+
     render() {
 
         return (
@@ -46,11 +89,38 @@ export default class Login extends Component {
                 </View>
 
                 </View>
-                
+               
                 
                 <View style={{ flex: 1, backgroundColor: 'white' }} >
+                <Modal animationType="fade"
+                   
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        console.log("wololo"), this.setState({modalVisible:false})
+                        //Alert.alert('Modal has been closed.');
+                    }}
+                    >
+                  <View style={{flex:0.7,marginLeft:'10%',marginTop:'25%', backgroundColor:"#efeeef",  width:'80%', flexDirection:'column', borderRadius:20}}>
+                    <View style={{flex:1,alignItems:'center'}}>
+                      <Text style={{marginTop:'30%'}}>Error en las credenciales</Text>
+                    
+                        </View>
+                        <View style={{flex:0.3,alignItems:'center'}}>
+                        <Button 
+                        color="#ef882d"
+                        title="Cerrar"
+                        onPress={() => {this.setState({modalVisible:false})} }
+                      />
+                    
+                        </View>
+                        
+                  
+                  </View>
+                    
+                </Modal>
                     <View >
-                       <Text style={{marginLeft:20}}>Correo</Text> 
+                       <Text style={{marginLeft:'10%', color:'#747474', fontFamily:'Nunito'}}>Correo</Text> 
                        <TextInput
                         style={styles.input}
                         onChangeText={(correo) => this.setState({correo})}
@@ -58,37 +128,23 @@ export default class Login extends Component {
                         />
                     </View>
                     <View>
-                       <Text style={{marginLeft:20}}>Contraseña</Text> 
+                       <Text style={{marginLeft:'10%', color:'#747474'}}>Contraseña</Text> 
                        <TextInput
                         style={styles.input}
-                       // onChangeText={(clave) => this.setState({clave})}
-                       onChangeText={(text) => this.validate(text)} 
+                        onChangeText={(clave) => this.setState({clave})}
+                      // onChangeText={(text) => this.validate(text)} 
                        value={this.state.clave}
                         />
                     </View>
                     <View style={{alignItems:'center'}}>
                         <TouchableHighlight style={{with:10}}
-                        title="Press me"
-                        onPress={() => this.props.navigation.navigate('App')}
+                        title="Ingresar"
+                        onPress={() => this.ingresar_login(this.state.correo, this.state.clave)}
                             >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }} underlayColor={'red'}>Ingresar</Text>
                             </TouchableHighlight>
 
-                            {/* <TouchableOpacity onPress={async () => {
-                                    if (await CheckConnectivity.fnCheckConnectivity() == true) {
-                                        this.props.navigation.navigate('DatosConstancia', { fechaAccidente: this.state.fechaSeleccionada })
-                                    } else {
-                                        this.setState({ tituloHint: 'Error de conexión' });
-                                        this.Hint.current.mostrarConParametros("No está conectado a internet, por favor encienda WiFi o 3G.");
-                                    }
-
-                                }}>
-                                    <View style={{ backgroundColor: "#E6E6E6", width: "100%", height: this.state.alturaBotonIngreseDatosConstancia, borderRadius: 4, opacity: this.state.opacidadElementosConstancia, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 10, paddingTop: Platform.OS == "ios" ? 5 : 2 }}>
-                                        {this.state.fontLoaded == true ? (<Text style={{ ...styles.textoChicoLigth, marginBottom: 3, opacity: this.state.opacidadElementosConstancia }}>Ingresa datos</Text>) : (<Text>Loading ... </Text>)}
-                                        <Icon3 name="caretright" color="#848484" size={15} style={{ opacity: this.state.opacidadElementosConstancia }}></Icon3>
-                                    </View>
-                                </TouchableOpacity> */}
-
+                           
                                     
                     </View>
                     <View style={{alignItems:'center'}}>

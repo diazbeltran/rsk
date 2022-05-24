@@ -34,7 +34,7 @@ export default class EstibaPalletAgregar extends Component {
         return (
             <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
                 <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}>
+                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet')}>
                     <View style={{}}>
                     <Icon2 style={{marginLeft:10}} name="chevron-back" size={30} color="#FFFF" />
                                         
@@ -60,7 +60,7 @@ export default class EstibaPalletAgregar extends Component {
                                     <View style={{marginLeft:120, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:0, flexDirection:'row'}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoFinalEmbarque')}
+                        onPress={() => this.props.navigation.navigate('TomarFoto')}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>Tomar fotografia</Text>
                             </TouchableHighlight>
@@ -81,7 +81,12 @@ export default class EstibaPalletAgregar extends Component {
                                                           
                       
                         <Text style={{marginLeft:30, marginTop:10}}>Posición</Text>   
-                        
+                        <View style={{flexDirection:'row', alignItems:'center'}}>
+                        <Icon2 style={{marginLeft:50, color:'#ef882d'}} name="ios-radio-button-off" size={30}   />
+                        <Text>Punta</Text>
+                        <Icon2 style={{marginLeft:'10%', color:'#ef882d'}} name="ios-radio-button-off" size={30}   />
+                        <Text>Espejo</Text>
+                        </View>
 
                           
 
@@ -100,23 +105,31 @@ export default class EstibaPalletAgregar extends Component {
                                
                                    </View> 
                             </View>
-                                    
+
+                            <Text style={{marginLeft:40,marginBottom:20, marginTop:40}}>Incluye termógrafo</Text> 
+                        <View style={{flexDirection:'row', alignItems:'center'}}>
+                        <Icon2 style={{marginLeft:50, color:'#ef882d'}} name="ios-radio-button-off" size={30}   />
+                        <Text>Si</Text>
+                        <Icon2 style={{marginLeft:'18%', color:'#ef882d'}} name="ios-radio-button-off" size={30}   />
+                        <Text>No</Text>
+                        </View>
+                             
                 
-                                
-                            
-                                </ScrollView>
-                            </View>                           
-               
-                
-                
-                <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                        <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
                         onPress={() => this.props.navigation.navigate('EstibaPalletLista')}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Siguiente</Text>
                             </TouchableHighlight>
-                    </View>
+                    </View>        
+                            
+                                </ScrollView>
+                            </View>                           
+               
+                
+                
+                
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
                     
                     <Footer
