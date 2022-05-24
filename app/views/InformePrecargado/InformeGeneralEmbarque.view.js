@@ -160,14 +160,7 @@ export default class InfoGeneralEmbarque extends Component {
                             <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>22-09-2021</Text> 
                             </View>
                     
-                                
-                            
-                                </ScrollView>
-                            </View>                           
-               
-                
-                
-                <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                            <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
                 <TouchableHighlight style={{with:10}}
                         title="Press me"
                          onPress={() => this.envio_menu()}
@@ -175,6 +168,14 @@ export default class InfoGeneralEmbarque extends Component {
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
                             </TouchableHighlight>
                     </View>
+                            
+                                </ScrollView>
+                                
+                            </View>                           
+               
+                
+                
+                
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
                     
                     <Footer

@@ -12,6 +12,8 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 import Icon3 from 'react-native-vector-icons/MaterialIcons';
+import Icon4 from 'react-native-vector-icons/FontAwesome5';
+
 export default class EspecificacionContenedor extends Component {
 
     static navigationOptions = {
@@ -68,7 +70,8 @@ export default class EspecificacionContenedor extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:30, color:'white',marginTop:0, fontSize:15}}>Especificación de Contenedor </Text><Icon2 style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:30, color:'white',marginTop:0, fontSize:15}}>Especificación de Contenedor </Text>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
                
@@ -102,6 +105,8 @@ export default class EspecificacionContenedor extends Component {
                     </View>
 
                     <Text style={{marginLeft:30, marginTop:30}}>PTI</Text> 
+                    <View style={{flexDirection:'row'}}>
+                    
                             <TextInput
                                     style={styles.input}
                                     editable={false}
@@ -110,6 +115,10 @@ export default class EspecificacionContenedor extends Component {
                                     value=''
                                     
                                     />
+                                    <Icon2 style={{ paddingRight:100 }} name="information-circle-sharp" size={30}  />
+                    </View>
+                    
+                                    
                                     <View style={{marginLeft:120, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
@@ -216,14 +225,7 @@ export default class EspecificacionContenedor extends Component {
                     </View>
                            
                     
-                                
-                            
-                                </ScrollView>
-                            </View>                           
-               
-                
-                
-                <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
                         onPress={() => this.envio_menu()}
@@ -231,6 +233,13 @@ export default class EspecificacionContenedor extends Component {
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Siguiente</Text>
                             </TouchableHighlight>
                     </View>
+                            
+                                </ScrollView>
+                            </View>                           
+               
+                
+                
+               
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
                     
                     <Footer

@@ -50,7 +50,7 @@ export default class InformePrecargado extends Component {
             <View style={{ flex: 1 , backgroundColor: '#6d65a5'}}>
                 <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
 
-                    <Text style={{flex:1,marginLeft:80, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>Informes precargados </Text><Icon style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:80, color:'white',marginTop:0, fontSize:18, fontFamily:'Nunito'}}>Informes precargados </Text><Icon style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
                 
@@ -60,16 +60,7 @@ export default class InformePrecargado extends Component {
                <InformeCaja navigation={this.props.navigation}></InformeCaja>
                
                 </View>
-                <View style={{alignItems:'center', backgroundColor:'white', flex:0.1, paddingTop:20}}>
-                        <TouchableHighlight style={{with:10}}
-                        title="Press me"
-                        onPress={() => this.envio_menu()}
-                            >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, 
-                                    paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>
-                                        Ingresar nuevo informe</Text>
-                            </TouchableHighlight>
-                    </View>
+                
 
                     
 

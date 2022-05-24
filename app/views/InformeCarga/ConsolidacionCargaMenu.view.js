@@ -12,6 +12,8 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import Icon3 from 'react-native-vector-icons/AntDesign';
+import Icon4 from 'react-native-vector-icons/FontAwesome5';
+
 export default class ConsolidacionCarga extends Component {
 
     static navigationOptions = {
@@ -52,7 +54,7 @@ export default class ConsolidacionCarga extends Component {
 
         try {
             const { route } = this.props;
-            console.log("weas");
+        // console.log("weas");
             this.carga_estados();
             
              // BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
@@ -194,45 +196,9 @@ export default class ConsolidacionCarga extends Component {
         buttonEstibaPallet,
         buttonFotosConsolidacionCarga,
         buttonObservaciones;
-        //let buttonidentificacionCarga, buttonidentificacionCarga;
-        // if (DatoInforme==true) {
-
-        //     buttonInfoGeneral = 
-        //     <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque', {estados:this.state.EstadoProceso})}>
-        //     <View style={{ backgroundColor:'#75BE48', paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
-        //     <View style={{flex:0.4}}>
-        //     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
-        //     </View>
-        //      <View style={{flex:3}}>
-        //      <Text style={{color:'white',marginTop:10}}>Información general del embarque</Text>
-        //      </View>
-        //     <View style={{flex:0.5}}>
-        //     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
-        //     </View>
-                                   
-        //     </View> 
-        //     </TouchableWithoutFeedback>
-        //     ;
+      
            
-
-        // } else {
-            
-        //     buttonInfoGeneral = <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque', {estados:this.state.EstadoProceso})}>
-        //     <View style={{backgroundColor:'red',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:.2, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
-        //     <View style={{flex:0.4}}>
-        //     {/* <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" /> */}
-        //     </View>
-        //      <View style={{flex:3}}>
-        //      <Text style={{color:'white',marginTop:10}}>Información general del embarque</Text>
-        //      </View>
-        //     <View style={{flex:0.5}}>
-        //     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
-        //     </View>
-                                   
-        //     </View> 
-        //     </TouchableWithoutFeedback>;
-        // }
-
+     
         switch (this.state.informeGeneral) {
             case "0":
                 buttonInfoGeneral=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque')}>
@@ -748,7 +714,7 @@ export default class ConsolidacionCarga extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:20, color:'white',marginTop:0, fontSize:16}}>Informe consolidación de carga</Text><Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:20,fontWeight:'bold', color:'white',marginTop:0, fontSize:16}}>Informe consolidación de carga</Text><Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
                
@@ -756,22 +722,12 @@ export default class ConsolidacionCarga extends Component {
                 <ScrollView>
 
                     {buttonInfoGeneral}
-
-
                     {buttonIdentificacionCarga}
-
                     {buttonEspecificacionContenedor}
                     {buttonFotosContenedor}
-
                     {buttonEstibaPallet}
-                   
-
                     {buttonFotosConsolidacionCarga}
-                    
                     {buttonObservaciones}
-                   
-                   
-                    
                     
                 </ScrollView>
 

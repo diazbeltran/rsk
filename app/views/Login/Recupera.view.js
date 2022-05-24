@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button } from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button, Modal } from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/Footer.component';
 import FormLogin from '../../component/Login/FormLogin.component.js';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import WSRestApi from '../../services/wsRestApi.js';
 
 export default class InformePrecargado extends Component {
 
@@ -16,10 +17,53 @@ export default class InformePrecargado extends Component {
         this.state = {
             status: false,
             email :'',
+            modalVisible:false,
+            modalVisibleok:false,
+            
         };
 
         
     }
+
+
+    ingresa_recuperar = async (correo) => {
+
+        console.log("holiwisiwi -->"+correo);
+        
+        //this.props.navigation.navigate('App')
+
+        // console.log("URL BCI : " + url);
+        await this.recupera_pass(correo).then(function (data) {
+            result = data;
+          });
+  
+          
+          if (result.state == true) {
+          
+              console.log("hola raton con cola 11");
+              this.setState({modalVisibleok:true})
+          }
+          else{
+            this.setState({modalVisible:true})
+          }
+  
+
+
+
+    }
+
+    recupera_pass = async (correo) => {
+        try {
+          let resultado = await WSRestApi.fnWSRecuperaPass(correo);
+          //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+          return resultado;
+        } catch (error) {
+          console.log("ERROR??? : " + error);
+          return false
+        }
+      }
+
+
 
     render() {
 
@@ -31,7 +75,63 @@ export default class InformePrecargado extends Component {
                 </View>
 
                 </View>
-                
+                <Modal animationType="fade"
+                   
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        console.log("wololo"), this.setState({modalVisible:false})
+                        //Alert.alert('Modal has been closed.');
+                    }}
+                    >
+                  <View style={{flex:0.7,marginLeft:'10%',marginTop:'25%', backgroundColor:"#efeeef",  width:'80%', flexDirection:'column', borderRadius:20}}>
+                    <View style={{flex:1,alignItems:'center'}}>
+                      <Text style={{marginTop:'30%'}}>Error en las credenciales</Text>
+                    
+                        </View>
+                        <View style={{flex:0.3,alignItems:'center'}}>
+                        <Button 
+                        color="#ef882d"
+                        title="Cerrar"
+                        onPress={() => {this.setState({modalVisible:false})} }
+                      />
+                    
+                        </View>
+                        
+                  
+                  </View>
+                    
+                </Modal>
+
+                <Modal animationType="fade"
+                   
+                    transparent={true}
+                    visible={this.state.modalVisibleok}
+                    onRequestClose={() => {
+                        console.log("wololo"), this.setState({modalVisible:false})
+                        //Alert.alert('Modal has been closed.');
+                    }}
+                    >
+                  <View style={{flex:0.7,marginLeft:'10%',marginTop:'25%', backgroundColor:"#efeeef",  width:'80%', flexDirection:'column', borderRadius:20}}>
+                    <View style={{flex:1,alignItems:'center'}}>
+                      <Text style={{marginTop:'30%'}}>Se envio la contraseña a su correo</Text>
+                    
+                        </View>
+                        <View style={{flex:0.3,alignItems:'center'}}>
+                        <Button 
+                        color="#ef882d"
+                        title="Cerrar"
+                        onPress={() => { this.props.navigation.navigate('Login')} }
+                      />
+                    
+                        </View>
+                        
+                  
+                  </View>
+                    
+                </Modal>
+
+
                 
                 <View style={{ flex: 1, backgroundColor: 'white' }} >
                 <View style={{flex:0.5}}>
@@ -48,8 +148,8 @@ export default class InformePrecargado extends Component {
                     </View>
                     <View style={{alignItems:'center'}}>
                         <TouchableHighlight style={{with:10}}
-                        title="Press me"
-                        onPress={() => this.props.navigation.navigate('App')}
+                        title="recupera_pass"
+                        onPress={() => this.ingresa_recuperar(this.state.email)}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
                             </TouchableHighlight>

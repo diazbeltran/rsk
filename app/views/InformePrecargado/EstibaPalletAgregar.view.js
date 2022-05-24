@@ -115,21 +115,21 @@ export default class EstibaPalletAgregar extends Component {
                         </View>
                              
                 
-                                
-                            
-                                </ScrollView>
-                            </View>                           
-               
-                
-                
-                <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                        <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
                         onPress={() => this.props.navigation.navigate('EstibaPalletLista')}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Siguiente</Text>
                             </TouchableHighlight>
-                    </View>
+                    </View>        
+                            
+                                </ScrollView>
+                            </View>                           
+               
+                
+                
+                
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
                     
                     <Footer
