@@ -14,7 +14,7 @@ import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import Icon3 from 'react-native-vector-icons/AntDesign';
 import Icon4 from 'react-native-vector-icons/FontAwesome5';
 
-export default class ConsolidacionCarga extends Component {
+export default class ConsolidadoCorto extends Component {
 
     static navigationOptions = {
         header: null,
@@ -207,7 +207,7 @@ export default class ConsolidacionCarga extends Component {
                    
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>General shipment information</Text>
+                     <Text style={{color:'white',marginTop:10}}>Información general del embarque</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -224,7 +224,7 @@ export default class ConsolidacionCarga extends Component {
                 
                 </View>
                  <View style={{flex:3}}>
-                 <Text style={{fontWeight:'bold', color:'white',marginTop:10}}>General shipment information</Text>
+                 <Text style={{fontWeight:'bold', color:'white',marginTop:10}}>Información general del embarque</Text>
                  </View>
                 <View style={{flex:0.5}}>
                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -240,7 +240,7 @@ export default class ConsolidacionCarga extends Component {
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>General shipment information</Text>
+                     <Text style={{color:'white',marginTop:10}}>Información general del embarque</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -266,7 +266,7 @@ export default class ConsolidacionCarga extends Component {
                    
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Cargo details</Text>
+                     <Text style={{color:'white',marginTop:10}}>Identificación de carga</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="lock-outline" size={20} color="white" />
@@ -283,7 +283,7 @@ export default class ConsolidacionCarga extends Component {
                 
                 </View>
                  <View style={{flex:3}}>
-                 <Text style={{color:'white',marginTop:10}}>Cargo details</Text>
+                 <Text style={{color:'white',marginTop:10}}>Identificación de carga</Text>
                  </View>
                 <View style={{flex:0.5}}>
                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -299,7 +299,7 @@ export default class ConsolidacionCarga extends Component {
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Cargo details</Text>
+                     <Text style={{color:'white',marginTop:10}}>Identificación de carga</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -323,7 +323,7 @@ export default class ConsolidacionCarga extends Component {
                    
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Container's specification</Text>
+                     <Text style={{color:'white',marginTop:10}}>Especificación del contenedor</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="lock-outline" size={20} color="white" />
@@ -340,7 +340,7 @@ export default class ConsolidacionCarga extends Component {
                 
                 </View>
                  <View style={{flex:3}}>
-                 <Text style={{color:'white',marginTop:10}}>Container's specification</Text>
+                 <Text style={{color:'white',marginTop:10}}>Especificación del contenedor</Text>
                  </View>
                 <View style={{flex:0.5}}>
                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -356,7 +356,7 @@ export default class ConsolidacionCarga extends Component {
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Container's specification</Text>
+                     <Text style={{color:'white',marginTop:10}}>Especificación del contenedor</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -714,17 +714,17 @@ export default class ConsolidacionCarga extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:"20%",fontWeight:'bold', color:'white',marginTop:0, fontSize:16}}>Stuffing report</Text><Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                     <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Informe final de carga</Text><Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: '#6c649c', flexDirection: 'column'}} >
                 <ScrollView>
 
-                    {buttonInfoGeneral}
-                    {buttonIdentificacionCarga}
-                    {buttonEspecificacionContenedor}
-                    {buttonFotosContenedor}
+                    
+                    
+                    
+                    
                     {buttonEstibaPallet}
                     {buttonFotosConsolidacionCarga}
                     {buttonObservaciones}
