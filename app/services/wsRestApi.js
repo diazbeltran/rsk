@@ -294,9 +294,34 @@ class WSRestApi {
       console.log(" fnWSGuardaEmbarque ws  ==>>> ", WSUrl);
       console.log("****************************************");
   
-     
-  
-      let params = '{"usuario_id":"' + user + '","embarque_id":"0", "planta_id" : "' + panta + '","embarque_planta_id":"0","fecha":"2022-05-29 11:11:11", "orden_embarque" : "' + oden + '", "numero_contenedor" : "' + numero_contenedor + '","exportador_id" : "'+exportador+'","foto_general_contenedor":"'+img1+'" ,  "foto_pared_izquierda":"'+img2+'", "foto_pared_derecha":"'+img3+'" }';
+      let date = new Date();
+      console.log("la horax es:"+date);
+
+      let day = date.getDate()
+      let month = date.getMonth() + 1
+      let year = date.getFullYear()
+
+      if(month < 10){
+      console.log('${day}-0${month}-${year}')
+      }else{
+      console.log('${day}-${month}-${year}')
+      }
+
+
+      let hora = date.getHours();
+      let minutos= date.getMinutes();
+      let segundos = date.getSeconds();
+
+      let fechax = date.getDate('YYYY-MM-DD')
+
+      console.log("la fecha para insertar es :"+year+"-"+((month<10)? "0"+month : month)+"-"+fechax +" "+hora+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) );
+     // return;
+
+      let fechafinal = year+"-"+((month<10)? "0"+month : month)+"-"+fechax +" "+hora+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) ;
+      console.log("la super fecha final es -->"+fechafinal);
+
+
+      let params = '{"usuario_id":"' + user + '","embarque_id":"0", "planta_id" : "' + panta + '","embarque_planta_id":"0","fecha":"'+fechafinal+'", "orden_embarque" : "' + oden + '", "numero_contenedor" : "' + numero_contenedor + '","exportador_id" : "'+exportador+'","foto_general_contenedor":"'+img1+'" ,  "foto_pared_izquierda":"'+img2+'", "foto_pared_derecha":"'+img3+'" }';
 
       let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
 

@@ -7,6 +7,14 @@ import InformeCaja from '../../component/InformeCaja/InformeCaja.component.js'
 import SelectDropdown from 'react-native-select-dropdown'
 import Select from '../../component/Select/Select.component.js';
 
+import SelectorMultimedia from '../../components/SelectorMultimedia/SelectorMultimediaMultiple.component.js';
+import Hint from '../../components/Hint/Hint.component';
+import HintAlertas from '../../components/Hint/Hint.component';
+import Hint2 from '../../components/Hint/Hint.component';
+import HintImagenAmpliada from '../../components/Hint/Hint.component';
+import HintPDF from '../../components/Hint/HintPDF.component';
+
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 // import Icon from 'react-native-vector-icons/Feather';
@@ -47,6 +55,25 @@ export default class InfoGeneralEmbarque extends Component {
         };
 
         this.exportador = React.createRef();
+
+        this.TextInputOrdenEmbarque = React.createRef();
+        this.TextInputNumeroContenedor = React.createRef();
+        this.Selector1 = React.createRef();
+        this.Selector2 = React.createRef();
+        this.Selector3 = React.createRef();
+
+        this.TextInput2 = React.createRef();
+        this.Hint = React.createRef();
+        this.Hint2 = React.createRef();
+        this.HintImagenAmpliada1 = React.createRef();
+        this.HintImagenAmpliada2 = React.createRef();
+        this.HintImagenAmpliada3 = React.createRef();
+        this.HintAlertas = React.createRef();
+        this.HintPDF1 = React.createRef();
+        this.HintPDF2 = React.createRef();
+        this.HintPDF3 = React.createRef();
+
+
     }
 
 componentDidMount = async () => {
@@ -158,6 +185,91 @@ console.log("plantaxxxx -->"+PLANTA_NOMBRE);
 
 
 }
+ ocultarTeclado = () => {
+
+        if (this.state.tecladoMostrado) {
+            console.log("se ha llamado a ocultar teclado");
+            Keyboard.dismiss();
+            this.setState({ tecladoMostrado: false });
+        }
+
+    }
+
+    eliminarFotoSelector1 = (key) => {
+        //console.log("KEEEEEY", key)
+        this.Selector1.current.setState({ imagenKeyEliminar: key });
+        this.Selector1.current.eliminarImagen2(key);
+    }
+
+    eliminarFotoSelector2 = (key) => {
+        //console.log("KEEEEEY", key)
+        this.Selector2.current.setState({ imagenKeyEliminar: key });
+        this.Selector2.current.eliminarImagen2(key);
+    }
+
+    eliminarFotoSelector3 = (key) => {
+        //console.log("KEEEEEY", key)
+        this.Selector3.current.setState({ imagenKeyEliminar: key });
+        this.Selector3.current.eliminarImagen2(key);
+    }
+
+
+    mostrarImagenAmpliada1 = (imagen, key, extension) => {
+
+        this.setState({ imagenAmpliada1: imagen });
+
+        if(extension == 'pdf'){
+            let MyArray = this.Selector1.current.obtenerArregloImagenes();
+            let pdfBase64 = "";
+            MyArray.forEach(e => {
+                if (e.key == key) {
+                    pdfBase64 = e.Archivo;
+                }
+            });
+            this.HintPDF1.current.mostrarConParametros5(pdfBase64, key);
+        }else{
+            this.HintImagenAmpliada1.current.mostrarConParametros2(imagen, key);
+        }
+
+    }
+
+    mostrarImagenAmpliada2 = (imagen, key, extension) => {
+
+        this.setState({ imagenAmpliada2: imagen });
+
+        if(extension == 'pdf'){
+            let MyArray = this.Selector2.current.obtenerArregloImagenes();
+            let pdfBase64 = "";
+            MyArray.forEach(e => {
+                if (e.key == key) {
+                    pdfBase64 = e.Archivo;
+                }
+            });
+            this.HintPDF2.current.mostrarConParametros5(pdfBase64, key);
+        }else{
+            this.HintImagenAmpliada2.current.mostrarConParametros2(imagen, key);
+        }
+
+    }
+
+    mostrarImagenAmpliada3 = (imagen, key, extension) => {
+
+        this.setState({ imagenAmpliada3: imagen });
+
+        if(extension == 'pdf'){
+            let MyArray = this.Selector3.current.obtenerArregloImagenes();
+            let pdfBase64 = "";
+            MyArray.forEach(e => {
+                if (e.key == key) {
+                    pdfBase64 = e.Archivo;
+                }
+            });
+            this.HintPDF3.current.mostrarConParametros5(pdfBase64, key);
+        }else{
+            this.HintImagenAmpliada3.current.mostrarConParametros2(imagen, key);
+        }
+
+    }
 
 exportador_detalle = async (planta) => {
     try {
@@ -225,13 +337,13 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>Información general del embarque (Precargado) </Text><Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>General shipment information(Preloaded) </Text><Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
 
                 </View>
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
                 <ScrollView>
-                            <Text style={{marginLeft:20, marginTop:10}}>Orden de Embarque</Text> 
+                            <Text style={{marginLeft:'9%', marginTop:10}}>Stuffing instruction</Text> 
                             <TextInput
                                     style={styles.input}
                                     editable={false}
@@ -239,7 +351,7 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                                     onChangeText={(text) => this.validate(text)} 
                                     value={this.state.orden_embarque}
                                     />
-                                <Text style={{marginLeft:20, marginTop:10}}>Numero de Contenedor</Text> 
+                                <Text style={{marginLeft:'9%', marginTop:10}}>Container N°</Text> 
                             <TextInput
                                     style={styles.input}
                                     editable={false}
@@ -248,58 +360,121 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                                     value={this.state.numero_contenedor}
                                     />
                         <View>
-                        <View style={{marginLeft:30,marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
-                            <View style={{flex:0.5}}>
-                            <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
-                            </View>
-                            <View style={{flex:2, marginLeft:10}}>
-                            <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Foto general del contenedor</Text> 
-                            </View>                        
-                            <View style={{flex:.5}}>
-                            <Icon style={{marginLeft:20, marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />           
-                            </View>   
-                                
+
+                                    
+                          <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                              <TouchableHighlight style={{with:10}}
+                              title="Press me"
+                            // onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                  >
+                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:70,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
+                              >Container general view</Text>
+                                  </TouchableHighlight>
+                          </View>
+                          <View style={{marginLeft:'10%'}}>
+                              <SelectorMultimedia 
+                                  ref={this.Selector1}
+                                  mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                                  ocultarTeclado={() => this.ocultarTeclado()}
+                              />
+                          </View>
+
+                          <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                              <TouchableHighlight style={{with:10}}
+                              title="Press me"
+                            // onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                  >
+                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:85,paddingRight:60, backgroundColor:'#ef882d', color:'white', }}
+                              >External left side wall</Text>
+                                  </TouchableHighlight>
+                          </View>
+
+                          <View style={{marginLeft:'10%'}}>
+                              <SelectorMultimedia
+                                  ref={this.Selector2}
+                                  mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada2(imagen, key, extension)}
+                                  ocultarTeclado={() => this.ocultarTeclado()}
+                              />
+                          </View>
+
+
+                            <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                                <TouchableHighlight style={{with:10}}
+                                title="Press me"
+                              // onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                    >
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:85,paddingRight:60, backgroundColor:'#ef882d', color:'white', }}
+                                >External right side wall</Text>
+                                    </TouchableHighlight>
                             </View>
 
-                            
-
-                            <View style={{marginLeft:30,marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
-                            <View style={{flex:0.5}}>
-                            <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
-                            </View>
-                            <View style={{flex:2, marginLeft:10}}>
-                            <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Foto general pared izquierda</Text> 
-                            </View>                        
-                            <View style={{flex:.5}}>
-                            <Icon style={{marginLeft:20, marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />           
-                            </View>   
-                                
+                            <View style={{marginLeft:'10%'}}>
+                                <SelectorMultimedia
+                                    ref={this.Selector3}
+                                    mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada3(imagen, key, extension)}
+                                    ocultarTeclado={() => this.ocultarTeclado()}
+                                />
                             </View>
 
-                            <View style={{marginLeft:30,marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
-                            <View style={{flex:0.5}}>
-                            <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
-                            </View>
-                            <View style={{flex:2, marginLeft:10}}>
-                            <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Foto general pared derecha</Text> 
-                            </View>                        
-                            <View style={{flex:.5}}>
-                            <Icon style={{marginLeft:20, marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />           
-                            </View>   
-                                
-                            </View>
+                            <HintImagenAmpliada
+                            ref={this.HintImagenAmpliada1}
+                            title={""}
+                            componente={<Image style={{ height: 200, width: 200 }} source={{ uri: `data:image/jpeg;base64,${this.state.imagenAmpliada1}` }} />}
+                            eliminarFotoSelector={(key) => this.eliminarFotoSelector1(key)}
+                            >
+                            </HintImagenAmpliada>
 
-                            
+                            <HintImagenAmpliada
+                            ref={this.HintImagenAmpliada2}
+                            title={""}
+                            componente={<Image style={{ height: 200, width: 200 }} source={{ uri: `data:image/jpeg;base64,${this.state.imagenAmpliada2}` }} />}
+                            eliminarFotoSelector={(key) => this.eliminarFotoSelector2(key)}
+                            >
+                            </HintImagenAmpliada>
+
+                            <HintImagenAmpliada
+                            ref={this.HintImagenAmpliada3}
+                            title={""}
+                            componente={<Image style={{ height: 200, width: 200 }} source={{ uri: `data:image/jpeg;base64,${this.state.imagenAmpliada3}` }} />}
+                            eliminarFotoSelector={(key) => this.eliminarFotoSelector3(key)}
+                            >
+                            </HintImagenAmpliada>
+
+
+
+                            <HintAlertas
+                            title={this.state.tituloHintAlerta}
+                            ref={this.HintAlertas}
+                            ></HintAlertas>
+
+
+
+                              <HintPDF
+                              title={this.state.tituloHintAlerta}
+                              ref={this.HintPDF1}
+                              eliminarFotoSelector={(key) => this.eliminarFotoSelector1(key)}
+                              ></HintPDF>
+                              <HintPDF
+                              title={this.state.tituloHintAlerta}
+                              ref={this.HintPDF2}
+                              eliminarFotoSelector={(key) => this.eliminarFotoSelector2(key)}
+                              ></HintPDF>
+                              <HintPDF
+                              title={this.state.tituloHintAlerta}
+                              ref={this.HintPDF3}
+                              eliminarFotoSelector={(key) => this.eliminarFotoSelector3(key)}
+                              ></HintPDF>
+
                         </View>
                                 
                         <View>
-                        <Text style={{marginLeft:20, marginTop:10}}>Planta</Text> 
-                        <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>{this.state.planta_nombre.replace(/['"]+/g, '')}</Text> 
+                        <Text style={{marginLeft:'10%', marginTop:10}}>Warehouse</Text> 
+                        <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.planta_nombre.replace(/['"]+/g, '')}</Text> 
                         </View>
                        
 
-                        <Text style={{marginLeft:20, marginTop:10}}>Exportador</Text> 
-                        <View  style={{backgroundColor:'#efeeef', width:'85%', marginLeft:30}} >
+                        <Text style={{marginLeft:'10%', marginTop:10}}>Exporter</Text> 
+                        <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:'10%'}} >
                             {/* <Select  
                             ref={this.exportador}
                             label={this.state.exportador_nombre}
@@ -328,7 +503,7 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                         </View>
 
                         <View>
-                            <Text style={{marginLeft:20, marginTop:10}}>Fecha creacion</Text> 
+                            <Text style={{marginLeft:'10%', marginTop:10}}>Report date</Text> 
                             <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>{this.state.fecha_creacion}</Text> 
                             </View>
                     

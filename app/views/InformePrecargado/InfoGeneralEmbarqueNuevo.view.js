@@ -646,7 +646,7 @@ export default class InfoGeneralEmbarque extends Component {
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
                 <ScrollView>
-                            <Text style={{marginLeft:20, marginTop:10}}>Orden de Embarque</Text> 
+                            <Text style={{marginLeft:'10%', marginTop:10}}>Stuffing instructions</Text> 
                             <TextInput
                                     style={styles.input}
                                     ref={ this.TextInputOrdenEmbarque }
@@ -657,7 +657,7 @@ export default class InfoGeneralEmbarque extends Component {
                                    texto={this.state.orden_embarque}
                                    //focus={this.state.focoOrden}
                                     />
-                                <Text style={{marginLeft:20, marginTop:10}}>Numero de Contenedor</Text> 
+                                <Text style={{marginLeft:'10%', marginTop:10}}>Container N°</Text> 
                             <TextInput
                                     style={styles.input}
                                     ref={ this.TextInputNumeroContenedor }
@@ -669,13 +669,13 @@ export default class InfoGeneralEmbarque extends Component {
                         <View>
 
                                     
-                                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, width:'90%', marginLeft:'5%'}}>
                                         <TouchableHighlight style={{with:10}}
                                         title="Press me"
                                        // onPress={() => this.props.navigation.navigate('TomarFoto')}
                                             >
-                                        <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:70,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
-                                        >Foto general contenedor</Text>
+                                        <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:75,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
+                                        >Container general view</Text>
                                             </TouchableHighlight>
                                     </View>
                                     <View style={{marginLeft:'10%'}}>
@@ -686,13 +686,13 @@ export default class InfoGeneralEmbarque extends Component {
                                         />
                                     </View>
 
-                                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, width:'90%', marginLeft:'5%'}}>
                                         <TouchableHighlight style={{with:10}}
                                         title="Press me"
                                        // onPress={() => this.props.navigation.navigate('TomarFoto')}
                                             >
-                                        <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:65,paddingRight:60, backgroundColor:'#ef882d', color:'white', }}
-                                        >Foto general paded izquierda</Text>
+                                        <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:80,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
+                                        >External left side wall</Text>
                                             </TouchableHighlight>
                                     </View>
 
@@ -705,13 +705,13 @@ export default class InfoGeneralEmbarque extends Component {
                                     </View>
                                    
 
-                                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, width:'90%', marginLeft:'5%'}}>
                                         <TouchableHighlight style={{with:10}}
                                         title="Press me"
                                        // onPress={() => this.props.navigation.navigate('TomarFoto')}
                                             >
-                                        <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:70,paddingRight:60, backgroundColor:'#ef882d', color:'white', }}
-                                        >Foto general pared derecha</Text>
+                                        <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:80,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
+                                        >External right side wall</Text>
                                             </TouchableHighlight>
                                     </View>
                                     
@@ -775,14 +775,14 @@ export default class InfoGeneralEmbarque extends Component {
                         </View>
                                 
                         <View>
-                        <Text style={{marginLeft:20, marginTop:10}}>Planta</Text> 
+                        <Text style={{marginLeft:'10%', marginTop:10}}>Warehouse</Text> 
                         
-                        <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>{this.state.nombre_planta}</Text> 
+                        <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.nombre_planta?.replace(/['"]+/g, '')}</Text> 
                         </View>
          
                        
 
-                        <Text style={{marginLeft:20, marginTop:10}}>Exportador</Text> 
+                        <Text style={{marginLeft:'10%', marginTop:10}}>Exporter</Text> 
                         {/* <TextInput
                                 style={styles.input}
                                 // onChangeText={(clave) => this.setState({clave})}
@@ -790,7 +790,7 @@ export default class InfoGeneralEmbarque extends Component {
                                 value={this.state.clave}
                                 /> */}
 
-                        <View  style={{backgroundColor:'#efeeef', width:'85%', marginLeft:30}} >
+                        <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:'10%'}} >
 
                                 <Select
                                 ref={this.exportador}                            
@@ -810,7 +810,7 @@ export default class InfoGeneralEmbarque extends Component {
 
                         </View>
                         <View>
-                        <Text style={{marginLeft:20, marginTop:10}}>Fecha creacion</Text> 
+                        <Text style={{marginLeft:'10%', marginTop:10}}>Report date</Text> 
                         {/* <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>22-09-2021</Text>  */}
                         <DatePicker
                                                     style={{ width: "80%",marginLeft:'10%', marginTop:10, fontWeight:'bold' }}
