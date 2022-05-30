@@ -194,6 +194,7 @@ import EstibaPallet from '../views/InformePrecargado/EstibaPallet.view.js';
 import EstibaPalletAgregar from '../views/InformePrecargado/EstibaPalletAgregar.view.js';
 import EstibaPalletLista from '../views/InformePrecargado/EstibaPalletLista.view.js';
 import ConsolidacionCarga from '../views/InformeCarga/ConsolidacionCargaMenu.view.js';
+import ConsolidacionCargaCorto from '../views/InformeCarga/ConsolidadoCorto.view.js';
 
 import CargaMenu from '../views/InformeCarga/CargaMenu.view.js';
 
@@ -303,6 +304,9 @@ function AuthNavigator() {
                 options={{ headerShown: false }} 
                 component={ConsolidacionCarga} />
 
+                <Stack.Screen name="ConsolidacionCargaCorto" 
+                options={{ headerShown: false }} 
+                component={ConsolidacionCargaCorto} />
 
                 <Stack.Screen name="EstibaPallet" 
                 options={{ headerShown: false }} 

@@ -44,7 +44,7 @@ export default class MySelect extends Component {
       color: '#AFAFAF',
     };
 
-    //console.log(this.props.datos);
+   // console.log("select exportador"+JSON.stringify(this.props.datos));
 
     return (
       <View style={{ width: '100%' }}>

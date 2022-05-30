@@ -286,12 +286,7 @@ class InformeCaja  extends Component {
                           </View> 
                         </TouchableWithoutFeedback>
 
-                        {/* <VirtualizedList
-                         data={jsonPrecarga.ordenes}
                         
-                         renderItem={this._renderItem}
-                        
-                        /> */}
 
                      
                       

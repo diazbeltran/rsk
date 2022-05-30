@@ -13,6 +13,8 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 // import Icon2 from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
+import WSRestApi from '../../services/wsRestApi';
+
 
 export default class InfoGeneralEmbarque extends Component {
 
@@ -26,14 +28,164 @@ export default class InfoGeneralEmbarque extends Component {
             status: false,
             Imagen:false,
 
-            exportadorInicio: {
-                label: "Aeurus ",
-                value: "1"
-            },
+            orden_embarque:"",
+            numero_contenedor:"",
+            foto_general_contenedor:"",
+            foto_pared_izquierda:"",
+            foto_pared_derecha:"",
+            exportador_id:"",
+            exportador_nombre:"",
+            planta_nombre:"",
+            fecha_creacion:"",
+
+            exportadorInicio: {},
+            data_embarque :{},
+
+            embarque_planta:"",
+            embarque:"",
+            informeGeneral:"",
         };
 
         this.exportador = React.createRef();
     }
+
+componentDidMount = async () => {
+let usuario = this.props.route.params.usuario, 
+planta = this.props.route.params.planta, 
+embarque = this.props.route.params.embarque, 
+embarque_planta = this.props.route.params.embarque_planta;
+informeGeneral = this.props.route.params.informeGeneral;
+let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+
+console.log("datox del embarquex->"+embarque);
+console.log("datox del embarque_planta->"+embarque_planta);
+console.log("datox del informeGeneral->"+informeGeneral);
+
+this.setState({})
+
+if (usuario == null || usuario == undefined){
+  usuario = await AsyncStorage.getItem('USUARIO_ID')
+}
+
+if(embarque==null || embarque == undefined){
+  embarque = await AsyncStorage.getItem('embarque_id');
+  embarque_planta  = await AsyncStorage.getItem('embarque_planta_id');
+  
+
+}
+
+console.log("plantaxxxx -->"+PLANTA_NOMBRE);
+            let result;
+         await this.embarque_detalle(usuario, planta, embarque, embarque_planta).then(function (data) {
+            result = data;
+          });
+
+          if (result.state == true) {
+        
+            console.log("InfoGeneralEmbarque embarque_detalle resultado:-> "+JSON.stringify(result.data));
+            //this.setState({data_contenedor:result.data, usuario_id:USUARIO_ID, planta_id:PLANTA_ID}) ;
+            this.setState({ orden_embarque:result.data.orden_embarque,
+            numero_contenedor:result.data.numero_contenedor,
+            foto_general_contenedor:result.data.foto_general_contenedor,
+            foto_pared_izquierda:result.data.foto_pared_izquierda,
+            foto_pared_derecha:result.data.foto_pared_derecha,
+            exportador_id:result.data.exportador_id,
+            exportador_nombre:result.data.exportador_nombre,
+            planta_nombre:PLANTA_NOMBRE,
+            fecha_creacion:result.data.pti});
+
+         //   this.props.navigation.navigate('App')
+        }else{
+           // this.setState({modalVisible:true})
+           console.log("2");
+        }
+
+        let paso_respuesta =  JSON.stringify(result.data)
+        console.log("respuestaxxxxsxsxs"+ paso_respuesta );
+        this.setState({data_embarque:paso_respuesta});
+
+       // console.log("data del embarque -->"+JSON.stringify(this.State.data_embarque));
+
+
+       let exportador_data;
+       await this.exportador_detalle(planta).then(function (data) {
+        exportador_data = data;
+        });
+
+        if (exportador_data.state == true) {
+      
+          console.log("InfoGeneralEmbarque exportador_detalle resultado:-> "+JSON.stringify(exportador_data.data));
+          //this.setState({data_contenedor:result.data, usuario_id:USUARIO_ID, planta_id:PLANTA_ID}) ;
+            
+          let MyArray = [];
+          let MyArray2 = [];
+          let datos = exportador_data.data;
+          datos.forEach((elem) => {
+             
+                  let data = {
+                      value: elem.id,
+                      label: elem.name ,
+                      selected: '',
+                      //isSelect: elem.isSelect,
+                      //selectedClass: elem.selectedClass
+                  }
+                  
+                  let data2 = {
+                    value: elem.id,
+                    label: elem.name ,
+                    selected: '',
+                    //isSelect: elem.isSelect,
+                    //selectedClass: elem.selectedClass
+                }
+
+                  MyArray.push(data);
+                  MyArray2.push(elem.name);
+              
+          });
+  
+          
+
+          this.setState({exportadorInicio:MyArray2 });
+            console.log("data exportador:"+this.state.exportadorInicio);
+
+            
+       
+      }else{
+         // this.setState({modalVisible:true})
+         console.log("2");
+      }
+
+
+
+}
+
+exportador_detalle = async (planta) => {
+    try {
+      let resultado = await WSRestApi.fnWSExportador( planta);
+      //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+      return resultado;
+    } catch (error) {
+      let resultado = JSON.stringify(error);
+      //let resultado = "errorx";
+      console.log("ERROR exportador ??? : " + error);
+      return resultado;
+     // return false
+    }
+  }
+
+embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
+    try {
+      let resultado = await WSRestApi.fnWSDetalleembarque(usuario, planta,embarque, embarque_planta);
+      //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+      return resultado;
+    } catch (error) {
+      let resultado = JSON.stringify(error);
+      //let resultado = "errorx";
+      console.log("ERROR1??? : " + error);
+      return resultado;
+     // return false
+    }
+  }
 
 
     envio_menu = async () => {
@@ -50,7 +202,13 @@ export default class InfoGeneralEmbarque extends Component {
                 await AsyncStorage.setItem("Observaciones", "0");
 
 
-        this.props.navigation.navigate('ConsolidacionCarga')
+        this.props.navigation.navigate('ConsolidacionCarga',{
+          usuario: this.state.usuario_id,
+          planta: this.state.planta_id,
+          embarque: this.state.embarque,
+          embarque_planta: this.state.embarque_planta,
+          informeGeneral:"2",
+          identificacionCarga:"1"})
     };
 
 
@@ -79,7 +237,7 @@ export default class InfoGeneralEmbarque extends Component {
                                     editable={false}
                                     // onChangeText={(clave) => this.setState({clave})}
                                     onChangeText={(text) => this.validate(text)} 
-                                    value='345377'
+                                    value={this.state.orden_embarque}
                                     />
                                 <Text style={{marginLeft:20, marginTop:10}}>Numero de Contenedor</Text> 
                             <TextInput
@@ -87,7 +245,7 @@ export default class InfoGeneralEmbarque extends Component {
                                     editable={false}
                                     // onChangeText={(clave) => this.setState({clave})}
                                     onChangeText={(text) => this.validate(text)} 
-                                    value='345'
+                                    value={this.state.numero_contenedor}
                                     />
                         <View>
                         <View style={{marginLeft:30,marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
@@ -136,28 +294,42 @@ export default class InfoGeneralEmbarque extends Component {
                                 
                         <View>
                         <Text style={{marginLeft:20, marginTop:10}}>Planta</Text> 
-                        <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>Nombre de la Planta</Text> 
+                        <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>{this.state.planta_nombre.replace(/['"]+/g, '')}</Text> 
                         </View>
                        
 
                         <Text style={{marginLeft:20, marginTop:10}}>Exportador</Text> 
                         <View  style={{backgroundColor:'#efeeef', width:'85%', marginLeft:30}} >
-                            <Select  
+                            {/* <Select  
                             ref={this.exportador}
-                            label={this.state.exportadorInicio.label}
-                            value={this.state.exportadorInicio.value}
-                            datos={[
-                            { label: 'Opción 1', value: '1' },
-                            { label: 'Opción 2', value: '2' },
-                            { label: 'Opción 3', value: '3' },
-                            ]}
+                            label={this.state.exportador_nombre}
+                            value={this.state.exportador_id}
+                            datos={this.state.exportadorInicio}
+                            key='1'
                             //   datos={this.state.beneficiarios} 
-                            />
+                            /> */}
+
+                            <SelectDropdown
+
+                            data={this.state.exportadorInicio}
+                            defaultButtonText ={this.state.exportador_nombre}
+                            disabled={true}
+                            onSelect={(selectedItem, index) => {
+                                console.log(selectedItem, index)
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                // text represented for each item in dropdown
+                                // if data array is an array of objects then return item.property to represent item in dropdown
+                                return item
+                            }}
+                            >
+                                
+                            </SelectDropdown>
                         </View>
 
                         <View>
                             <Text style={{marginLeft:20, marginTop:10}}>Fecha creacion</Text> 
-                            <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>22-09-2021</Text> 
+                            <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>{this.state.fecha_creacion}</Text> 
                             </View>
                     
                             <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>

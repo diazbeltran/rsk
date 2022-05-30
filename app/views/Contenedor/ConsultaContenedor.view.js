@@ -36,6 +36,15 @@ export default class ConsultaContenedor extends Component {
         this.exportador = React.createRef();
     }
 
+    componentDidMount = async () => {
+        // let usuario = this.props.route.params.usuario, 
+        // planta = this.props.route.params.planta, 
+        // embarque = this.props.route.params.embarque, 
+        // embarque_planta = this.props.route.params.embarque_planta;
+        // let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+
+    }
+
     render() {
 
         return (

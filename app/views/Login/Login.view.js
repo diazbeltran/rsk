@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput , StyleSheet,Image,Button, Modal } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import loginStyle from './login.style.js';
 import Footer from '../../component/Footer/Footer.component';
 import FormLogin from '../../component/Login/FormLogin.component.js';
@@ -19,10 +20,14 @@ export default class Login extends Component {
         super(props);
         this.state = {
             status: false,
-            correo:'',
-            clave:'',
-            email :'',
+           // correo:'tecnico@aeurus.cl',
+           correo:'tecnico@aeurus.cl',
+            ///clave:'12345678',
+            clave:'12345678',
+            email :'tecnico@aeurus.cl',
             modalVisible:false,
+            modal_error:'',
+            dato1:'',
         };
 
         
@@ -36,7 +41,8 @@ export default class Login extends Component {
           return false;
         }
         else {
-          this.setState({ email: text })
+          //this.setState({ email: text })correo
+          this.setState({ email: correo })
           console.log("Email is Correct");
         }
       }
@@ -47,21 +53,37 @@ export default class Login extends Component {
         console.log("correo: "+correo);
         console.log("pass: "+pass);
         //this.props.navigation.navigate('App')
-
+      try{
        // console.log("URL BCI : " + url);
         await this.consulta_login(correo, pass).then(function (data) {
           result = data;
         });
 
-        
+        console.log("seguimiento ws que no carga :"+result);
+
         if (result.state == true) {
         
             console.log("hola raton con cola "+JSON.stringify(result.data));
+            let USUARIO_ID = JSON.stringify(result.data.id);
+            let PLANTA_ID = JSON.stringify(result.data.planta_id);
+            let DATA = JSON.stringify(result.data);
+            let PLANTA_NOMBRE = JSON.stringify(result.data.planta_nombre);
+            
+            AsyncStorage.setItem('USUARIO_ID', USUARIO_ID);
+            AsyncStorage.setItem('PLANTA_ID', PLANTA_ID);
+            AsyncStorage.setItem('USUARIO_DATA', DATA);
+            AsyncStorage.setItem('PLANTA_NOMBRE', PLANTA_NOMBRE);
             this.props.navigation.navigate('App')
         }else{
-            this.setState({modalVisible:true})
+          let paso = JSON.stringify(result);
+          console.log("errorxxxxxx"+ paso);
+            this.setState({modalVisible:true, dato1:'23', modal_error:paso})
+            
+            
         }
-
+      }catch(error){
+        this.setState({modalVisible:true, dato1:'24', modal_error:error})
+      }
 
       }
 
@@ -71,8 +93,11 @@ export default class Login extends Component {
           //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
           return resultado;
         } catch (error) {
+          let resultado = JSON.stringify(error);
+          //let resultado = "errorx";
           console.log("ERROR1??? : " + error);
-          return false
+          return resultado;
+         // return false
         }
       }
 
@@ -114,13 +139,13 @@ export default class Login extends Component {
                       />
                     
                         </View>
-                        
+                      {/* <Text>{this.state.dato1} +{this.state.modal_error}</Text>   */}
                   
                   </View>
                     
                 </Modal>
                     <View >
-                       <Text style={{marginLeft:'10%', color:'#747474', fontFamily:'Nunito'}}>Correo</Text> 
+                       <Text style={{marginLeft:'10%', color:'#747474', fontFamily:'Nunito'}}>User</Text> 
                        <TextInput
                         style={styles.input}
                         onChangeText={(correo) => this.setState({correo})}
@@ -128,7 +153,7 @@ export default class Login extends Component {
                         />
                     </View>
                     <View>
-                       <Text style={{marginLeft:'10%', color:'#747474'}}>Contraseña</Text> 
+                       <Text style={{marginLeft:'10%', color:'#747474'}}>Password</Text> 
                        <TextInput
                         style={styles.input}
                         onChangeText={(clave) => this.setState({clave})}
@@ -141,7 +166,7 @@ export default class Login extends Component {
                         title="Ingresar"
                         onPress={() => this.ingresar_login(this.state.correo, this.state.clave)}
                             >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }} underlayColor={'red'}>Ingresar</Text>
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }} underlayColor={'red'}>Enter</Text>
                             </TouchableHighlight>
 
                            
@@ -152,7 +177,7 @@ export default class Login extends Component {
                         title="Press me"
                         onPress={() => this.props.navigation.navigate('Recupera')}
                             >
-                                <Text style={{color:'#ef882d',backgroundColor:'white'}}> <Icon name="key" size={15} color="#ef882d" />Recuperar Contraseña</Text>
+                                <Text style={{color:'#ef882d',backgroundColor:'white'}}> <Icon name="key" size={15} color="#ef882d" />Recover Password</Text>
                             </TouchableHighlight>
                     </View>
 
