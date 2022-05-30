@@ -79,7 +79,10 @@ import com.android.build.OutputFile
  * ]
  */
 
+
+
 project.ext.react = [
+  //  bundleInRelease: true,
     enableHermes: true,  // clean and rebuild if changing
 ]
 
@@ -167,13 +170,7 @@ android {
             }
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            //signingConfig signingConfigs.debug
-            //minifyEnabled enableProguardInReleaseBuilds
-           // proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-
-            // Caution! In production, you need to generate your own keystore file.
+          // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
             //minifyEnabled enableProguardInReleaseBuilds
@@ -185,6 +182,7 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             useProguard enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+
 
 
         }
@@ -205,6 +203,15 @@ android {
 
         }
     }
+    //react-native-pdf
+    packagingOptions {
+       pickFirst 'lib/x86/libc++_shared.so'
+       pickFirst 'lib/x86_64/libjsc.so'
+       pickFirst 'lib/arm64-v8a/libjsc.so'
+       pickFirst 'lib/arm64-v8a/libc++_shared.so'
+       pickFirst 'lib/x86_64/libc++_shared.so'
+       pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+     }
 }
 configurations.all {
     resolutionStrategy.force 'com.squareup.okhttp3:okhttp:4.9.3'

@@ -39,7 +39,11 @@ export default class InfoGeneralEmbarque extends Component {
             fecha_creacion:"",
 
             exportadorInicio: {},
-            data_embarque :{}
+            data_embarque :{},
+
+            embarque_planta:"",
+            embarque:"",
+            informeGeneral:"",
         };
 
         this.exportador = React.createRef();
@@ -50,8 +54,25 @@ let usuario = this.props.route.params.usuario,
 planta = this.props.route.params.planta, 
 embarque = this.props.route.params.embarque, 
 embarque_planta = this.props.route.params.embarque_planta;
+informeGeneral = this.props.route.params.informeGeneral;
 let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
 
+console.log("datox del embarquex->"+embarque);
+console.log("datox del embarque_planta->"+embarque_planta);
+console.log("datox del informeGeneral->"+informeGeneral);
+
+this.setState({})
+
+if (usuario == null || usuario == undefined){
+  usuario = await AsyncStorage.getItem('USUARIO_ID')
+}
+
+if(embarque==null || embarque == undefined){
+  embarque = await AsyncStorage.getItem('embarque_id');
+  embarque_planta  = await AsyncStorage.getItem('embarque_planta_id');
+  
+
+}
 
 console.log("plantaxxxx -->"+PLANTA_NOMBRE);
             let result;
@@ -64,12 +85,12 @@ console.log("plantaxxxx -->"+PLANTA_NOMBRE);
             console.log("InfoGeneralEmbarque embarque_detalle resultado:-> "+JSON.stringify(result.data));
             //this.setState({data_contenedor:result.data, usuario_id:USUARIO_ID, planta_id:PLANTA_ID}) ;
             this.setState({ orden_embarque:result.data.orden_embarque,
-            numero_contenedor:result.data.orden_embarque,
-            foto_general_contenedor:result.data.orden_embarque,
-            foto_pared_izquierda:result.data.orden_embarque,
-            foto_pared_derecha:result.data.orden_embarque,
-            exportador_id:result.data.orden_embarque,
-            exportador_nombre:result.data.orden_embarque,
+            numero_contenedor:result.data.numero_contenedor,
+            foto_general_contenedor:result.data.foto_general_contenedor,
+            foto_pared_izquierda:result.data.foto_pared_izquierda,
+            foto_pared_derecha:result.data.foto_pared_derecha,
+            exportador_id:result.data.exportador_id,
+            exportador_nombre:result.data.exportador_nombre,
             planta_nombre:PLANTA_NOMBRE,
             fecha_creacion:result.data.pti});
 
@@ -181,7 +202,13 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                 await AsyncStorage.setItem("Observaciones", "0");
 
 
-        this.props.navigation.navigate('ConsolidacionCarga')
+        this.props.navigation.navigate('ConsolidacionCarga',{
+          usuario: this.state.usuario_id,
+          planta: this.state.planta_id,
+          embarque: this.state.embarque,
+          embarque_planta: this.state.embarque_planta,
+          informeGeneral:"2",
+          identificacionCarga:"1"})
     };
 
 
@@ -283,8 +310,10 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                             /> */}
 
                             <SelectDropdown
+
                             data={this.state.exportadorInicio}
                             defaultButtonText ={this.state.exportador_nombre}
+                            disabled={true}
                             onSelect={(selectedItem, index) => {
                                 console.log(selectedItem, index)
                             }}

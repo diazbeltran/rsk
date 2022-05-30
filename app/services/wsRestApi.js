@@ -184,7 +184,7 @@ class WSRestApi {
         
         
       
-    
+      try {
       var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/documentDetail';
   
   
@@ -192,16 +192,16 @@ class WSRestApi {
       console.log("CONSULTA USUARIO ws  ==>>> ", WSUrl);
       console.log("****************************************");
   
-     
+    //  .replace(/['"]+/g, '')
   
-      let params = '{"usuario_id":"' + user + '", "planta_id" : "' + panta + '", "embarque_id" : "' + embarque + '", "embarque_planta_id" : "' + embarque_planta + '"}';
+      let params = '{"usuario_id":"' + user + '", "planta_id" : "' + panta + '", "embarque_id" : "' + embarque + '", "embarque_planta_id" : "' + embarque_planta+ '"}';
 
       let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
 
 
       //  console.log(WSUrl);
       console.log(params);
-      try {
+      
         const response = await fetch(WSUrl, {
           method: 'POST',
           headers: {
@@ -281,6 +281,59 @@ class WSRestApi {
   
   
     }
+
+    static async fnWSGuardaEmbarque(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) {
+        
+        
+      
+    
+      var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/shipmentInformation';
+  
+  
+      console.log("****************************************");
+      console.log(" fnWSGuardaEmbarque ws  ==>>> ", WSUrl);
+      console.log("****************************************");
+  
+     
+  
+      let params = '{"usuario_id":"' + user + '","embarque_id":"0", "planta_id" : "' + panta + '","embarque_planta_id":"0","fecha":"2022-05-29 11:11:11", "orden_embarque" : "' + oden + '", "numero_contenedor" : "' + numero_contenedor + '","exportador_id" : "'+exportador+'","foto_general_contenedor":"'+img1+'" ,  "foto_pared_izquierda":"'+img2+'", "foto_pared_derecha":"'+img3+'" }';
+
+      let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
+
+
+      //  console.log(WSUrl);
+      //console.log(params);
+      try {
+        const response = await fetch(WSUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          //  'Authorization': 'Bearer ' + token,
+            token:"SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv"
+          },
+          body: params,
+        });
+
+
+        console.log('status : ' + response.status);
+        if (response.status == 200) {
+          responseJson = response.json();
+          let obj = responseJson;
+          return obj;
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("ERROR lista_documentos: " + JSON.stringify(error));
+        return error;
+      }
+  
+  
+  
+    }
+
+
 
 
 }

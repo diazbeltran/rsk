@@ -38,7 +38,15 @@ export default class InformePrecargado extends Component {
         
     }
     async componentDidMount(){
-        this.setState({data_contenedor:[]});
+
+
+        this.carga_datos();
+     }
+
+
+     carga_datos = async () =>{
+
+      this.setState({data_contenedor:[]});
         let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
         let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
         let USUARIO_DATA = await AsyncStorage.getItem('USUARIO_DATA');
@@ -56,18 +64,16 @@ export default class InformePrecargado extends Component {
 
           if (result.state == true) {
         
-            console.log("hola raton con cola "+JSON.stringify(result.data));
+            console.log("consulta_contenedores["+USUARIO_ID+"<>"+PLANTA_ID+"] "+JSON.stringify(result.data));
             this.setState({data_contenedor:result.data, usuario_id:USUARIO_ID, planta_id:PLANTA_ID}) ;
-
-
          //   this.props.navigation.navigate('App')
+
         }else{
+
            // this.setState({modalVisible:true})
            console.log("2");
         }
 
-         //console.log("contenedor_datos -->"+ JSON.stringify(contenedor_datos));
-      
      }
 
      refrescar = async () => {
@@ -117,7 +123,7 @@ export default class InformePrecargado extends Component {
                 await AsyncStorage.setItem("Observaciones", "0");
 
 
-        this.props.navigation.navigate('ConsolidacionCarga', {a:'a'})
+        this.props.navigation.navigate('ConsolidacionCarga', { informeGeneral:"1",    })
     };
 
     mostrarInforme = ({ item }) => {
@@ -134,7 +140,8 @@ export default class InformePrecargado extends Component {
          usuario: this.state.usuario_id,
          planta: this.state.planta_id,
          embarque: item.embarque_id,
-         embarque_planta: item.embarque_planta_id
+         embarque_planta: item.embarque_planta_id,
+         informeGeneral:"1",
      })}>
 
        <View style={{marginLeft:'4%',marginTop:'5%', borderWidth:1,borderColor:'#9f9f9f', borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', justifyContent:'space-around'}}>
@@ -171,7 +178,8 @@ export default class InformePrecargado extends Component {
         usuario: this.state.usuario_id,
         planta: this.state.planta_id,
         embarque: item.embarque_id,
-        embarque_planta: item.embarque_planta_id
+        embarque_planta: item.embarque_planta_id,
+                
     })}>
 
        <View style={{marginLeft:'4%',marginTop:'5%', borderWidth:1,borderColor:'#9f9f9f', borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', justifyContent:'space-around'}}>
@@ -204,38 +212,8 @@ export default class InformePrecargado extends Component {
    }
   // console.log("wewewewe"+var_tipo);
     //console.log("<<"+item.tipo_id);
-        return (
-        //   <TouchableWithoutFeedback 
-          
-        //   onPress={() => this.props.navigation.navigate('ConsultaContenedor',{
-        //     tipo: item.tipo_id
-        // })}>
-
-        //   <View style={{marginLeft:'4%',marginTop:'5%', borderWidth:1,borderColor:'#9f9f9f', borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', justifyContent:'space-around'}}>
-        //       <View style={{ flex: 1.4, backgroundColor: 'white' , marginTop:10, marginBottom:10}}>   
-        //       <Text style={{marginLeft:10}}>Orden de embarque</Text>
-        //       <Text style={{marginLeft:10, fontWeight:'bold' }}>{item.orden_embarque}</Text>  
-        //       <Text style={{marginLeft:10}}>Numero de Contenedor</Text>
-        //       <Text style={{marginLeft:10, fontWeight:'bold'}}>{item.numero_contenedor}</Text>                       
-        //       </View>  
-        //       <View style={{ flex: 1, backgroundColor: 'white', marginTop:10 }}>   
-        //       <Text style={{marginLeft:10}}>Exportador</Text>
-        //       <Text style={{marginLeft:10, fontWeight:'bold'}}>{item.exportador_nombre}</Text>  
-        //       <Text style={{marginLeft:10}}>Tipo</Text>
-        //       <Text style={{marginLeft:10, fontWeight:'bold'}}>{item.tipo_nombre}</Text>                         
-        //       </View> 
-        //       <View style={{ flex: .3, backgroundColor: 'white' }}>   
-        //       <Icon22 style={{marginTop:'90%'}} name="arrow-forward-ios" size={20} color="#F4891F" />
-              
-        //       </View>    
-
-              
-        //              {/* <Icon style={{marginTop:'100%', }} name="navigate-next" size={30} color="#ef882d" />  */}
-                        
-        //     </View> 
-        // </TouchableWithoutFeedback>
-        var_tipo
-        
+        return (   
+        var_tipo        
        
         );
       };
@@ -246,51 +224,58 @@ export default class InformePrecargado extends Component {
 
         return (
           <View style={{ flex: 1 , backgroundColor: '#6d65a5'}}>
-          <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
+
+            <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
+            <TouchableWithoutFeedback onPress={() => this.carga_datos()}>
+                <View style={{}}>
+                <Icon22 style={{marginLeft:20}} name="autorenew" size={30} color="#FFFF" />
+                                    
+                </View> 
+                </TouchableWithoutFeedback>
+
+
+                <Text style={{flex:1,marginLeft:10, color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Working instructions</Text><Icon style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+
+            </View>
+
+
+          {/* <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
           <Icon22 style={{marginLeft:20}} name="autorenew" size={30} color="#FFFF" />
             <Text style={{flex:1,marginLeft:'12%', color:'white',marginTop:0, fontSize:18, fontFamily:'Nunito'}}>Working instructions </Text><Icon style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
 
-          </View>
+          </View> */}
           
           
           <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
           
-         {/* <InformeCaja navigation={this.props.navigation}></InformeCaja> */}
+        
          
-         <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <FlatList
-                      horizontal={false}
-                      showsHorizontalScrollIndicator={false}
-                      data={this.state.data_contenedor}
-                      renderItem={item => this.mostrarInforme(item)}
-                      //renderItem={this.mostrarInforme} //AUTOS
-                     // keyExtractor={item => item.key}
-                      ListFooterComponent={
-                        <View style={{alignItems:'center', backgroundColor:'white', flex:1, paddingTop:20, paddingBottom:20}}>
-                        <TouchableHighlight style={{with:10}}
-                        title="Press me"
-                        onPress={() => this.envio_menu()}
-                            >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, 
-                                    paddingLeft:35,paddingRight:35, backgroundColor:'#F4891F', color:'white', }}>
-                                        New report</Text>
-                            </TouchableHighlight>
-                    </View>}
-                    >
-                      
-                    </FlatList>
-                                </View>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                      <FlatList
+                        horizontal={false}
+                        showsHorizontalScrollIndicator={false}
+                        data={this.state.data_contenedor}
+                        renderItem={item => this.mostrarInforme(item)}
+                        //renderItem={this.mostrarInforme} //AUTOS
+                        // keyExtractor={item => item.key}
+                        ListFooterComponent={
+                            <View style={{alignItems:'center', backgroundColor:'white', flex:1, paddingTop:20, paddingBottom:20}}>
+                                      <TouchableHighlight style={{with:10}}
+                                      title="Press me"
+                                      onPress={() => this.envio_menu()}
+                                      >
+                                      <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, 
+                                      paddingLeft:35,paddingRight:35, backgroundColor:'#F4891F', color:'white', }}>
+                                      New report</Text>
+                                      </TouchableHighlight>
+                            </View>}
+                        >
 
-                               
-
-           
-          </View>
-          
-          
-              
-
-
-          <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
+                      </FlatList>
+                  </View>                          
+                  </View>
+         
+                   <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
               
               <Footer
               Imagen={this.state.Imagen}></Footer>

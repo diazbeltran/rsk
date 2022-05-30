@@ -37,11 +37,11 @@ export default class ConsultaContenedor extends Component {
     }
 
     componentDidMount = async () => {
-        let usuario = this.props.route.params.usuario, 
-        planta = this.props.route.params.planta, 
-        embarque = this.props.route.params.embarque, 
-        embarque_planta = this.props.route.params.embarque_planta;
-        let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+        // let usuario = this.props.route.params.usuario, 
+        // planta = this.props.route.params.planta, 
+        // embarque = this.props.route.params.embarque, 
+        // embarque_planta = this.props.route.params.embarque_planta;
+        // let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
 
     }
 

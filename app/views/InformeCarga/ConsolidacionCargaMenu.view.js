@@ -40,21 +40,45 @@ export default class ConsolidacionCarga extends Component {
                 EstibaPallet:false,
                 FotosConsolidacionCarga:false,
                 Observaciones:false
-            }
+            },
+
+            usuario_id:'',
+            planta_id:'',
+            embarque_id:'',
+            embarque_planta_id:'',
+
         };
 
         
     }
-    async UNSAFE_componentWillMount() {
 
-        try {}
-        catch{}
+    componentDidMount = async () => {
+        let usuario = this.props.route.params.usuario, 
+        planta = this.props.route.params.planta, 
+        embarque = this.props.route.params.embarque, 
+        embarque_planta = this.props.route.params.embarque_planta;
+        let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+
+        
+        informeGeneral = this.props.route.params.informeGeneral
+
+
+        console.log("datox del 1ConsolidacionCarga embarquex->"+embarque);
+        console.log("datox del 1ConsolidacionCarga embarque_planta->"+embarque_planta);
+        console.log("datox del 1ConsolidacionCarga informeGeneral->"+informeGeneral);
+        this.setState({informeGeneral:informeGeneral});
     }
+    // async UNSAFE_componentWillMount() {
+
+    //     try {}
+    //     catch{}
+    // }
     async   UNSAFE_componentWillMount() {
 
         try {
             const { route } = this.props;
         // console.log("weas");
+        console.log("cargax estadox");
             this.carga_estados();
             
              // BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
@@ -90,7 +114,25 @@ export default class ConsolidacionCarga extends Component {
     carga_estados = async () => {
        // let identificacionCarga = await AsyncStorage.getItem("identificacionCarga");
         
-       this.setState({informeGeneral:await AsyncStorage.getItem("informeGeneral")});
+       let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
+       let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
+
+       
+       let EMBARQUE = await AsyncStorage.getItem('embarque_id');
+       let EMBARQUE_PLATA = await AsyncStorage.getItem('embarque_planta_id');
+
+      let  EMBARQUE_paso = EMBARQUE?.replace(/['"]+/g, '');
+      let   EMBARQUE_PLATA_paso = EMBARQUE_PLATA?.replace(/['"]+/g, '')
+       console.log("EMBARQUE -->"+EMBARQUE_paso);
+       console.log("EMBARQUE_PLATA -->"+EMBARQUE_PLATA_paso);
+
+       this.setState({usuario_id:await AsyncStorage.getItem("USUARIO_ID")});
+       this.setState({planta_id:await AsyncStorage.getItem("PLANTA_ID")});
+       this.setState({embarque_id:EMBARQUE_paso});
+       this.setState({embarque_planta_id:EMBARQUE_PLATA_paso});
+
+
+      // this.setState({informeGeneral:await AsyncStorage.getItem("informeGeneral")});
 
         this.setState({identificacionCarga:await AsyncStorage.getItem("identificacionCarga")});
         this.setState({EspecificacionContenedor:await AsyncStorage.getItem("EspecificacionContenedor")});
@@ -99,27 +141,39 @@ export default class ConsolidacionCarga extends Component {
         this.setState({FotosConsolidacionCarga:await AsyncStorage.getItem("FotosConsolidacionCarga")});
         this.setState({Observaciones:await AsyncStorage.getItem("Observaciones")});
 
-        console.log("estadox --> "+this.state.informeGeneral);
-        console.log("estadox --> "+this.state.identificacionCarga);
-        console.log("estadox --> "+this.state.EspecificacionContenedor);
-        console.log("estadox --> "+this.state.FotosContenedor);
-        console.log("estadox --> "+this.state.EstibaPallet);
-        console.log("estadox --> "+this.state.FotosConsolidacionCarga);
-        console.log("estadox --> "+this.state.Observaciones);
+        console.log("estadox -informeGeneral-> "+this.state.informeGeneral);
+        console.log("estadox -identificacionCarga-> "+this.state.identificacionCarga);
+        console.log("estadox -EspecificacionContenedor-> "+this.state.EspecificacionContenedor);
+        console.log("estadox -FotosContenedor-> "+this.state.FotosContenedor);
+        console.log("estadox -EstibaPallet-> "+this.state.EstibaPallet);
+        console.log("estadox -FotosConsolidacionCarga-> "+this.state.FotosConsolidacionCarga);
+        console.log("estadox -Observaciones-> "+this.state.Observaciones);
        
 
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-
-        this.carga_estados();
+        try {
+        
         console.log('Se ejecuta componentWillReceiveProps con las propiedades futuras', nextProps)
        // this.recibirDatos()
 
-       try {
        
+       
+      let  embarque_entra = nextProps.route.params.embarque;
+      let   embarque_planta_entra = nextProps.route.params.embarque_planta;
+      let  informeGeneral1_entra = nextProps.route.params.informeGeneral;
+      let  identificacionCarga_entra = nextProps.route.params.identificacionCarga;
         
+        //let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+        this.setState({informeGeneral:informeGeneral1_entra, identificacionCarga:identificacionCarga_entra})
+
+        console.log("datox del 2ConsolidacionCarga embarquex->"+embarque_entra);
+        console.log("datox del 2ConsolidacionCarga embarque_planta->"+embarque_planta_entra);
+        console.log("datox del 2ConsolidacionCarga informeGeneral->"+informeGeneral1_entra);
+        console.log("datox del 2ConsolidacionCarga identificacionCarga->"+identificacionCarga_entra);
    // this.recibirDatos()
+   this.carga_estados();
 
     }
     catch(error){
@@ -197,6 +251,7 @@ export default class ConsolidacionCarga extends Component {
         buttonFotosConsolidacionCarga,
         buttonObservaciones;
       
+            console.log("wewewe "+this.state.informeGeneral);
            
      
         switch (this.state.informeGeneral) {
@@ -234,7 +289,12 @@ export default class ConsolidacionCarga extends Component {
                 </TouchableWithoutFeedback>;
                 break;
         case "2":
-            buttonInfoGeneral=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque')}>
+            buttonInfoGeneral=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque',{
+                usuario: this.state.usuario_id,
+                planta: this.state.planta_id,
+                embarque: this.state.embarque_id,
+                embarque_planta: this.state.embarque_planta_id
+            })}>
                     <View style={{backgroundColor:'#75BE48',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                     <View style={{flex:0.4}}>
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />

@@ -105,7 +105,8 @@ export default class ConsultaContenedor extends Component {
                             usuario: this.props.route.params.usuario,
                             planta: this.props.route.params.planta,
                             embarque: this.props.route.params.embarque,
-                            embarque_planta: this.props.route.params.embarque_planta
+                            embarque_planta: this.props.route.params.embarque_planta,
+                            informeGeneral:"1",
                         })}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#6f6aaa', color:'white', }}>No</Text>
