@@ -8,6 +8,12 @@ import SelectDropdown from 'react-native-select-dropdown'
 import Select from '../../component/Select/Select.component.js';
 
 import SelectorMultimedia from '../../components/SelectorMultimedia/SelectorMultimediaMultiple.component.js';
+
+import SelectorMultimedia1 from '../../components/SelectorMultimedia/SelectorMultimediaGeneral.component.js';
+import SelectorMultimedia2 from '../../components/SelectorMultimedia/SelectorMultimediaLeft.component.js';
+import SelectorMultimedia3 from '../../components/SelectorMultimedia/SelectorMultimediaRight.component.js';
+
+
 import Hint from '../../components/Hint/Hint.component';
 import HintAlertas from '../../components/Hint/Hint.component';
 import Hint2 from '../../components/Hint/Hint.component';
@@ -49,8 +55,8 @@ export default class InfoGeneralEmbarque extends Component {
             exportadorInicio: {},
             data_embarque :{},
 
-            embarque_planta:"",
-            embarque:"",
+            embarque_planta_id:"",
+            embarque_id:"",
             informeGeneral:"",
         };
 
@@ -88,7 +94,7 @@ console.log("datox del embarquex->"+embarque);
 console.log("datox del embarque_planta->"+embarque_planta);
 console.log("datox del informeGeneral->"+informeGeneral);
 
-this.setState({})
+this.setState({embarque_id:embarque, embarque_planta_id:embarque_planta})
 
 if (usuario == null || usuario == undefined){
   usuario = await AsyncStorage.getItem('USUARIO_ID')
@@ -100,8 +106,11 @@ if(embarque==null || embarque == undefined){
   
 
 }
+  
 
-console.log("plantaxxxx -->"+PLANTA_NOMBRE);
+
+
+          console.log("plantaxxxx -->"+PLANTA_NOMBRE);
             let result;
          await this.embarque_detalle(usuario, planta, embarque, embarque_planta).then(function (data) {
             result = data;
@@ -317,8 +326,8 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
         this.props.navigation.navigate('ConsolidacionCarga',{
           usuario: this.state.usuario_id,
           planta: this.state.planta_id,
-          embarque: this.state.embarque,
-          embarque_planta: this.state.embarque_planta,
+          embarque: this.state.embarque_id,
+          embarque_planta: this.state.embarque_planta_id,
           informeGeneral:"2",
           identificacionCarga:"1"})
     };
@@ -363,23 +372,17 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
 
                                     
                           <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
-                              <TouchableHighlight style={{with:10}}
-                              title="Press me"
-                            // onPress={() => this.props.navigation.navigate('TomarFoto')}
-                                  >
-                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:70,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
-                              >Container general view</Text>
-                                  </TouchableHighlight>
+                             
                           </View>
                           <View style={{marginLeft:'10%'}}>
-                              <SelectorMultimedia 
+                              <SelectorMultimedia1 
                                   ref={this.Selector1}
                                   mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
                                   ocultarTeclado={() => this.ocultarTeclado()}
                               />
                           </View>
 
-                          <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                          {/* <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
                               <TouchableHighlight style={{with:10}}
                               title="Press me"
                             // onPress={() => this.props.navigation.navigate('TomarFoto')}
@@ -387,10 +390,10 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                               <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:85,paddingRight:60, backgroundColor:'#ef882d', color:'white', }}
                               >External left side wall</Text>
                                   </TouchableHighlight>
-                          </View>
+                          </View> */}
 
                           <View style={{marginLeft:'10%'}}>
-                              <SelectorMultimedia
+                              <SelectorMultimedia2
                                   ref={this.Selector2}
                                   mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada2(imagen, key, extension)}
                                   ocultarTeclado={() => this.ocultarTeclado()}
@@ -398,7 +401,7 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                           </View>
 
 
-                            <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
+                            {/* <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
                                 <TouchableHighlight style={{with:10}}
                                 title="Press me"
                               // onPress={() => this.props.navigation.navigate('TomarFoto')}
@@ -406,10 +409,10 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:85,paddingRight:60, backgroundColor:'#ef882d', color:'white', }}
                                 >External right side wall</Text>
                                     </TouchableHighlight>
-                            </View>
+                            </View> */}
 
                             <View style={{marginLeft:'10%'}}>
-                                <SelectorMultimedia
+                                <SelectorMultimedia3
                                     ref={this.Selector3}
                                     mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada3(imagen, key, extension)}
                                     ocultarTeclado={() => this.ocultarTeclado()}

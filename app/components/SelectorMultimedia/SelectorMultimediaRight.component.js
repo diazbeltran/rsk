@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Alert, TouchableOpacity, FlatList, Image, Platform } from 'react-native'
+import { Text, View, Alert, TouchableOpacity, FlatList, Image, Platform ,TouchableHighlight} from 'react-native'
 //import * as ImagePicker from 'expo-image-picker';
 import ImagePicker from 'react-native-image-picker';
 import ImageMultiplePicker from 'react-native-image-crop-picker';
@@ -8,6 +8,10 @@ import RNFS from 'react-native-fs';
 import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
 import { ActionSheetCustom as ActionSheet2 } from 'react-native-actionsheet';
 import Icon from 'react-native-vector-icons/AntDesign';
+
+import Icon2 from 'react-native-vector-icons/Ionicons';
+
+
 import styles from './SelectorMultimedia.style';
 
 import Hint from '../../components/Hint/Hint.component';
@@ -37,6 +41,9 @@ export class SelectorMultimediaMultiple extends Component {
             tituloHintAlerta: "",
             imagenAmpliadaVisible: false,
             fontLoaded: false,
+
+            estacargado:false,
+
             imagenCargada: "",
             contadorFotos: 0,
             ArregloImagenes: [], //puede tener solo 2 imagenes
@@ -311,8 +318,11 @@ export class SelectorMultimediaMultiple extends Component {
                                 this.setState({
                                     pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
                                 })
+                                
+                                this.setState({estacargado:true})
+
     
-                                console.log("peso total acumulado : ", this.state.pesoTotalAcumulado);
+                                console.log("peso total acumuladoxxxx : ", this.state.pesoTotalAcumulado);
                             } else {
                                 this.setState({ tituloHintAlerta: "Tamaño máximo excedido" });
                                 this.Hint.current.mostrarConParametros("No es posible agregar más imágenes a esta solicitud. Para continuar elimina al menos una imagen seleccionada");
@@ -444,6 +454,10 @@ export class SelectorMultimediaMultiple extends Component {
                             this.setState({ arregloCuadrados: [...this.state.arregloCuadrados, objetoCuadrado] })
 
                             this.setState({ indexInicial: this.state.indexInicial + 1 })
+                            
+                            // console.log("el estado es : xxx"+true);
+                            // this.setState({ estacargado: true })
+                            
 
                             //---
                             this.setState({
@@ -454,7 +468,7 @@ export class SelectorMultimediaMultiple extends Component {
                                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
                             })
 
-                            console.log("peso total acumulado : ", this.state.pesoTotalAcumulado);
+                            console.log("peso total acumuladoxxx : ", this.state.pesoTotalAcumulado);
 
                         }else{
                             this.setState({ tituloHintAlerta: "Tamaño máximo excedido" });
@@ -548,7 +562,7 @@ export class SelectorMultimediaMultiple extends Component {
                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
             })
 
-            console.log("peso total acumulado : ", this.state.pesoTotalAcumulado);
+            console.log("peso total acumuladoxx : ", this.state.pesoTotalAcumulado);
 
 
         } else {
@@ -792,14 +806,17 @@ export class SelectorMultimediaMultiple extends Component {
     }
 
     render() {
+
+        console.log("el estado es :"+this.state.estacargado);
+
         return (
             <View>
                 {this.state.fontLoaded == true ? (<Text style={styles.textoAdjuntarImagen}></Text>) : (<Text>Loading ... </Text>)}
                 <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5 }}>
 
 
-                    <TouchableOpacity 
-                     onPress={() => this.mostrarOpcionesMultimedia()}
+                    {/* <TouchableOpacity 
+                     
 
                     // onPress={
 
@@ -811,16 +828,64 @@ export class SelectorMultimediaMultiple extends Component {
                         <View style={{ ...styles.circuloAdjuntarImagen, marginRight: 10 }}>
                             <Icon name="pluscircleo" size={30} color='#939896'></Icon>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+                    {this.state.estacargado == true ? (
+                        
+                        
+                        <View style={{marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'10%', alignContent:'center'}}>
+                        <View style={{flex:0.5}}>
+                        <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                        </View>
+                        <View style={{flex:2, marginLeft:0}}>
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>External right side wall</Text> 
+                        </View>                        
+                        <View style={{flex:.5}}>
+                        <TouchableHighlight style={{with:10}}
+                              title="Press me"
+                              onPress={() => this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                  >
+
+{/* this.setState({ arregloCuadrados: [...this.state.arregloCuadrados, objetoCuadrado] })
+    
+    this.setState({ indexInicial: this.state.indexInicial + 1 })
+
+    //---
+    this.setState({
+        ArregloImagenes: [...this.state.ArregloImagenes, objetoFinal],
+    })
+
+    this.setState({
+        pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
+    }) */}
+
+                              <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                    </TouchableHighlight>
+                                 
+                        </View>   
+                            
+                        </View>
+                        
+                   
+                    ) : (
+                    <TouchableHighlight style={{with:10}}
+                              title="Press me"
+                              onPress={() => this.mostrarOpcionesMultimedia()}
+                                  >
+                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:70,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
+                              >External right side wall</Text>
+                    </TouchableHighlight>
+                    )}
+                    
 
 
-                    <FlatList
+
+                    {/* <FlatList
                         data={this.state.arregloCuadrados}
                         renderItem={this.mostrarCuadrosImagen}
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     >
-                    </FlatList>
+                    </FlatList> */}
 
                 </View>
 

@@ -181,6 +181,7 @@ import EstibaPalletFotos from '../views/InformePrecargado/EstibaPalletFotos.view
 import InfoGeneralEmbarque from '../views/InformePrecargado/InformeGeneralEmbarque.view.js';
 import InfoGeneralEmbarqueNuevo from '../views/InformePrecargado/InfoGeneralEmbarqueNuevo.view.js';          
 import IdentificacionCarga from '../views/InformePrecargado/IdentificacionCarga.view.js';
+//import IdentificacionCarga from '../views/InformePrecargado/IdentificacionCargaPre.view';
 
 import TomarFoto from '../views/InformePrecargado/TomarFoto.view.js';
 

@@ -74,8 +74,6 @@ export default class InfoGeneralEmbarque extends Component {
             foto_cargo:"",
             listado_especies:{},
 
-            precarga:false
-
         };
         this.recibidor = React.createRef();
         this.especie = React.createRef();
@@ -590,9 +588,6 @@ export default class InfoGeneralEmbarque extends Component {
                 this.setState({ suma_pallet: this.state.suma_pallet + a.especie_cantidad_pallets });
                 this.setState({ suma_box: this.state.suma_box + a.especie_cantidad_cajas });
 
-                this.setState({ precarga:true});
-
-
                 
 
              } );
@@ -818,465 +813,202 @@ if(this.state.arregloEspecies.length==0){
 
 
     render() {
+let a = <View>
+<Text style={{marginLeft:'10%', marginTop:10}}>Container N°</Text>
+ <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.numero_contenedor}</Text>
 
-        console.log("la pregarga es1 :"+ this.state.precarga)
- if(this.state.precarga==true){
-    return (
-        <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
-            <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
-            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('ConsolidacionCarga')}>
-                <View style={{}}>
-                <Icon2 style={{marginLeft:10}} name="chevron-back" size={30} color="#FFFF" />
+ {/* <TextInput
+ style={styles.input}
+ editable={false}
+ // onChangeText={(clave) => this.setState({clave})}
+ /// onChangeText={(text) => this.validate(text)}
+ value={this.state.numero_contenedor}
+ /> */}
+
+
+ <View style={{ marginLeft:100, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+ <TouchableHighlight style={{with:10}}
+ title="Press me"
+ onPress={() => this.props.navigation.navigate('TomarFoto')}
+ >
+ <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>
+ Tomar fotografia</Text>
+ </TouchableHighlight>
+ <View style={{flex:1, marginLeft:20}}>
+ <Icon2 style={{marginRight:0}} name="information-circle-sharp" size={30}  />
+ </View>
+ </View>
+
+ <View style={{marginLeft:'10%'}}>
+ <SelectorMultimedia
+ ref={this.Selector1}
+ mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+ ocultarTeclado={() => this.ocultarTeclado()}
+ />
+ </View>
+ <HintImagenAmpliada
+ ref={this.HintImagenAmpliada1}
+ title={""}
+ componente={<Image style={{ height: 200, width: 200 }} source={{ uri: `data:image/jpeg;base64,${this.state.imagenAmpliada1}` }} />}
+ eliminarFotoSelector={(key) => this.eliminarFotoSelector1(key)}
+ >
+ </HintImagenAmpliada>
+
+
+ <View>
+ <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
+ <TextInput
+ style={styles.input}
+ editable={false}
+ 
+ value={this.state.motonave}
+ />
+ </View>
+
+
+ <View>
+ <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
+ <View   >
+ <TextInput
+ style={styles.input}
+ editable={false}
+ // onChangeText={(clave) => this.setState({clave})}
+ // onChangeText={(text) => this.validate(text)}
+ //    recibidor_id:'',
+ //    recibidor_nombre:'',
+ //    puerto_carga:'',
+ //    puerto_destino:'',
+ value={this.state.recibidor_nombre}
+ />
+ 
+ </View>
+ </View>
+
+ <View>
+ <Text style={{marginLeft:30, marginTop:10}}>Port of loading</Text>
+ <View   >
+ 
+
+ <TextInput
+ style={styles.input}
+ editable={false}
+ // onChangeText={(clave) => this.setState({clave})}
+ // onChangeText={(text) => this.validate(text)}
+ value={this.state.puerto_carga}
+ />
+
+
+ </View>
+ </View>
+
+ <View>
+ <Text style={{marginLeft:30, marginTop:10}}>Port of destination</Text>
+     <View  >
+     
+     <TextInput
+     style={styles.input}
+     editable={false}
+     // onChangeText={(clave) => this.setState({clave})}
+     // onChangeText={(text) => this.validate(text)}
+     value={this.state.puerto_destino}
+     />
+     </View>
+ </View>
+
+ <View>
+     <Text style={{marginLeft:30, marginTop:10}}>Booking N°</Text>
+     <TextInput
+     style={styles.input}
+     editable={false}
+     // onChangeText={(clave) => this.setState({clave})}
+     // onChangeText={(text) => this.validate(text)}
+     value={this.state.numero_booking}
+     />
+ </View> 
+
+
+
+
+ </View>
+
+
+
+        return (
+            <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
+                <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
+                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('ConsolidacionCarga')}>
+                    <View style={{}}>
+                    <Icon2 style={{marginLeft:10}} name="chevron-back" size={30} color="#FFFF" />
+
+                    </View>
+                    </TouchableWithoutFeedback>
+
+
+                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo details</Text>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
-                </TouchableWithoutFeedback>
 
-
-                <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo details</Text>
-                <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
-
-            </View>
-
-            <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
-        
-            <FlatList nestedScrollEnabled={true}
-            //inverted={true}
-            ListHeaderComponent={
-                <View>
-                <Text style={{marginLeft:'10%', marginTop:10}}>Container N°</Text>
-                 <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.numero_contenedor}</Text>
-                
-                
-                
-                
-                 <View style={{ marginLeft:100, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
-                 <TouchableHighlight style={{with:10}}
-                 title="Press me"
-                 onPress={() => this.props.navigation.navigate('TomarFoto')}
-                 >
-                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>
-                 Tomar fotografia</Text>
-                 </TouchableHighlight>
-                 <View style={{flex:1, marginLeft:20}}>
-                 <Icon2 style={{marginRight:0}} name="information-circle-sharp" size={30}  />
-                 </View>
-                 </View>
-                
-                 <View style={{marginLeft:'10%'}}>
-                 <SelectorMultimedia
-                 ref={this.Selector1}
-                 mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                 ocultarTeclado={() => this.ocultarTeclado()}
-                 />
-                 </View>
-                 <HintImagenAmpliada
-                 ref={this.HintImagenAmpliada1}
-                 title={""}
-                 componente={<Image style={{ height: 200, width: 200 }} source={{ uri: `data:image/jpeg;base64,${this.state.imagenAmpliada1}` }} />}
-                 eliminarFotoSelector={(key) => this.eliminarFotoSelector1(key)}
-                 >
-                 </HintImagenAmpliada>
-                
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 
-                 value={this.state.motonave}
-                 />
-                 </View>
-                
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
-                 <View   >
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 // onChangeText={(clave) => this.setState({clave})}
-                 // onChangeText={(text) => this.validate(text)}
-                 //    recibidor_id:'',
-                 //    recibidor_nombre:'',
-                 //    puerto_carga:'',
-                 //    puerto_destino:'',
-                 value={this.state.recibidor_nombre}
-                 />
-                 
-                 </View>
-                 </View>
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Port of loading</Text>
-                 <View   >
-                 
-                
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 // onChangeText={(clave) => this.setState({clave})}
-                 // onChangeText={(text) => this.validate(text)}
-                 value={this.state.puerto_carga}
-                 />
-                
-                
-                 </View>
-                 </View>
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Port of destination</Text>
-                     <View  >
-                     
-                     <TextInput
-                     style={styles.input}
-                     editable={false}
-                     // onChangeText={(clave) => this.setState({clave})}
-                     // onChangeText={(text) => this.validate(text)}
-                     value={this.state.puerto_destino}
-                     />
-                     </View>
-                 </View>
-                
-                 <View>
-                     <Text style={{marginLeft:30, marginTop:10}}>Booking N°</Text>
-                     <TextInput
-                     style={styles.input}
-                     editable={false}
-                     // onChangeText={(clave) => this.setState({clave})}
-                     // onChangeText={(text) => this.validate(text)}
-                     value={this.state.numero_booking}
-                     />
-                 </View> 
-                
+                <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
             
-                
-                
-                 
-                
-                 </View>
+                <FlatList nestedScrollEnabled={true}
+                //inverted={true}
+                ListHeaderComponent={
+                                    a
+                                    }
+                        ListFooterComponent={ (item) =>
+                            <View >
+                               <View style={{flexDirection:'row'}}>
+                               <View style={{flex:3}}>
+                                <Text style={{marginLeft:'60%'}} >Total:</Text>
+                                </View>
+                               <View style={{flex:0.8}}>
+                                <Text style={{marginLeft:'0%'}} >{this.state.suma_pallet} </Text>
+                                </View>
+                                <View style={{flex:0.8}}>
+                                <Text style={{marginLeft:'0%'}} > {this.state.suma_box}</Text>
+                                </View>
+
+                                </View>
+                            <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
+
+                                
+                                
+                                <TouchableHighlight style={{with:10}}
+                                title="Press me"
+                                onPress={() => this.envio_menu()}
+                                >
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+                                </TouchableHighlight>
+                            </View>
+                            </View>
                                 }
-                    ListFooterComponent={ (item) =>
-                        <View >
-                           <View style={{flexDirection:'row'}}>
-                           <View style={{flex:3}}>
-                            <Text style={{marginLeft:'60%'}} >Total:</Text>
-                            </View>
-                           <View style={{flex:0.8}}>
-                            <Text style={{marginLeft:'0%'}} >{this.state.suma_pallet} </Text>
-                            </View>
-                            <View style={{flex:0.8}}>
-                            <Text style={{marginLeft:'0%'}} > {this.state.suma_box}</Text>
-                            </View>
+                        //ListEmptyComponent={}
+                        data={this.state.arregloEspecies}
+                        renderItem={this.mostrarEspecies}
+                        horizontal={false}
+                        keyExtractor={(item)=> item.id}
+
+                    >
+                    </FlatList>
+                    <HintAlertas
+                                    title={this.state.tituloHintAlerta}
+                                    ref={this.HintAlertas}
+                                ></HintAlertas>
 
                             </View>
-                        <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
-
-                            
-                            
-                            <TouchableHighlight style={{with:10}}
-                            title="Press me"
-                            onPress={() => this.envio_menu()}
-                            >
-                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
-                            </TouchableHighlight>
-                        </View>
-                        </View>
-                            }
-                    //ListEmptyComponent={}
-                    data={this.state.arregloEspecies}
-                    renderItem={this.mostrarEspecies}
-                    horizontal={false}
-                    keyExtractor={(item)=> item.id}
-
-                >
-                </FlatList>
-                <HintAlertas
-                                title={this.state.tituloHintAlerta}
-                                ref={this.HintAlertas}
-                            ></HintAlertas>
-
-                        </View>
 
 
 
 
-            <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
+                <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
 
-                <Footer
-                Imagen={this.state.Imagen}></Footer>
-            </View>
-
-      </View>
-    );
- }else{
-    return (
-        <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
-            <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
-            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('ConsolidacionCarga')}>
-                <View style={{}}>
-                <Icon2 style={{marginLeft:10}} name="chevron-back" size={30} color="#FFFF" />
-
+                    <Footer
+                    Imagen={this.state.Imagen}></Footer>
                 </View>
-                </TouchableWithoutFeedback>
 
-
-                <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo details</Text>
-                <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
-
-            </View>
-
-            <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
-        
-            <FlatList nestedScrollEnabled={true}
-            //inverted={true}
-            ListHeaderComponent={
-                <View>
-                <Text style={{marginLeft:'10%', marginTop:10}}>Container N°</Text>
-                 <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.numero_contenedor}</Text>
-                
-                
-                
-                
-                 <View style={{ marginLeft:100, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
-                 <TouchableHighlight style={{with:10}}
-                 title="Press me"
-                 onPress={() => this.props.navigation.navigate('TomarFoto')}
-                 >
-                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>
-                 Tomar fotografia</Text>
-                 </TouchableHighlight>
-                 <View style={{flex:1, marginLeft:20}}>
-                 <Icon2 style={{marginRight:0}} name="information-circle-sharp" size={30}  />
-                 </View>
-                 </View>
-                
-                 <View style={{marginLeft:'10%'}}>
-                 <SelectorMultimedia
-                 ref={this.Selector1}
-                 mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                 ocultarTeclado={() => this.ocultarTeclado()}
-                 />
-                 </View>
-                 <HintImagenAmpliada
-                 ref={this.HintImagenAmpliada1}
-                 title={""}
-                 componente={<Image style={{ height: 200, width: 200 }} source={{ uri: `data:image/jpeg;base64,${this.state.imagenAmpliada1}` }} />}
-                 eliminarFotoSelector={(key) => this.eliminarFotoSelector1(key)}
-                 >
-                 </HintImagenAmpliada>
-                
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 
-                 value={this.state.motonave}
-                 />
-                 </View>
-                
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
-                 <View   >
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 // onChangeText={(clave) => this.setState({clave})}
-                 // onChangeText={(text) => this.validate(text)}
-                 //    recibidor_id:'',
-                 //    recibidor_nombre:'',
-                 //    puerto_carga:'',
-                 //    puerto_destino:'',
-                 value={this.state.recibidor_nombre}
-                 />
-                 
-                 </View>
-                 </View>
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Port of loading</Text>
-                 <View   >
-                 
-                
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 // onChangeText={(clave) => this.setState({clave})}
-                 // onChangeText={(text) => this.validate(text)}
-                 value={this.state.puerto_carga}
-                 />
-                
-                
-                 </View>
-                 </View>
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Port of destination</Text>
-                     <View  >
-                     
-                     <TextInput
-                     style={styles.input}
-                     editable={false}
-                     // onChangeText={(clave) => this.setState({clave})}
-                     // onChangeText={(text) => this.validate(text)}
-                     value={this.state.puerto_destino}
-                     />
-                     </View>
-                 </View>
-                
-                 <View>
-                     <Text style={{marginLeft:30, marginTop:10}}>Booking N°</Text>
-                     <TextInput
-                     style={styles.input}
-                     editable={false}
-                     // onChangeText={(clave) => this.setState({clave})}
-                     // onChangeText={(text) => this.validate(text)}
-                     value={this.state.numero_booking}
-                     />
-                 </View> 
-                
-                
-                <TouchableOpacity
-                     onPress={() => this.carga_objetosEspecie()}
-                 >
-                 <View style={{flexDirection:'row'}}>
-                 <Icon2 style={{color:'#ef882d', marginLeft:'10%'}} name="add-circle" size={25}  />
-                 <Text style={{ color:'#ef882d', fontWeight:'bold', paddingTop:5}}>  Agregar una nueva especie</Text>
-                 </View>
-                
-                </TouchableOpacity>
-                
-                 
-                <View style={{flexDirection:'row'}}>
-                <View style={{flex:1.5}}>
-                <Text style={{marginLeft:30, marginTop:10}}>Product</Text>
-                <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:30}} >
-                
-                {this.pinta_select_producto(this.state.seteo)}
-                
-                
-                
-                </View>
-                </View>
-                <View style={{flex:1}}>
-                <Text style={{marginLeft:30, marginTop:10}}>Pallets</Text>
-                {/* {this.pinta_input_pallet(this.state.seteo)} */}
-                <TextInput
-                ref={this.pallet_base}
-                style={{marginLeft:30,
-                height: 40,
-                width:'60%',
-                margin: 12,
-                borderWidth: 1,
-                padding: 10,
-                backgroundColor: '#efeeef',
-                borderRadius: 5,
-                borderColor: '#dadee3',}}
-                blurOnSubmit={true}
-                keyboardType="numeric"
-                //defaultValue={valor}
-                // defaultValue={valor}
-                selectTextOnFocus={true}
-                onChangeText={text => this.setState({texto_paso_pallet: text})}
-                
-                
-                
-                
-                />
-                
-                </View>
-                <View style={{flex:1}}>
-                <Text style={{marginLeft:10, marginTop:10}}>Boxes</Text>
-                 
-                
-                <TextInput
-                ref={this.box}
-                style={{marginLeft:10,
-                 height: 40,
-                 width:'60%',
-                 margin: 12,
-                 borderWidth: 1,
-                 padding: 10,
-                 backgroundColor: '#efeeef',
-                 borderRadius: 5,
-                 borderColor: '#dadee3',}}
-                 keyboardType="numeric"
-                // defaultValue='0'
-                 selectTextOnFocus={true}
-                 onChangeText={text => this.setState({texto_paso_box: text})}
-                // onChangeText={(text) => this.validate(text)}
-                //value={this.state.clave}
-                 value={this.state.caja_base}
-                />
-                
-                </View>
-                </View>
-                
-                 </View>
-                                }
-                    ListFooterComponent={ (item) =>
-                        <View >
-                           <View style={{flexDirection:'row'}}>
-                           <View style={{flex:3}}>
-                            <Text style={{marginLeft:'60%'}} >Total:</Text>
-                            </View>
-                           <View style={{flex:0.8}}>
-                            <Text style={{marginLeft:'0%'}} >{this.state.suma_pallet} </Text>
-                            </View>
-                            <View style={{flex:0.8}}>
-                            <Text style={{marginLeft:'0%'}} > {this.state.suma_box}</Text>
-                            </View>
-
-                            </View>
-                        <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
-
-                            
-                            
-                            <TouchableHighlight style={{with:10}}
-                            title="Press me"
-                            onPress={() => this.envio_menu()}
-                            >
-                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
-                            </TouchableHighlight>
-                        </View>
-                        </View>
-                            }
-                    //ListEmptyComponent={}
-                    data={this.state.arregloEspecies}
-                    renderItem={this.mostrarEspecies}
-                    horizontal={false}
-                    keyExtractor={(item)=> item.id}
-
-                >
-                </FlatList>
-                <HintAlertas
-                                title={this.state.tituloHintAlerta}
-                                ref={this.HintAlertas}
-                            ></HintAlertas>
-
-                        </View>
-
-
-
-
-            <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
-
-                <Footer
-                Imagen={this.state.Imagen}></Footer>
-            </View>
-
-      </View>
-    );
- }
-
-
-
-
-
-        
+          </View>
+        );
     }
 
 

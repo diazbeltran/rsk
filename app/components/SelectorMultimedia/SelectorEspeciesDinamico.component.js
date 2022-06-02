@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Alert, TouchableOpacity, FlatList, Image, Platform } from 'react-native'
+import { Text, View, Alert, TouchableOpacity, FlatList, Image, Platform, TextInput, InnerWrapper } from 'react-native'
 //import * as ImagePicker from 'expo-image-picker';
 import ImagePicker from 'react-native-image-picker';
 import ImageMultiplePicker from 'react-native-image-crop-picker';
@@ -10,10 +10,17 @@ import { ActionSheetCustom as ActionSheet2 } from 'react-native-actionsheet';
 import Icon from 'react-native-vector-icons/AntDesign';
 import styles from './SelectorMultimedia.style';
 
+
+import Select from '../../component/Select/Select.component.js';
+
+
 import Hint from '../../components/Hint/Hint.component';
 import HintAlert from '../../components/Hint/HintAlert.component';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PERMISSIONS, check, request, RESULTS, openSettings } from 'react-native-permissions';
+
+import WSRestApi from '../../services/wsRestApi';
+
 
 // import {
 //     Asset,
@@ -32,6 +39,10 @@ export class SelectorMultimediaMultiple extends Component {
 
         this.Hint = React.createRef();
         this.HintAlert = React.createRef();
+        this.especie = React.createRef();
+        
+
+
 
         this.state = {
             tituloHintAlerta: "",
@@ -52,6 +63,12 @@ export class SelectorMultimediaMultiple extends Component {
             texto: "",
             intento: 0,
             intentoCamara: 0,
+            especie_data: {},
+            especie_seleccionada:'',
+
+            arregloEspecies: [],
+
+
         }
 
     }
@@ -104,6 +121,104 @@ export class SelectorMultimediaMultiple extends Component {
         }, 500);
 
     }
+    especies_detalle = async () => {
+        try {
+          let resultado = await WSRestApi.fnWSEspecie();
+          //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+          return resultado;
+        } catch (error) {
+          let resultado = JSON.stringify(error);
+          //let resultado = "errorx";
+          console.log("ERROR exportador ??? : " + error);
+          return resultado;
+         // return false
+        }
+      }
+
+      carga_objetosEspecie = async () =>{
+
+        let objetoEspecie = {
+            key: "" + this.state.indexInicial,
+            value: "Especie 1",
+            cantidad_paller: 1,
+            cantidad_cajas: 3
+        }
+
+        
+
+        //console.log(objetoFinal.key);
+        //console.log(objetoFinal.NombreArchivo);
+        //console.log(objetoFinal.Extension);
+       // console.log(objetoFinal.Archivo);
+
+
+        this.setState({ arregloEspecies: [...this.state.arregloEspecies, objetoEspecie] })
+        this.setState({ indexInicial: this.state.indexInicial + 1 })
+
+      }
+
+    carga_especies = async () =>{
+
+        // let plantax = await AsyncStorage.getItem('PLANTA_ID');
+ 
+ 
+         let especies_datos;
+         await this.especies_detalle().then(function (data) {
+            especies_datos = data;
+          });
+  
+          if (especies_datos.state == true) {
+        
+             console.log("IdentificacionCarga especies_detalle resultado:-> "+JSON.stringify(especies_datos.data));
+             //this.setState({data_contenedor:result.data, usuario_id:USUARIO_ID, planta_id:PLANTA_ID}) ;
+               
+             let MyArray = [];
+             let MyArray2 = [];
+             let datos = especies_datos.data;
+             datos.forEach((elem) => {
+                
+                     let data = {
+                         value: elem.id,
+                         label: elem.name ,
+                         selected: '',
+                         //isSelect: elem.isSelect,
+                         //selectedClass: elem.selectedClass
+                     }
+  
+  
+  
+                     let data2 ={                   
+                          key :elem.id,
+                      label: elem.nombre , 
+                      value: elem.id,
+                      }
+                   
+                  
+   
+                     MyArray.push(data);
+                  //  MyArray2.push(elem.name +" "+ elem.last_name);
+                    MyArray2.push(data2);
+                     
+                 
+             });
+             
+             console.log("matriz especie_data "+JSON.stringify(MyArray2));
+   
+             this.setState({especie_data:MyArray2 });
+               console.log("data especie:"+this.state.especie_data);
+  
+              
+         
+        }else{
+           // this.setState({modalVisible:true})
+           console.log("2");
+        }
+ 
+ 
+     }
+
+
+
 
     //-------------------------------------
 
@@ -688,6 +803,20 @@ export class SelectorMultimediaMultiple extends Component {
         )
     }
 
+    mostrarEspecies = ({ item }) => {
+        return (
+            <Text>Especie [{item.value}]  Cantidad pallet {item.cantidad_paller} Cantidad Cajas: {item.cantidad_cajas}</Text>
+
+            // key: "" + this.state.indexInicial,
+            // value: "Especie 1",
+            // cantidad_paller: 1,
+            // cantidad_cajas: 3
+
+        )
+    }
+
+
+
     //-----------------------------------------------------------------
 
     //LLAMADO OBLIGATORIO PARA CARGA DE FUENTES
@@ -695,7 +824,7 @@ export class SelectorMultimediaMultiple extends Component {
 
         //this.getPermissionAsync();
 
-        console.log("la fuente esta en estado5", this.state.fontLoaded);
+        console.log("la fuente esta en estado3 ", this.state.fontLoaded);
         this.setState({ fontLoaded: true })
 
         // const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -706,8 +835,16 @@ export class SelectorMultimediaMultiple extends Component {
         console.log("REEMBOLSO_TAMAÑO => ", this.state.PESO_MAX);
 
 
-        let texto = `Puedes subir hasta un máximo de ${REEMBOLSO_TAMANO / 1000000} Mbs en fotografías`;
+        //let texto = `Puedes subir hasta un máximo de ${REEMBOLSO_TAMANO / 1000000} Mbs en fotografías`;
+        let texto = "hola";
         this.setState({ texto: texto });
+
+        this.carga_especies();
+
+
+    this.carga_objetosEspecie();
+
+
     }
 
     getPermissionAsync = async () => {
@@ -794,37 +931,93 @@ export class SelectorMultimediaMultiple extends Component {
     render() {
         return (
             <View>
-                {this.state.fontLoaded == true ? (<Text style={styles.textoAdjuntarImagen}></Text>) : (<Text>Loading ... </Text>)}
-                <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5 }}>
+                {this.state.fontLoaded == true ? (<Text style={styles.textoAdjuntarImagen}>xxs imágenes</Text>) : (<Text>Loading ... </Text>)}
+                <View style={{ flexDirection: 'column', justifyContent: "flex-start", alignItems: "center", marginTop: 5 }}>
 
+                <View style={{flexDirection:'row'}}>
+                               <View style={{flex:1}}>
+                               <Text style={{marginLeft:30, marginTop:10}}>Especie</Text> 
+                               <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:30}} >
+                            
+                            <Select
+                                ref={this.especie}                            
+                                datos={this.state.especie_data} 
+                                xfuncion={async (x) => {
+                                    //this.setState({ keyC: 0, comunaDeChile: [] })
+                                    //await this.guardarSoloRegion(x);
+                                    console.log("usuariox => ", x);
+                                    this.setState({especie_seleccionada:x});
+                                    //this.mostrarMontoMax(x);
 
-                    <TouchableOpacity 
-                     onPress={() => this.mostrarOpcionesMultimedia()}
+                                }}
+                                />
 
-                    // onPress={
+                        </View>
+                               </View>
+                               <View style={{flex:1}}>
+                               <Text style={{marginLeft:30, marginTop:10}}>Cant. Pallet</Text> 
+                            <TextInput
+                                    style={{marginLeft:30,
+                                        height: 40,
+                                        width:'60%',
+                                        margin: 12,
+                                        borderWidth: 1,
+                                        padding: 10,
+                                        backgroundColor: '#efeeef',
+                                        borderRadius: 5,
+                                        borderColor: '#dadee3',}}
+                                        keyboardType="numeric"
+                                    // onChangeText={(clave) => this.setState({clave})}
+                                   // onChangeText={(text) => this.validate(text)} 
+                                    value={this.state.clave}
+                                    />
+                               </View>
+                               <View style={{flex:1}}>
+                               <Text style={{marginLeft:10, marginTop:10}}>Cant. Cajas</Text> 
+                            <TextInput
+                                    style={{marginLeft:10,
+                                        height: 40,
+                                        width:'60%',
+                                        margin: 12,
+                                        borderWidth: 1,
+                                        padding: 10,
+                                        backgroundColor: '#efeeef',
+                                        borderRadius: 5,
+                                        borderColor: '#dadee3',}}
+                                        keyboardType="numeric"
+                                    // onChangeText={(clave) => this.setState({clave})}
+                                   // onChangeText={(text) => this.validate(text)} 
+                                    value={this.state.clave}
+                                    />
+                                    
+                               </View>
+                                    
 
-                    //      this.props.ocultarTeclado(),
-                    //      this.mostrarOpcionesMultimedia()
+                      
+                </View>  
+                
 
-                    // }
+                           <TouchableOpacity 
+                     onPress={() => this.carga_objetosEspecie()}
+                  
                     >
-                        <View style={{ ...styles.circuloAdjuntarImagen, marginRight: 10 }}>
-                            <Icon name="pluscircleo" size={30} color='#939896'></Icon>
+                        <View style={{height:30, marginRight: 10 }}>
+                            <Icon name="pluscircleo" size={20} color='#939896'></Icon>
                         </View>
                     </TouchableOpacity>
 
-
-                    <FlatList
-                        data={this.state.arregloCuadrados}
-                        renderItem={this.mostrarCuadrosImagen}
-                        horizontal
+                    
+                    <FlatList nestedScrollEnabled={true}
+                        data={this.state.arregloEspecies}
+                        renderItem={this.mostrarEspecies}
+                        horizontal={false}
                         showsHorizontalScrollIndicator={false}
                     >
                     </FlatList>
-
+                    
                 </View>
 
-                {this.state.fontLoaded == true ? (<Text style={{ ...styles.datosImagen, marginBottom: 15 }}>{this.state.texto}</Text>) : (<Text>Loading ... </Text>)}
+                {/* {this.state.fontLoaded == true ? (<Text style={{ ...styles.datosImagen, marginBottom: 15 }}>{this.state.texto}</Text>) : (<Text>Loading ... </Text>)} */}
 
 
 

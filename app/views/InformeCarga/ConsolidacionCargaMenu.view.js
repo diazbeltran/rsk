@@ -66,7 +66,7 @@ export default class ConsolidacionCarga extends Component {
         console.log("datox del 1ConsolidacionCarga embarquex->"+embarque);
         console.log("datox del 1ConsolidacionCarga embarque_planta->"+embarque_planta);
         console.log("datox del 1ConsolidacionCarga informeGeneral->"+informeGeneral);
-        this.setState({informeGeneral:informeGeneral});
+        this.setState({informeGeneral:informeGeneral,embarque_id:embarque, embarque_planta_id:embarque_planta});
     }
     // async UNSAFE_componentWillMount() {
 
@@ -128,8 +128,8 @@ export default class ConsolidacionCarga extends Component {
 
        this.setState({usuario_id:await AsyncStorage.getItem("USUARIO_ID")});
        this.setState({planta_id:await AsyncStorage.getItem("PLANTA_ID")});
-       this.setState({embarque_id:EMBARQUE_paso});
-       this.setState({embarque_planta_id:EMBARQUE_PLATA_paso});
+       //this.setState({embarque_id:EMBARQUE_paso});
+       //this.setState({embarque_planta_id:EMBARQUE_PLATA_paso});
 
 
       // this.setState({informeGeneral:await AsyncStorage.getItem("informeGeneral")});
@@ -166,7 +166,9 @@ export default class ConsolidacionCarga extends Component {
       let  identificacionCarga_entra = nextProps.route.params.identificacionCarga;
         
         //let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
-        this.setState({informeGeneral:informeGeneral1_entra, identificacionCarga:identificacionCarga_entra})
+        this.setState({embarque_id:embarque_entra,embarque_planta_id:embarque_planta_entra,
+            informeGeneral:informeGeneral1_entra, 
+            identificacionCarga:identificacionCarga_entra})
 
         console.log("datox del 2ConsolidacionCarga embarquex->"+embarque_entra);
         console.log("datox del 2ConsolidacionCarga embarque_planta->"+embarque_planta_entra);
@@ -337,7 +339,10 @@ export default class ConsolidacionCarga extends Component {
                 break;
 
             case "1":
-                buttonIdentificacionCarga=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('IdentificacionCarga')}>
+                buttonIdentificacionCarga=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('IdentificacionCarga',{
+                    embarque:this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                 <View style={{paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:.3, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                 <View style={{flex:0.4}}>
                 

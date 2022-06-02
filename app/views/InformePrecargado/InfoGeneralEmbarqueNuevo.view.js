@@ -13,6 +13,11 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 //import Icon2 from 'react-native-vector-icons/Ionicons';
 
 import SelectorMultimedia from '../../components/SelectorMultimedia/SelectorMultimediaMultiple.component.js';
+
+import SelectorMultimedia1 from '../../components/SelectorMultimedia/SelectorMultimediaGeneral.component.js';
+import SelectorMultimedia2 from '../../components/SelectorMultimedia/SelectorMultimediaLeft.component.js';
+import SelectorMultimedia3 from '../../components/SelectorMultimedia/SelectorMultimediaRight.component.js';
+
 import Hint from '../../components/Hint/Hint.component';
 import HintAlertas from '../../components/Hint/Hint.component';
 import Hint2 from '../../components/Hint/Hint.component';
@@ -136,15 +141,6 @@ export default class InfoGeneralEmbarque extends Component {
                        //selectedClass: elem.selectedClass
                    }
 
-
-                //    let objetoTemporal = {
-                //     FechaFin: obj.FechaFin,
-                //     FechaInicio: obj.FechaInicio,
-                //     Nombre: nombreFinal,
-                //     Rut: obj.Rut,
-                //     label: nombreFinal,
-                //     value: nombreFinal
-                // }
 
 
                    let data2 ={                   
@@ -669,7 +665,7 @@ export default class InfoGeneralEmbarque extends Component {
                         <View>
 
                                     
-                                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, width:'90%', marginLeft:'5%'}}>
+                                    {/* <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, width:'90%', marginLeft:'5%'}}>
                                         <TouchableHighlight style={{with:10}}
                                         title="Press me"
                                        // onPress={() => this.props.navigation.navigate('TomarFoto')}
@@ -677,16 +673,17 @@ export default class InfoGeneralEmbarque extends Component {
                                         <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:75,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
                                         >Container general view</Text>
                                             </TouchableHighlight>
-                                    </View>
-                                    <View style={{marginLeft:'10%'}}>
-                                        <SelectorMultimedia 
-                                            ref={this.Selector1}
-                                            mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                                            ocultarTeclado={() => this.ocultarTeclado()}
-                                        />
-                                    </View>
 
-                                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, width:'90%', marginLeft:'5%'}}>
+                                    </View> */}
+                                    <View style={{marginLeft:'10%'}}>
+                              <SelectorMultimedia1 
+                                  ref={this.Selector1}
+                                  mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                                  ocultarTeclado={() => this.ocultarTeclado()}
+                              />
+                          </View>
+
+                                    {/* <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, width:'90%', marginLeft:'5%'}}>
                                         <TouchableHighlight style={{with:10}}
                                         title="Press me"
                                        // onPress={() => this.props.navigation.navigate('TomarFoto')}
@@ -694,10 +691,10 @@ export default class InfoGeneralEmbarque extends Component {
                                         <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:80,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
                                         >External left side wall</Text>
                                             </TouchableHighlight>
-                                    </View>
+                                    </View> */}
 
                                     <View style={{marginLeft:'10%'}}>
-                                        <SelectorMultimedia
+                                        <SelectorMultimedia2
                                             ref={this.Selector2}
                                             mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada2(imagen, key, extension)}
                                             ocultarTeclado={() => this.ocultarTeclado()}
@@ -705,7 +702,7 @@ export default class InfoGeneralEmbarque extends Component {
                                     </View>
                                    
 
-                                    <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, width:'90%', marginLeft:'5%'}}>
+                                    {/* <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, width:'90%', marginLeft:'5%'}}>
                                         <TouchableHighlight style={{with:10}}
                                         title="Press me"
                                        // onPress={() => this.props.navigation.navigate('TomarFoto')}
@@ -713,10 +710,10 @@ export default class InfoGeneralEmbarque extends Component {
                                         <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:80,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
                                         >External right side wall</Text>
                                             </TouchableHighlight>
-                                    </View>
+                                    </View> */}
                                     
                                     <View style={{marginLeft:'10%'}}>
-                                        <SelectorMultimedia
+                                        <SelectorMultimedia3
                                             ref={this.Selector3}
                                             mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada3(imagen, key, extension)}
                                             ocultarTeclado={() => this.ocultarTeclado()}

@@ -314,10 +314,10 @@ class WSRestApi {
 
       let fechax = date.getDate('YYYY-MM-DD')
 
-      console.log("la fecha para insertar es :"+year+"-"+((month<10)? "0"+month : month)+"-"+fechax +" "+hora+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) );
+      console.log("la fecha para insertar es :"+year+"-"+((month<10)? "0"+month : month)+"-"+((fechax<10)? "0"+fechax : fechax) +" "+hora+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) );
      // return;
 
-      let fechafinal = year+"-"+((month<10)? "0"+month : month)+"-"+fechax +" "+hora+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) ;
+      let fechafinal = year+"-"+((month<10)? "0"+month : month)+"-"+((fechax<10)? "0"+fechax : fechax) +" "+hora+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) ;
       console.log("la super fecha final es -->"+fechafinal);
 
 
@@ -358,6 +358,186 @@ class WSRestApi {
   
     }
 
+
+    static async fnWSRecibidor() {
+        
+        
+      
+    
+      var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/receiversList';
+  
+  
+      console.log("****************************************");
+      console.log("CONSULTA fnWSRecibidor ws  ==>>> ", WSUrl);
+      console.log("****************************************");
+  
+     
+  
+    //  let params = '{ "plant_id" : ' + panta + '}';
+
+      let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
+
+
+      //  console.log(WSUrl);
+     // console.log(params);
+      try {
+        const response = await fetch(WSUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          //  'Authorization': 'Bearer ' + token,
+            token:"SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv"
+          },
+         // body: params,
+        });
+
+
+       // console.log('status : ' + response.status);
+        if (response.status == 200) {
+          responseJson = response.json();
+          let obj = responseJson;
+          return obj;
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("ERROR exportador1: " + JSON.stringify(error));
+        return error;
+      }
+  
+  
+  
+    }
+
+    static async fnWSEspecie() {
+        
+        
+      
+    
+      var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/speciesList';
+  
+  
+      console.log("****************************************");
+      console.log("CONSULTA fnWSRecibidor ws  ==>>> ", WSUrl);
+      console.log("****************************************");
+  
+     
+  
+    //  let params = '{ "plant_id" : ' + panta + '}';
+
+      let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
+
+
+      //  console.log(WSUrl);
+     // console.log(params);
+      try {
+        const response = await fetch(WSUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          //  'Authorization': 'Bearer ' + token,
+            token:"SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv"
+          },
+         // body: params,
+        });
+
+
+       // console.log('status : ' + response.status);
+        if (response.status == 200) {
+          responseJson = response.json();
+          let obj = responseJson;
+          return obj;
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("ERROR exportador1: " + JSON.stringify(error));
+        return error;
+      }
+  
+  
+  
+    }
+
+    static async fnWSGuardaCargoDetail(user, panta,embarque_id,embarque_planta_id,fecha,motonave, recibidor_id,puerto_carga, puerto_destino, numero_booking, especies,  img1) {
+        
+        
+      
+    
+      var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/loadIdentification';
+  
+  
+      console.log("****************************************");
+      console.log(" fnWSGuardaCargoDetail ws  ==>>> ", WSUrl);
+      console.log("****************************************");
+  
+      let date = new Date();
+      console.log("la horax es:"+date);
+
+      let day = date.getDate()
+      let month = date.getMonth() + 1
+      let year = date.getFullYear()
+
+      if(month < 10){
+      console.log('${day}-0${month}-${year}')
+      }else{
+      console.log('${day}-${month}-${year}')
+      }
+
+
+      let hora = date.getHours();
+      let minutos= date.getMinutes();
+      let segundos = date.getSeconds();
+
+      let fechax = date.getDate('YYYY-MM-DD')
+
+      console.log("la fecha para insertar es :"+year+"-"+((month<10)? "0"+month : month)+"-"+fechax +" "+((hora<10)? "0"+ hora : hora )+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) );
+     // return;
+
+      let fechafinal = year+"-"+((month<10)? "0"+month : month)+"-"+((fechax<10)? "0"+fechax : fechax) +" "+hora+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) ;
+      console.log("la super fecha final es -->"+fechafinal);
+
+
+      let params = '{"usuario_id":"' + user + '","embarque_id":"'+embarque_id+'", "planta_id" : "' + panta + '","embarque_planta_id":"'+embarque_planta_id+'","fecha":"'+fechafinal+'", "motonave" : "' + motonave + '", "recibidor_id" : "' + recibidor_id + '", "puerto_carga" : "' + puerto_carga + '", "puerto_destino" : "' + puerto_destino + '", "numero_booking" : "' + numero_booking + '", "especies" : ' + JSON.stringify(especies) + ', "foto_numero_contenedor":"'+img1+'" }';
+
+      //console.info(params);
+      //return;
+      let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
+
+
+      //  console.log(WSUrl);
+      //console.log(params);
+      try {
+        const response = await fetch(WSUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          //  'Authorization': 'Bearer ' + token,
+            token:"SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv"
+          },
+          body: params,
+        });
+
+
+        console.log('status : ' + response.status);
+        if (response.status == 200) {
+          responseJson = response.json();
+          let obj = responseJson;
+          return obj;
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("ERROR lista_documentos: " + JSON.stringify(error));
+        return error;
+      }
+  
+  
+  
+    }
 
 
 

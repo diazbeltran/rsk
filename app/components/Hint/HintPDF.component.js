@@ -30,7 +30,7 @@ export class HintPDF extends Component {
     }
     //LLAMADO OBLIGATORIO PARA CARGA DE FUENTES
     async componentDidMount() {
-        console.log("la fuente esta en estado ", this.state.fontLoaded);
+        console.log("la fuente esta en estado3 ", this.state.fontLoaded);
 
 
         this.setState({ fontLoaded: true })

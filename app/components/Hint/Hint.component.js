@@ -30,7 +30,7 @@ export class Hint extends Component {
     }
     //LLAMADO OBLIGATORIO PARA CARGA DE FUENTES
     async componentDidMount() {
-        console.log("la fuente esta en estado ", this.state.fontLoaded);
+        console.log("la fuente esta en estado1 ", this.state.fontLoaded);
 
 
         this.setState({ fontLoaded: true })

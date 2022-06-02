@@ -36,6 +36,9 @@ export default class MySelect extends Component {
   UNSAFE_componentWillMount() {
     this.setState({ selected: this.props.value })
   }
+  recarga(){
+    this.setState({selected:null})
+  }
 
   render() {
     const placeholder = {
@@ -49,8 +52,10 @@ export default class MySelect extends Component {
     return (
       <View style={{ width: '100%' }}>
         <RNPickerSelect
+          disabled={this.props.disabled}
           placeholder={placeholder}
           items={this.props.datos}
+          key={(index) =>{index}}
           onValueChange={(value, index) => {
             //console.log("selected =>", value);
             //este if se pone para un caso especial de lista con categorias	          		
