@@ -12,10 +12,10 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 
 
-import styles from './SelectorMultimedia.style';
+import styles from '../SelectorMultimedia.style';
 
-import Hint from '../../components/Hint/Hint.component';
-import HintAlert from '../../components/Hint/HintAlert.component';
+import Hint from '../../../components/Hint/Hint.component';
+import HintAlert from '../../../components/Hint/HintAlert.component';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PERMISSIONS, check, request, RESULTS, openSettings } from 'react-native-permissions';
 
@@ -468,7 +468,6 @@ export class SelectorMultimediaMultiple extends Component {
                                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
                             })
                             this.setState({estacargado:true})
-
                             console.log("peso total acumuladoxxx : ", this.state.pesoTotalAcumulado);
 
                         }else{
@@ -562,9 +561,11 @@ export class SelectorMultimediaMultiple extends Component {
             this.setState({
                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
             })
-            this.setState({estacargado:true})
+
             console.log("peso total acumuladoxx : ", this.state.pesoTotalAcumulado);
 
+            //this.state({estacargado:true});
+            this.setState({estacargado:true})
 
         } else {
             this.setState({ tituloHintAlerta: "Tamaño máximo excedido" });
@@ -808,14 +809,28 @@ export class SelectorMultimediaMultiple extends Component {
 
     render() {
 
-        //console.log("el estado es :"+this.state.estacargado);
+       // console.log("el estado es :"+this.state.estacargado);
 
         return (
             <View>
                 {this.state.fontLoaded == true ? (<Text style={styles.textoAdjuntarImagen}></Text>) : (<Text>Loading ... </Text>)}
-                <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5, width:'90%' }}>
+                <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5, width:'80%' }}>
 
 
+                    {/* <TouchableOpacity 
+                     
+
+                    // onPress={
+
+                    //      this.props.ocultarTeclado(),
+                    //      this.mostrarOpcionesMultimedia()
+
+                    // }
+                    >
+                        <View style={{ ...styles.circuloAdjuntarImagen, marginRight: 10 }}>
+                            <Icon name="pluscircleo" size={30} color='#939896'></Icon>
+                        </View>
+                    </TouchableOpacity> */}
                     {this.state.estacargado == true ? (
                         
                         
@@ -824,7 +839,7 @@ export class SelectorMultimediaMultiple extends Component {
                         <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
                         </View>
                         <View style={{flex:2, marginLeft:10}}>
-                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>External right side wall</Text> 
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Foto PTI</Text> 
                         </View>                        
                         <View style={{flex:.5}}>
                         <TouchableHighlight style={{with:10}}
@@ -832,8 +847,7 @@ export class SelectorMultimediaMultiple extends Component {
                               onPress={() => this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
                                   >
 
-
-                              <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                           <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
                     </TouchableHighlight>
                                  
                         </View>   
@@ -842,29 +856,23 @@ export class SelectorMultimediaMultiple extends Component {
                         
                    
                     ) : (
-                    <TouchableHighlight style={{with:10}}
+                    <TouchableHighlight style={{}}
                               title="Press me"
                               onPress={() => this.mostrarOpcionesMultimedia()}
                                   >
-                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:70,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
-                              >External right side wall</Text>
+                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:10,paddingRight:10, backgroundColor:'#ef882d', color:'white', }}
+                              >Take a photo</Text>
                     </TouchableHighlight>
                     )}
                     
 
 
 
-                    {/* <FlatList
-                        data={this.state.arregloCuadrados}
-                        renderItem={this.mostrarCuadrosImagen}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    >
-                    </FlatList> */}
+                   
 
                 </View>
 
-                {this.state.fontLoaded == true ? (<Text style={{ ...styles.datosImagen, marginBottom: 15 }}>{this.state.texto}</Text>) : (<Text>Loading ... </Text>)}
+                {/* {this.state.fontLoaded == true ? (<Text style={{ ...styles.datosImagen, marginBottom: 15 }}>{this.state.texto}</Text>) : (<Text>Loading ... </Text>)} */}
 
 
 

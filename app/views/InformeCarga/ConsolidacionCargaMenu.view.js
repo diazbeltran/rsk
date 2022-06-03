@@ -358,7 +358,12 @@ export default class ConsolidacionCarga extends Component {
                 </TouchableWithoutFeedback>;
                 break;
         case "2":
-                    buttonIdentificacionCarga=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('IdentificacionCarga')}>
+                    buttonIdentificacionCarga=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('IdentificacionCarga',{
+                        usuario: this.state.usuario_id,
+                        planta: this.state.planta_id,
+                        embarque: this.state.embarque_id,
+                        embarque_planta: this.state.embarque_planta_id
+                    })}>
                     <View style={{backgroundColor:'#75BE48',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                     <View style={{flex:0.4}}>
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
@@ -399,7 +404,11 @@ export default class ConsolidacionCarga extends Component {
                 break;
 
             case "1":
-                buttonEspecificacionContenedor=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EspecificacionContenedor')}>
+                buttonEspecificacionContenedor=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EspecificacionContenedor',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id})}>
                 <View style={{paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:.3, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                 <View style={{flex:0.4}}>
                 
@@ -415,7 +424,12 @@ export default class ConsolidacionCarga extends Component {
                 </TouchableWithoutFeedback>;
                 break;
         case "2":
-            buttonEspecificacionContenedor=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EspecificacionContenedor')}>
+            buttonEspecificacionContenedor=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EspecificacionContenedor',{
+                usuario: this.state.usuario_id,
+                planta: this.state.planta_id,
+                embarque: this.state.embarque_id,
+                embarque_planta: this.state.embarque_planta_id
+            })}>
                     <View style={{backgroundColor:'#75BE48',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                     <View style={{flex:0.4}}>
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
@@ -431,7 +445,12 @@ export default class ConsolidacionCarga extends Component {
                     </TouchableWithoutFeedback>;
                     break;
         case "3":
-            buttonEspecificacionContenedor=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EspecificacionContenedor')}>
+            buttonEspecificacionContenedor=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EspecificacionContenedor',{
+                usuario: this.state.usuario_id,
+                planta: this.state.planta_id,
+                embarque: this.state.embarque_id,
+                embarque_planta: this.state.embarque_planta_id
+            })}>
                                 <View style={{backgroundColor:'#B94848',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                                 <View style={{flex:0.4}}>
                                 <Icon3 style={{marginLeft:10, marginTop:10}} name="warning" size={20} color="white" />
@@ -471,7 +490,12 @@ export default class ConsolidacionCarga extends Component {
                 break;
 
             case "1":
-                buttonFotosContenedor=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FotosContenedor')}>
+                buttonFotosContenedor=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FotosContenedor',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                 <View style={{paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:.3, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                 <View style={{flex:0.4}}>
                 
@@ -487,7 +511,13 @@ export default class ConsolidacionCarga extends Component {
                 </TouchableWithoutFeedback>;
                 break;
             case "2":
-                buttonFotosContenedor=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FotosContenedor')}>
+                buttonFotosContenedor=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FotosContenedor',
+                {
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                     <View style={{backgroundColor:'#75BE48',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                     <View style={{flex:0.4}}>
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />

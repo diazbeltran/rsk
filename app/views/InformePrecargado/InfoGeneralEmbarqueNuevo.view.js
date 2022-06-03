@@ -835,7 +835,7 @@ export default class InfoGeneralEmbarque extends Component {
                         //onPress={() => this.envio_menu()}
                         onPress={() => this.validarCampos()} 
                         >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Siguiente</Text>
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Next</Text>
                             </TouchableHighlight>
                         </View>
                                 

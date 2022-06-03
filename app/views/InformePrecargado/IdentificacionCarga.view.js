@@ -13,6 +13,8 @@ import Icon2 from 'react-native-vector-icons/Ionicons';
 import Icon4 from 'react-native-vector-icons/FontAwesome5';
 
 import SelectorMultimedia from '../../components/SelectorMultimedia/SelectorMultimediaMultiple.component.js';
+import SelectorMultimediaCargo from '../../components/SelectorMultimedia/SelectorCargoDetails.component.js';
+
 import SelectorEspecies from '../../components/SelectorMultimedia/SelectorEspeciesDinamico.component.js';
 import HintImagenAmpliada from '../../components/Hint/Hint.component';
 
@@ -74,7 +76,9 @@ export default class InfoGeneralEmbarque extends Component {
             foto_cargo:"",
             listado_especies:{},
 
-            precarga:false
+            precarga:false,
+            creado_web:'',
+            foto_numero_contenedor:'',
 
         };
         this.recibidor = React.createRef();
@@ -146,12 +150,6 @@ export default class InfoGeneralEmbarque extends Component {
         const c = (this.state.arregloEspecies[item.key].cantidad_cajas!='')?this.state.arregloEspecies[item.key].cantidad_cajas:0 ; //this.state.texto_paso_box;
 
 
-       // console.log("datos a definir  aa:["+a+"] bx:["+b+"] c_c["+c+"]");
-
-        
-
-        
-       // console.log("Cantidad de arreglos en la lista: --> "+ item.length );
 
 
         if (!item){
@@ -590,7 +588,7 @@ export default class InfoGeneralEmbarque extends Component {
                 this.setState({ suma_pallet: this.state.suma_pallet + a.especie_cantidad_pallets });
                 this.setState({ suma_box: this.state.suma_box + a.especie_cantidad_cajas });
 
-                this.setState({ precarga:true});
+                this.setState({ precarga:true, creado_web:result.data.creado_web});
 
 
                 
@@ -616,6 +614,7 @@ export default class InfoGeneralEmbarque extends Component {
            // planta_nombre:PLANTA_NOMBRE,
             fecha_creacion:result.data.pti,
             listado_especies:paso_especie,
+            foto_numero_contenedor:result.data.foto_numero_contenedor,
             //recibidor_data:[...this.state.recibidor_data,[MyArray2]]
             });
 
@@ -698,6 +697,11 @@ export default class InfoGeneralEmbarque extends Component {
 
     carga_imagenes = async () =>{
 
+        if(this.state.foto_numero_contenedor==1){
+            this.setState({foto_cargo:'0'});
+        }
+        else{
+
         let arregloImagenes1 = this.Selector1.current.obtenerArregloImagenes();
            // let arregloImagenes2 = this.Selector2.current.obtenerArregloImagenes();
            // let arregloImagenes3 = this.Selector3.current.obtenerArregloImagenes();
@@ -747,6 +751,8 @@ export default class InfoGeneralEmbarque extends Component {
     
     
             this.setState({ foto_cargo: jsonImagenes1 });
+
+        }
 
     }
 
@@ -808,6 +814,40 @@ if(this.state.arregloEspecies.length==0){
             let resultado = await WSRestApi.fnWSGuardaCargoDetail(USUARIO_ID,PLANTA_ID,embarque, embarque_planta, '02-06-2022',this.state.motonave,this.state.recibidor_id, this.state.puerto_carga, this.state.puerto_destino, this.state.numero_booking, paso,this.state.foto_cargo);
             //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
             console.log("resultadox ->"+JSON.stringify(resultado)) ;
+
+            if(resultado.state==true)
+            {   
+                //console.log("okkkkkk");
+               // let embarque_paso ='"'+ resultado.data.embarque_id + '"'
+
+                //await AsyncStorage.setItem("embarque_id",'"'+ resultado.data.embarque_id+'"');
+                //await AsyncStorage.setItem("embarque_planta_id",'"'+ resultado.data.embarque_planta_id+'"');
+
+
+                await AsyncStorage.setItem("informeGeneral", "2");
+                await AsyncStorage.setItem("identificacionCarga", "2");
+                await AsyncStorage.setItem("EspecificacionContenedor", "1");
+                await AsyncStorage.setItem("FotosContenedor", "0");
+                await AsyncStorage.setItem("EstibaPallet", "0");
+                await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
+                await AsyncStorage.setItem("Observaciones", "0");
+
+
+                this.props.navigation.navigate('ConsolidacionCarga', {
+                    embarque : resultado.data.embarque_id, 
+                    embarque_planta : resultado.data.embarque_planta_id,
+                    informeGeneral : "2",
+                    identificacionCarga:"2",})
+
+
+            }else{
+                console.log("sin resultadox");
+                this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+            }   
+
+
+
+
         }catch(e){
             console.warn(e);
         }
@@ -820,7 +860,9 @@ if(this.state.arregloEspecies.length==0){
     render() {
 
         console.log("la pregarga es1 :"+ this.state.precarga)
- if(this.state.precarga==true){
+            
+        //if(this.state.precarga==true){
+    if(this.state.creado_web==1){
     return (
         <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
             <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
@@ -847,28 +889,41 @@ if(this.state.arregloEspecies.length==0){
                  <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.numero_contenedor}</Text>
                 
                 
+                <View >
+                
+                {this.state.foto_numero_contenedor == 1 ? (
+                   <View style={{marginLeft:'10%',  marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                   <View style={{flex:0.5}}>
+                   <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                   </View>
+                   <View style={{flex:2, marginLeft:10}}>
+                   <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container number photo</Text> 
+                   </View>                        
+                   <View style={{flex:.5}}>
+                   <TouchableHighlight style={{with:10}}
+                         title="Press me"
+                         onPress={() => this.setState({foto_numero_contenedor:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                             >
+
+
+
+                         <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+               </TouchableHighlight>
+                            
+                   </View>   
+                       
+                   </View>
+                ):(<SelectorMultimediaCargo style={{marginLeft:'50%'}}
+                ref={this.Selector1}
+                mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                ocultarTeclado={() => this.ocultarTeclado()}
+                />)}
+
+                
+                </View>
                 
                 
-                 <View style={{ marginLeft:100, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
-                 <TouchableHighlight style={{with:10}}
-                 title="Press me"
-                 onPress={() => this.props.navigation.navigate('TomarFoto')}
-                 >
-                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>
-                 Tomar fotografia</Text>
-                 </TouchableHighlight>
-                 <View style={{flex:1, marginLeft:20}}>
-                 <Icon2 style={{marginRight:0}} name="information-circle-sharp" size={30}  />
-                 </View>
-                 </View>
-                
-                 <View style={{marginLeft:'10%'}}>
-                 <SelectorMultimedia
-                 ref={this.Selector1}
-                 mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                 ocultarTeclado={() => this.ocultarTeclado()}
-                 />
-                 </View>
+                 
                  <HintImagenAmpliada
                  ref={this.HintImagenAmpliada1}
                  title={""}
@@ -1038,7 +1093,7 @@ if(this.state.arregloEspecies.length==0){
                 
                 
                 
-                 <View style={{ marginLeft:100, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                 {/* <View style={{ marginLeft:100, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                  <TouchableHighlight style={{with:10}}
                  title="Press me"
                  onPress={() => this.props.navigation.navigate('TomarFoto')}
@@ -1049,15 +1104,44 @@ if(this.state.arregloEspecies.length==0){
                  <View style={{flex:1, marginLeft:20}}>
                  <Icon2 style={{marginRight:0}} name="information-circle-sharp" size={30}  />
                  </View>
-                 </View>
+                 </View> */}
+                {this.state.foto_numero_contenedor==1 ?(
+                    <View style={{marginLeft:'10%',  marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                    <View style={{flex:0.5}}>
+                    <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                    </View>
+                    <View style={{flex:2, marginLeft:10}}>
+                    <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container number photox</Text> 
+                    </View>                        
+                    <View style={{flex:.5}}>
+                    <TouchableHighlight style={{with:10}}
+                          title="Press me"
+                          onPress={() => this.setState({foto_numero_contenedor:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                              >
+
+
+
+                          <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                </TouchableHighlight>
+                             
+                    </View>   
+                        
+                    </View>
+                ):(
+                    <View >
+                    <SelectorMultimediaCargo style={{marginLeft:'50%'}}
+                    ref={this.Selector1}
+                    mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                    ocultarTeclado={() => this.ocultarTeclado()}
+                    />
+                    </View>
+                )}
                 
-                 <View style={{marginLeft:'10%'}}>
-                 <SelectorMultimedia
-                 ref={this.Selector1}
-                 mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                 ocultarTeclado={() => this.ocultarTeclado()}
-                 />
-                 </View>
+                
+
+
+
+                 
                  <HintImagenAmpliada
                  ref={this.HintImagenAmpliada1}
                  title={""}
@@ -1071,7 +1155,8 @@ if(this.state.arregloEspecies.length==0){
                  <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
                  <TextInput
                  style={styles.input}
-                 editable={false}
+                 selectTextOnFocus={true}
+                      onChangeText={(valor) => this.setState({motonave:valor})}
                  
                  value={this.state.motonave}
                  />
@@ -1080,18 +1165,25 @@ if(this.state.arregloEspecies.length==0){
                 
                  <View>
                  <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
-                 <View   >
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 // onChangeText={(clave) => this.setState({clave})}
-                 // onChangeText={(text) => this.validate(text)}
-                 //    recibidor_id:'',
-                 //    recibidor_nombre:'',
-                 //    puerto_carga:'',
-                 //    puerto_destino:'',
-                 value={this.state.recibidor_nombre}
-                 />
+                 <View style={{width:'80%', marginLeft:'10%'}}   >
+                 
+
+                        <Select
+                        //value={a}
+                        
+                        //ref={this.especie}
+                        datos={this.state.recibidor_data}
+                        xfuncion={async (x) => {
+                            //this.setState({ keyC: 0, comunaDeChile: [] })
+                            //await this.guardarSoloRegion(x);
+                            console.log("usuariox => ", x);
+                            this.setState({recibidor_id:x});
+                           // this.setState({especie_seleccionada_Arreglo:[x]});
+                           // especie_seleccionada_Arreglo
+                            //this.mostrarMontoMax(x);
+
+                         }}
+                        />
                  
                  </View>
                  </View>
@@ -1103,9 +1195,8 @@ if(this.state.arregloEspecies.length==0){
                 
                  <TextInput
                  style={styles.input}
-                 editable={false}
-                 // onChangeText={(clave) => this.setState({clave})}
-                 // onChangeText={(text) => this.validate(text)}
+                 selectTextOnFocus={true}
+                      onChangeText={(valor) => this.setState({puerto_carga:valor})}
                  value={this.state.puerto_carga}
                  />
                 
@@ -1119,9 +1210,8 @@ if(this.state.arregloEspecies.length==0){
                      
                      <TextInput
                      style={styles.input}
-                     editable={false}
-                     // onChangeText={(clave) => this.setState({clave})}
-                     // onChangeText={(text) => this.validate(text)}
+                     selectTextOnFocus={true}
+                      onChangeText={(valor) => this.setState({puerto_destino:valor})}
                      value={this.state.puerto_destino}
                      />
                      </View>
@@ -1131,10 +1221,10 @@ if(this.state.arregloEspecies.length==0){
                      <Text style={{marginLeft:30, marginTop:10}}>Booking N°</Text>
                      <TextInput
                      style={styles.input}
-                     editable={false}
-                     // onChangeText={(clave) => this.setState({clave})}
+                     selectTextOnFocus={true}
+                      onChangeText={(valor) => this.setState({numero_booking:valor})}
                      // onChangeText={(text) => this.validate(text)}
-                     value={this.state.numero_booking}
+                     //value={this.state.numero_booking}
                      />
                  </View> 
                 
@@ -1239,7 +1329,7 @@ if(this.state.arregloEspecies.length==0){
                             title="Press me"
                             onPress={() => this.envio_menu()}
                             >
-                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Enter</Text>
                             </TouchableHighlight>
                         </View>
                         </View>

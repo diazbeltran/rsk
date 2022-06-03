@@ -468,6 +468,8 @@ export class SelectorMultimediaMultiple extends Component {
                                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
                             })
 
+                            this.setState({estacargado:true})
+
                             console.log("peso total acumuladoxxx : ", this.state.pesoTotalAcumulado);
 
                         }else{
@@ -561,8 +563,10 @@ export class SelectorMultimediaMultiple extends Component {
             this.setState({
                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
             })
+            this.setState({estacargado:true})
 
             console.log("peso total acumuladoxx : ", this.state.pesoTotalAcumulado);
+
 
 
         } else {
@@ -807,12 +811,12 @@ export class SelectorMultimediaMultiple extends Component {
 
     render() {
 
-        console.log("el estado es :"+this.state.estacargado);
+        //console.log("el estado es :"+this.state.estacargado);
 
         return (
             <View>
                 {this.state.fontLoaded == true ? (<Text style={styles.textoAdjuntarImagen}></Text>) : (<Text>Loading ... </Text>)}
-                <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5 }}>
+                <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5 ,width:'90%' }}>
 
 
                     {/* <TouchableOpacity 
@@ -832,12 +836,12 @@ export class SelectorMultimediaMultiple extends Component {
                     {this.state.estacargado == true ? (
                         
                         
-                        <View style={{marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'10%', alignContent:'center'}}>
+                        <View style={{marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
                         <View style={{flex:0.5}}>
                         <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
                         </View>
-                        <View style={{flex:2, marginLeft:0}}>
-                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>External left side wall</Text> 
+                        <View style={{flex:2, marginLeft:10}}>
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>External left side walls</Text> 
                         </View>                        
                         <View style={{flex:.5}}>
                         <TouchableHighlight style={{with:10}}
@@ -845,18 +849,7 @@ export class SelectorMultimediaMultiple extends Component {
                               onPress={() => this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
                                   >
 
-{/* this.setState({ arregloCuadrados: [...this.state.arregloCuadrados, objetoCuadrado] })
-    
-    this.setState({ indexInicial: this.state.indexInicial + 1 })
 
-    //---
-    this.setState({
-        ArregloImagenes: [...this.state.ArregloImagenes, objetoFinal],
-    })
-
-    this.setState({
-        pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
-    }) */}
 
                               <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
                     </TouchableHighlight>
@@ -871,7 +864,7 @@ export class SelectorMultimediaMultiple extends Component {
                               title="Press me"
                               onPress={() => this.mostrarOpcionesMultimedia()}
                                   >
-                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:70,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
+                    <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:70,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
                               >External left side wall</Text>
                     </TouchableHighlight>
                     )}

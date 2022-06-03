@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Alert, TouchableOpacity, FlatList, Image, Platform ,TouchableHighlight} from 'react-native'
+import { Text, View, Alert, TouchableOpacity, FlatList, Image, Platform ,TouchableHighlight,TouchableWithoutFeedback} from 'react-native'
 //import * as ImagePicker from 'expo-image-picker';
 import ImagePicker from 'react-native-image-picker';
 import ImageMultiplePicker from 'react-native-image-crop-picker';
@@ -12,10 +12,10 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 
 
-import styles from './SelectorMultimedia.style';
+import styles from '../SelectorMultimedia.style';
 
-import Hint from '../../components/Hint/Hint.component';
-import HintAlert from '../../components/Hint/HintAlert.component';
+import Hint from '../../../components/Hint/Hint.component';
+import HintAlert from '../../../components/Hint/HintAlert.component';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PERMISSIONS, check, request, RESULTS, openSettings } from 'react-native-permissions';
 
@@ -467,6 +467,7 @@ export class SelectorMultimediaMultiple extends Component {
                             this.setState({
                                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
                             })
+
                             this.setState({estacargado:true})
 
                             console.log("peso total acumuladoxxx : ", this.state.pesoTotalAcumulado);
@@ -563,7 +564,9 @@ export class SelectorMultimediaMultiple extends Component {
                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
             })
             this.setState({estacargado:true})
+
             console.log("peso total acumuladoxx : ", this.state.pesoTotalAcumulado);
+
 
 
         } else {
@@ -813,24 +816,39 @@ export class SelectorMultimediaMultiple extends Component {
         return (
             <View>
                 {this.state.fontLoaded == true ? (<Text style={styles.textoAdjuntarImagen}></Text>) : (<Text>Loading ... </Text>)}
-                <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5, width:'90%' }}>
+                <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5 ,width:'90%' }}>
 
 
+                    {/* <TouchableOpacity 
+                     
+
+                    // onPress={
+
+                    //      this.props.ocultarTeclado(),
+                    //      this.mostrarOpcionesMultimedia()
+
+                    // }
+                    >
+                        <View style={{ ...styles.circuloAdjuntarImagen, marginRight: 10 }}>
+                            <Icon name="pluscircleo" size={30} color='#939896'></Icon>
+                        </View>
+                    </TouchableOpacity> */}
                     {this.state.estacargado == true ? (
                         
                         
-                        <View style={{marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'10%', alignContent:'center'}}>
+                        <View style={{marginLeft:'10%', marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'100%', alignContent:'center'}}>
                         <View style={{flex:0.5}}>
                         <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
                         </View>
                         <View style={{flex:2, marginLeft:10}}>
-                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>External right side wall</Text> 
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Rear inside of container </Text> 
                         </View>                        
                         <View style={{flex:.5}}>
                         <TouchableHighlight style={{with:10}}
                               title="Press me"
                               onPress={() => this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
                                   >
+
 
 
                               <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
@@ -842,13 +860,28 @@ export class SelectorMultimediaMultiple extends Component {
                         
                    
                     ) : (
-                    <TouchableHighlight style={{with:10}}
-                              title="Press me"
-                              onPress={() => this.mostrarOpcionesMultimedia()}
-                                  >
-                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:70,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
-                              >External right side wall</Text>
-                    </TouchableHighlight>
+                        <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                        <TouchableWithoutFeedback style={{}}
+                        title=""
+                        onPress={() => this.mostrarOpcionesMultimedia()}
+                        >
+                        <View style={{flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#767676'}}>
+                        <Text 
+                        style={{ 
+                        paddingTop:15, 
+                        paddingLeft:    5,paddingRight:5, 
+
+                        paddingLeft:20,
+                         color:'black', 
+                        color:"#767676"}}>
+                        Rear inside of container
+
+                        </Text><Icon2 style={{paddingTop:10,marginLeft:'25%', paddingRight:20}} name="camera" size={30} color="#ef882d" />
+                        </View>
+
+
+                        </TouchableWithoutFeedback>
+                        </View>
                     )}
                     
 
@@ -864,7 +897,7 @@ export class SelectorMultimediaMultiple extends Component {
 
                 </View>
 
-                {this.state.fontLoaded == true ? (<Text style={{ ...styles.datosImagen, marginBottom: 15 }}>{this.state.texto}</Text>) : (<Text>Loading ... </Text>)}
+                {/* {this.state.fontLoaded == true ? (<Text style={{ ...styles.datosImagen, marginBottom: 15 }}>{this.state.texto}</Text>) : (<Text>Loading ... </Text>)} */}
 
 
 

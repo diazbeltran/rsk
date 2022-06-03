@@ -156,6 +156,7 @@ export default class Login extends Component {
                        <Text style={{marginLeft:'10%', color:'#747474'}}>Password</Text> 
                        <TextInput
                         style={styles.input}
+                        secureTextEntry={true}
                         onChangeText={(clave) => this.setState({clave})}
                       // onChangeText={(text) => this.validate(text)} 
                        value={this.state.clave}

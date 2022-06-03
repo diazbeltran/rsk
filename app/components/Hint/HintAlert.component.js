@@ -68,7 +68,7 @@ export default class HintAlert extends Component {
 
     //este metodo nos permite obtener otro componente como parametro
     escanearInfoComponent = () => {
-        console.log("se nos ha entregado una imagen de tipo ", typeof this.props.componente);
+        console.log("se nos ha entregado una imagen de tipo2 ", typeof this.props.componente);
 
         let imagen = this.props.componente;
         return imagen;

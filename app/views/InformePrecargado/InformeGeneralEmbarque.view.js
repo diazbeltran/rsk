@@ -118,7 +118,7 @@ if(embarque==null || embarque == undefined){
 
           if (result.state == true) {
         
-            console.log("InfoGeneralEmbarque embarque_detalle resultado:-> "+JSON.stringify(result.data));
+            console.log("InfoGeneralEmbarque embarque_detalle resultadoxx:-> "+JSON.stringify(result.data));
             //this.setState({data_contenedor:result.data, usuario_id:USUARIO_ID, planta_id:PLANTA_ID}) ;
             this.setState({ orden_embarque:result.data.orden_embarque,
             numero_contenedor:result.data.numero_contenedor,
@@ -307,11 +307,237 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
      // return false
     }
   }
+  carga_imagenes = async () => {
+
+
+    if (this.state.foto_general_contenedor == 1) {
+
+        console.log("wewewe");
+        
+    } else {
+        let arregloImagenes1 = this.Selector1.current.obtenerArregloImagenes();
+        let arregloImagenes2 = this.Selector2.current.obtenerArregloImagenes();
+       let arregloImagenes3 = this.Selector3.current.obtenerArregloImagenes();
+   
+      // console.log("arreglox1 -->"+ JSON.stringify(arregloImagenes1));
+       let jsonImagenes1 = "";
+   
+       console.log("cantidad de imagenes .----> "+arregloImagenes1.length);
+   
+       if(arregloImagenes1.length ==0 || arregloImagenes2.length == 0 || arregloImagenes3.length == 0){
+   
+           this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+           return 1;
+       }
+   
+   
+       for (let i = 0; i < arregloImagenes1.length; i++) {
+           let elemento = arregloImagenes1[i];
+           //let nombre = arregloImagenes[i].NombreArchivo;
+           let nombre = "rem_";
+           let numero = i + 1;
+           if (i < 10) {
+               nombre = nombre + "0" + numero.toString();
+           } else {
+               nombre = nombre + numero.toString();
+           }
+   
+           let extension = arregloImagenes1[i].Extension;
+           let archivo = arregloImagenes1[i].Archivo;
+   
+           //let hash = await this.setJsStringHash(archivo);
+   
+           // con parametro hash
+           //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
+           jsonImagenes1 += '' + archivo + '';
+   
+           // sin parametro hash
+           //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
+   
+   
+           if (i != arregloImagenes1.length - 1) {
+               jsonImagenes1 += ',';
+           }
+       }
+   
+       //console.log(jsonImagenes);
+   
+   
+       this.setState({ foto_general_contenedor: jsonImagenes1 });
+   
+       let jsonImagenes2 = "";
+   
+       for (let i = 0; i < arregloImagenes2.length; i++) {
+           let elemento = arregloImagenes2[i];
+           //let nombre = arregloImagenes[i].NombreArchivo;
+           let nombre = "rem_";
+           let numero = i + 1;
+           if (i < 10) {
+               nombre = nombre + "0" + numero.toString();
+           } else {
+               nombre = nombre + numero.toString();
+           }
+   
+           let extension = arregloImagenes2[i].Extension;
+           let archivo = arregloImagenes2[i].Archivo;
+   
+           //let hash = await this.setJsStringHash(archivo);
+   
+           // con parametro hash
+           //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
+           jsonImagenes2 += '' + archivo + '';
+   
+           // sin parametro hash
+           //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
+   
+   
+           if (i != arregloImagenes2.length - 1) {
+               jsonImagenes2 += ',';
+           }
+       }
+   
+       //console.log(jsonImagenes);
+   
+   
+       this.setState({ foto_pared_izquierda: jsonImagenes2 });
+   
+   
+       let jsonImagenes3 = "";
+   
+       for (let i = 0; i < arregloImagenes3.length; i++) {
+           let elemento = arregloImagenes3[i];
+           //let nombre = arregloImagenes[i].NombreArchivo;
+           let nombre = "rem_";
+           let numero = i + 1;
+           if (i < 10) {
+               nombre = nombre + "0" + numero.toString();
+           } else {
+               nombre = nombre + numero.toString();
+           }
+   
+           let extension = arregloImagenes3[i].Extension;
+           let archivo = arregloImagenes3[i].Archivo;
+   
+           //let hash = await this.setJsStringHash(archivo);
+   
+           // con parametro hash
+           //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
+           jsonImagenes3 += '' + archivo + '';
+   
+           // sin parametro hash
+           //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
+   
+   
+           if (i != arregloImagenes3.length - 1) {
+               jsonImagenes3 += ',';
+           }
+       }
+   
+       //console.log(jsonImagenes);
+   
+   
+       this.setState({ foto_pared_derecha: jsonImagenes3 });
+       return 0;
+        
+    }
+
+   
+}  
+
+
+guarda_embarque = async () => {
+
+    //this.Loading.current.mostrar();
+
+    console.log("aqui");
+
+    let orden = this.state.orden_embarque;
+    let numero = this.state.numero_contenedor;
+    let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
+    let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
+    let fecha = this.state.fechaSeleccionada;
+    let expor = this.state.exportador_id;
+    let img1 = this.state.foto_general_contenedor;
+    let img2 = this.state.foto_pared_izquierda;
+    let img3 = this.state.foto_pared_derecha;
+
+       
+
+        console.log("Orden -->"+orden);
+        console.log("numero -->"+numero);
+        console.log("USUARIO_ID -->"+USUARIO_ID);
+        console.log("PLANTA_ID -->"+PLANTA_ID);
+        console.log("fecha -->"+fecha);
+        console.log("expor -->"+expor);
+        
+       // console.log("img1 -->"+img1);
+       // console.log("img2 -->"+img2);
+       // console.log("img3 -->"+img3);
+
+        try {
+            //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
+            let resultado = await WSRestApi.fnWSGuardaEmbarqueActualiza(USUARIO_ID,PLANTA_ID,fecha,this.state.embarque_id,this.state.embarque_planta_id,numero,expor,img1, img2, img3);
+            //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+            console.log("resultadox ->"+JSON.stringify(resultado)) ;
+
+            //this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+
+            if(resultado.state==true)
+            {   
+                console.log("okkkkkk");
+                let embarque_paso ='"'+ resultado.data.embarque_id + '"'
+
+                await AsyncStorage.setItem("embarque_id",'"'+ resultado.data.embarque_id+'"');
+                await AsyncStorage.setItem("embarque_planta_id",'"'+ resultado.data.embarque_planta_id+'"');
+
+
+                await AsyncStorage.setItem("informeGeneral", "2");
+                await AsyncStorage.setItem("identificacionCarga", "1");
+                await AsyncStorage.setItem("EspecificacionContenedor", "0");
+                await AsyncStorage.setItem("FotosContenedor", "0");
+                await AsyncStorage.setItem("EstibaPallet", "0");
+                await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
+                await AsyncStorage.setItem("Observaciones", "0");
+
+
+                this.props.navigation.navigate('ConsolidacionCarga', {
+                    embarque : resultado.data.embarque_id, 
+                    embarque_planta : resultado.data.embarque_planta_id,
+                    informeGeneral : "2",
+                    identificacionCarga:"1",})
+
+
+            }else{
+                console.log("sin resultadox");
+                this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+            }
+
+          } catch (error) {
+            let resultado = JSON.stringify(error);
+            //let resultado = "errorx";
+            console.log("ERROR exportador ??? : " + error);
+            return resultado;
+           // return false
+          }
+
+          
+           
+}
 
 
     envio_menu = async () => {
 
         //this.Loading.current.mostrar();
+        console.log("carga menu --> ");
+        let a = await this.carga_imagenes();
+
+        if(a==1){
+            return;
+        }
+
+        this.guarda_embarque();
+
+        return;
 
         console.log("aqui");
                 await AsyncStorage.setItem("informeGeneral", "2");
@@ -322,6 +548,10 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                 await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
                 await AsyncStorage.setItem("Observaciones", "0");
 
+
+        console.info(this.state.foto_general_contenedor);
+        console.info(this.state.foto_pared_izquierda);
+        console.info(this.state.foto_pared_derecha);
 
         this.props.navigation.navigate('ConsolidacionCarga',{
           usuario: this.state.usuario_id,
@@ -374,50 +604,105 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                           <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
                              
                           </View>
+                          {this.state.foto_general_contenedor == 1 ? (
+                          <View style={{ marginLeft:'9%', flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5, width:'80%' }}>
+                               <View style={{marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'10%', alignContent:'center'}}>
+                        <View style={{flex:0.5}}>
+                        <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                        </View>
+                        <View style={{flex:2, marginLeft:10}}>
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container general view</Text> 
+                        </View>                        
+                        <View style={{flex:.5}}>
+                        <TouchableHighlight style={{with:10}}
+                              title="Press me"
+                              onPress={() => this.setState({foto_general_contenedor:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                  >
+
+                           <Icon style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                    </TouchableHighlight>
+                                 
+                        </View>   
+                            
+                        </View>
+                          </View>):(
+                          
                           <View style={{marginLeft:'10%'}}>
                               <SelectorMultimedia1 
                                   ref={this.Selector1}
                                   mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
                                   ocultarTeclado={() => this.ocultarTeclado()}
                               />
-                          </View>
+                          </View>)}
+                        
 
-                          {/* <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
-                              <TouchableHighlight style={{with:10}}
-                              title="Press me"
-                            // onPress={() => this.props.navigation.navigate('TomarFoto')}
-                                  >
-                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:85,paddingRight:60, backgroundColor:'#ef882d', color:'white', }}
-                              >External left side wall</Text>
-                                  </TouchableHighlight>
-                          </View> */}
+                          {this.state.foto_pared_izquierda == 1 ? (
+                              <View style={{marginLeft:'9%', flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5, width:'80%' }}>
+                              <View style={{marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'10%', alignContent:'center'}}>
+                       <View style={{flex:0.5}}>
+                       <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                       </View>
+                       <View style={{flex:2, marginLeft:10}}>
+                       <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>External left side wall1</Text> 
+                       </View>                        
+                       <View style={{flex:.5}}>
+                       <TouchableHighlight style={{with:10}}
+                             title="Press me"
+                             onPress={() => this.setState({foto_pared_izquierda:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                 >
 
-                          <View style={{marginLeft:'10%'}}>
+                          <Icon style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                   </TouchableHighlight>
+                                
+                       </View>   
+                           
+                       </View>
+                         </View>
+                          ):(
+                              <View style={{marginLeft:'10%'}}>
                               <SelectorMultimedia2
                                   ref={this.Selector2}
                                   mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada2(imagen, key, extension)}
                                   ocultarTeclado={() => this.ocultarTeclado()}
                               />
                           </View>
+                          )}
+
+                          
 
 
-                            {/* <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
-                                <TouchableHighlight style={{with:10}}
-                                title="Press me"
-                              // onPress={() => this.props.navigation.navigate('TomarFoto')}
-                                    >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:85,paddingRight:60, backgroundColor:'#ef882d', color:'white', }}
-                                >External right side wall</Text>
-                                    </TouchableHighlight>
-                            </View> */}
-
-                            <View style={{marginLeft:'10%'}}>
+                            
+                            {this.state.foto_pared_derecha == 1 ? (
+                                <View style={{ marginLeft:'9%',flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5, width:'80%' }}>
+                                <View style={{marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'10%', alignContent:'center'}}>
+                         <View style={{flex:0.5}}>
+                         <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                         </View>
+                         <View style={{flex:2, marginLeft:10}}>
+                         <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>External right side wall</Text> 
+                         </View>                        
+                         <View style={{flex:.5}}>
+                         <TouchableHighlight style={{with:10}}
+                               title="Press me"
+                               onPress={() => this.setState({foto_pared_derecha:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                   >
+  
+                            <Icon style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                     </TouchableHighlight>
+                                  
+                         </View>   
+                             
+                         </View>
+                           </View>
+                            ) :(
+                                <View style={{marginLeft:'10%'}}>
                                 <SelectorMultimedia3
                                     ref={this.Selector3}
                                     mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada3(imagen, key, extension)}
                                     ocultarTeclado={() => this.ocultarTeclado()}
                                 />
-                            </View>
+                            </View>)}
+                            
 
                             <HintImagenAmpliada
                             ref={this.HintImagenAmpliada1}
@@ -515,7 +800,7 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
                         title="Press me"
                          onPress={() => this.envio_menu()}
                             >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Next</Text>
                             </TouchableHighlight>
                     </View>
                             

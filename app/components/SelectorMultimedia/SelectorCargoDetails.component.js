@@ -468,7 +468,6 @@ export class SelectorMultimediaMultiple extends Component {
                                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
                             })
                             this.setState({estacargado:true})
-
                             console.log("peso total acumuladoxxx : ", this.state.pesoTotalAcumulado);
 
                         }else{
@@ -562,9 +561,11 @@ export class SelectorMultimediaMultiple extends Component {
             this.setState({
                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
             })
-            this.setState({estacargado:true})
+
             console.log("peso total acumuladoxx : ", this.state.pesoTotalAcumulado);
 
+            //this.state({estacargado:true});
+            this.setState({estacargado:true})
 
         } else {
             this.setState({ tituloHintAlerta: "Tamaño máximo excedido" });
@@ -816,21 +817,21 @@ export class SelectorMultimediaMultiple extends Component {
                 <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5, width:'90%' }}>
 
 
+                   
                     {this.state.estacargado == true ? (
-                        
-                        
-                        <View style={{marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'10%', alignContent:'center'}}>
+                        <View style={{marginLeft:'10%',  marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
                         <View style={{flex:0.5}}>
                         <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
                         </View>
                         <View style={{flex:2, marginLeft:10}}>
-                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>External right side wall</Text> 
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container number photo</Text> 
                         </View>                        
                         <View style={{flex:.5}}>
                         <TouchableHighlight style={{with:10}}
                               title="Press me"
                               onPress={() => this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
                                   >
+
 
 
                               <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
@@ -840,31 +841,22 @@ export class SelectorMultimediaMultiple extends Component {
                             
                         </View>
                         
+                        
                    
                     ) : (
-                    <TouchableHighlight style={{with:10}}
+                    <TouchableHighlight style={{marginLeft:100, width:100}}
                               title="Press me"
                               onPress={() => this.mostrarOpcionesMultimedia()}
                                   >
-                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:70,paddingRight:80, backgroundColor:'#ef882d', color:'white', }}
-                              >External right side wall</Text>
+                              <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:10,paddingRight:10, backgroundColor:'#ef882d', color:'white', }}
+                              >Take photo</Text>
                     </TouchableHighlight>
                     )}
-                    
-
-
-
-                    {/* <FlatList
-                        data={this.state.arregloCuadrados}
-                        renderItem={this.mostrarCuadrosImagen}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    >
-                    </FlatList> */}
+                                        
 
                 </View>
 
-                {this.state.fontLoaded == true ? (<Text style={{ ...styles.datosImagen, marginBottom: 15 }}>{this.state.texto}</Text>) : (<Text>Loading ... </Text>)}
+                {/* {this.state.fontLoaded == true ? (<Text style={{ ...styles.datosImagen, marginBottom: 15 }}>{this.state.texto}</Text>) : (<Text>Loading ... </Text>)} */}
 
 
 

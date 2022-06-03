@@ -30,7 +30,7 @@ export class Hint extends Component {
     }
     //LLAMADO OBLIGATORIO PARA CARGA DE FUENTES
     async componentDidMount() {
-        console.log("la fuente esta en estado1 ", this.state.fontLoaded);
+        //console.log("la fuente esta en estado1 ", this.state.fontLoaded);
 
 
         this.setState({ fontLoaded: true })
@@ -357,7 +357,7 @@ export class Hint extends Component {
 
     //este metodo nos permite obtener otro componente como parametro
     escanearInfoComponent = () => {
-        console.log("se nos ha entregado una imagen de tipo ", typeof this.props.componente);
+        console.log("se nos ha entregado una imagen de tipo1 ", typeof this.props.componente);
 
         let imagen = this.props.componente;
         return imagen;

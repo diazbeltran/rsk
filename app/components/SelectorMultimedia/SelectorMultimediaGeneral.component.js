@@ -467,7 +467,7 @@ export class SelectorMultimediaMultiple extends Component {
                             this.setState({
                                 pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
                             })
-
+                            this.setState({estacargado:true})
                             console.log("peso total acumuladoxxx : ", this.state.pesoTotalAcumulado);
 
                         }else{
@@ -564,6 +564,8 @@ export class SelectorMultimediaMultiple extends Component {
 
             console.log("peso total acumuladoxx : ", this.state.pesoTotalAcumulado);
 
+            //this.state({estacargado:true});
+            this.setState({estacargado:true})
 
         } else {
             this.setState({ tituloHintAlerta: "Tamaño máximo excedido" });
@@ -807,12 +809,12 @@ export class SelectorMultimediaMultiple extends Component {
 
     render() {
 
-        console.log("el estado es :"+this.state.estacargado);
+       // console.log("el estado es :"+this.state.estacargado);
 
         return (
             <View>
                 {this.state.fontLoaded == true ? (<Text style={styles.textoAdjuntarImagen}></Text>) : (<Text>Loading ... </Text>)}
-                <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5 }}>
+                <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", marginTop: 5, width:'90%' }}>
 
 
                     {/* <TouchableOpacity 
@@ -836,8 +838,8 @@ export class SelectorMultimediaMultiple extends Component {
                         <View style={{flex:0.5}}>
                         <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
                         </View>
-                        <View style={{flex:2, marginLeft:0}}>
-                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Foto general del contenedor</Text> 
+                        <View style={{flex:2, marginLeft:10}}>
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container general view</Text> 
                         </View>                        
                         <View style={{flex:.5}}>
                         <TouchableHighlight style={{with:10}}
@@ -845,20 +847,7 @@ export class SelectorMultimediaMultiple extends Component {
                               onPress={() => this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
                                   >
 
-{/* this.setState({ arregloCuadrados: [...this.state.arregloCuadrados, objetoCuadrado] })
-    
-    this.setState({ indexInicial: this.state.indexInicial + 1 })
-
-    //---
-    this.setState({
-        ArregloImagenes: [...this.state.ArregloImagenes, objetoFinal],
-    })
-
-    this.setState({
-        pesoTotalAcumulado: this.state.pesoTotalAcumulado + pesoImagen
-    }) */}
-
-                              <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                           <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
                     </TouchableHighlight>
                                  
                         </View>   
