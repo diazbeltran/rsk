@@ -761,10 +761,10 @@ export default class InfoGeneralEmbarque extends Component {
 
        // this.carga_objetosEspecie();
         //this.Loading.current.mostrar();
-if(this.state.arregloEspecies.length==0){
-    this.HintAlertas.current.mostrarConParametros("Debe ingresar almenos una Producto");
-          return;
-}
+        if(this.state.arregloEspecies.length==0){
+        this.HintAlertas.current.mostrarConParametros("Debe ingresar almenos una Producto");
+        return;
+        }
         else{
         console.log("aqui");
                 await AsyncStorage.setItem("informeGeneral", "2");
@@ -775,8 +775,8 @@ if(this.state.arregloEspecies.length==0){
                 await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
                 await AsyncStorage.setItem("Observaciones", "0");
 
-        console.log("arregloEspeciesx "+ JSON.stringify(this.state.arregloEspecies) );
-        console.info(this.state.arregloEspecies);
+                console.log("arregloEspeciesx "+ JSON.stringify(this.state.arregloEspecies) );
+                console.info(this.state.arregloEspecies);
 
 
         try {
@@ -786,7 +786,7 @@ if(this.state.arregloEspecies.length==0){
 
 
             let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
-        let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
+            let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
 
         //let usuario = this.props.route.params.usuario,
         //planta = this.props.route.params.planta,
@@ -889,7 +889,7 @@ if(this.state.arregloEspecies.length==0){
                  <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.numero_contenedor}</Text>
                 
                 
-                <View >
+                <View  >
                 
                 {this.state.foto_numero_contenedor == 1 ? (
                    <View style={{marginLeft:'10%',  marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
@@ -1093,25 +1093,13 @@ if(this.state.arregloEspecies.length==0){
                 
                 
                 
-                 {/* <View style={{ marginLeft:100, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
-                 <TouchableHighlight style={{with:10}}
-                 title="Press me"
-                 onPress={() => this.props.navigation.navigate('TomarFoto')}
-                 >
-                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:5,paddingRight:5, backgroundColor:'#ef882d', color:'white', }}>
-                 Tomar fotografia</Text>
-                 </TouchableHighlight>
-                 <View style={{flex:1, marginLeft:20}}>
-                 <Icon2 style={{marginRight:0}} name="information-circle-sharp" size={30}  />
-                 </View>
-                 </View> */}
                 {this.state.foto_numero_contenedor==1 ?(
-                    <View style={{marginLeft:'10%',  marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                    <View style={{marginTop:20, marginLeft:'10%',  marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
                     </View>
                     <View style={{flex:2, marginLeft:10}}>
-                    <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container number photox</Text> 
+                    <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container number photo</Text> 
                     </View>                        
                     <View style={{flex:.5}}>
                     <TouchableHighlight style={{with:10}}
@@ -1169,7 +1157,7 @@ if(this.state.arregloEspecies.length==0){
                  
 
                         <Select
-                        //value={a}
+                        value={this.state.recibidor_id}
                         
                         //ref={this.especie}
                         datos={this.state.recibidor_data}

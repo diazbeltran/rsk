@@ -44,6 +44,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import DatePicker from 'react-native-datepicker';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import Icon4 from 'react-native-vector-icons/FontAwesome5';
 import WSRestApi from '../../services/wsRestApi';
@@ -89,7 +90,23 @@ export default class EspecificacionContenedor
                 label: "2022 ",
                 value: "1"
             },
-            ano_fabricacion_contenedor:'',
+
+            ano_fabricacion : '',
+            foto_ano_fabricacion: '',
+               //pti: result.data.pti,
+               foto_pti: '',
+               pre_enfriado: 0,
+              // limpio_sin_olor: result.data.limpio_sin_olor,
+               //buen_estado: result.data.buen_estado,
+              // temperatura: result.data.temperatura,
+               foto_temperatura: '',
+               foto_estado_motor: '',
+               //ventilacion: result.data.ventilacion,
+               foto_ventilacion: '',
+               foto_grados_celsius:'1',
+               //confirmacion: result.data.confirmacion,
+
+            ano_fabricacion_contenedor:'2020',
             pti:'',
             preenfriado:0,
             limpio_sin_olor:0,
@@ -100,6 +117,10 @@ export default class EspecificacionContenedor
             ventilacion:0,
             confirmacion:0,
             arregloEspecies:'',
+            checked1:false,
+            checked2:false,
+            checked3:false,
+            checked4:false,
 
         };
 
@@ -241,6 +262,25 @@ export default class EspecificacionContenedor
                fecha_creacion:result.data.pti,
                listado_especies:paso_especie,
                foto_numero_contenedor:result.data.foto_numero_contenedor,
+               ano_fabricacion : result.data.ano_fabricacion,
+               foto_ano_fabricacion: result.data.foto_ano_fabricacion,
+               pti: result.data.pti,
+               foto_pti: result.data.foto_pti,
+               pre_enfriado: result.data.pre_enfriado,
+               limpio_sin_olor: result.data.limpio_sin_olor,
+               buen_estado: result.data.buen_estado,
+               temperatura: result.data.temperatura,
+               foto_temperatura: result.data.foto_temperatura,
+               foto_estado_motor: result.data.foto_estado_motor,
+               ventilacion: result.data.ventilacion,
+               foto_ventilacion: result.data.foto_ventilacion,
+               confirmacion: result.data.confirmacion,
+               checked1: result.data.pre_enfriado ==0 ? false : true,
+               checked2: result.data.limpio_sin_olor ==0 ? false : true,
+               checked3: result.data.buen_estado ==0 ? false : true,
+               checked4: result.data.confirmacion ==0 ? false : true,
+
+
                //recibidor_data:[...this.state.recibidor_data,[MyArray2]]
                });
    
@@ -522,7 +562,7 @@ export default class EspecificacionContenedor
         //console.log(jsonImagenes);
 
 
-        this.setState({ foto_grados_celsius: jsonImagenes3 });
+        this.setState({ foto_temperatura: jsonImagenes3 });
 
         let jsonImagenes4 = "";
 
@@ -595,182 +635,18 @@ export default class EspecificacionContenedor
         //console.log(jsonImagenes);
 
 
-        this.setState({ foto_ventilacion: jsonImagenes4 });
+        this.setState({ foto_ventilacion: jsonImagenes5 });
 
 
 
         return 0;
     }   
 
-    validarCampos = async () => {
-        
-        let a = await this.carga_imagenes();
-
-        if(a==1){
-            return;
-        }
-
-        let valida_orden = this.state.orden_embarque;
-
-        console.log("valida_orden = "+valida_orden);
-
-        if (valida_orden=='' || valida_orden ==undefined || valida_orden==null){
-            this.HintAlertas.current.mostrarConParametros("Faltan datos por ingresar*Orden de Embarque");
-            //this.TextInputOrdenEmbarque.focus();
-            
-            //this.setState({focoOrden:true})
-            console.log("validarxxx");
-            return;
-            
-        }
-
-        let valida_numero = this.state.numero_contenedor;
-
-        console.log("valida_numero = "+valida_numero);
-
-        if (valida_numero=='' || valida_numero ==undefined || valida_numero==null){
-            this.HintAlertas.current.mostrarConParametros("Faltan datos por ingresar*Numero de Contenedor");
-            //this.TextInputOrdenEmbarque.focus();
-            
-            //this.setState({focoOrden:true})
-            console.log("validarxxx valida_numero");
-            return;
-            
-        }
-
-        let valida_exportador = this.state.exportador_seleccionado;
-
-        console.log("valida_exportador = "+valida_exportador);
-
-        if (valida_exportador=='' || valida_exportador ==undefined || valida_exportador==null){
-            this.HintAlertas.current.mostrarConParametros("Faltan datos por ingresar*Exportador");
-            //this.TextInputOrdenEmbarque.focus();
-            
-            //this.setState({focoOrden:true})
-            console.log("validarxxx valida_exportador");
-            return;
-            
-        }
-        
-        
-
-
-        
-
-  
-        if (1==1) {
-
-            //console.log("Mensaje final para enviar datos  ", this.state.mensajeAprobado, " ", this.state.IdSolicitud);
-
-            this.guarda_embarque();
-           // this.setState({ hint: "aprobado" });
-            /*
-                aca irá el codigo donde subimos los datos al servidor
-            */
-            //console.log("antes de anviar");
-           // console.log("weweweeeeesxx-> "+this.state.arregloImagenes);
-
-           // this.enviarDatosReembolso(numeroPoliza, this.state.grupo, this.state.version, montoReclamado, rutBeneficiario, nombreBeneficiario, jsonImagenes);
-
-            //---prueba
-            //AsyncStorage.removeItem("contadorReembolso");
-            // this.mostrarModal();
-
-
-
-
-
-        } else {
-            console.log("El monto excede el maximo disponible");
-            //this.setState({ hint: "rechazado" });
-
-            //this.Hint2.current.mostrar();
-            //Alert.alert("Error en campos", "Debe llenar correctamente todos los campos.")
-
-        }
-    }
-
+    
     
     
 
-    guarda_embarque = async () => {
-
-        //this.Loading.current.mostrar();
-
-        console.log("aqui");
-
-        let orden = this.state.orden_embarque;
-        let numero = this.state.numero_contenedor;
-        let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
-        let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
-        let fecha = this.state.fechaSeleccionada;
-        let expor = this.state.exportador_seleccionado;
-        let img1 = this.state.foto_general_contenedor;
-        let img2 = this.state.foto_pared_izquierda;
-        let img3 = this.state.foto_pared_derecha;
-
-           
-
-            console.log("Orden -->"+orden);
-            console.log("numero -->"+numero);
-            console.log("USUARIO_ID -->"+USUARIO_ID);
-            console.log("PLANTA_ID -->"+PLANTA_ID);
-            console.log("fecha -->"+fecha);
-            console.log("expor -->"+expor);
-            
-           // console.log("img1 -->"+img1);
-           // console.log("img2 -->"+img2);
-           // console.log("img3 -->"+img3);
-
-            try {
-                //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
-                let resultado = await WSRestApi.fnWSGuardaEmbarque(USUARIO_ID,PLANTA_ID,fecha,orden,numero,expor,img1, img2, img3);
-                //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
-                console.log("resultadox ->"+JSON.stringify(resultado)) ;
-
-                //this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
-
-                if(resultado.state==true)
-                {   
-                    console.log("okkkkkk");
-                    let embarque_paso ='"'+ resultado.data.embarque_id + '"'
-
-                    await AsyncStorage.setItem("embarque_id",'"'+ resultado.data.embarque_id+'"');
-                    await AsyncStorage.setItem("embarque_planta_id",'"'+ resultado.data.embarque_planta_id+'"');
-
-
-                    await AsyncStorage.setItem("informeGeneral", "2");
-                    await AsyncStorage.setItem("identificacionCarga", "1");
-                    await AsyncStorage.setItem("EspecificacionContenedor", "0");
-                    await AsyncStorage.setItem("FotosContenedor", "0");
-                    await AsyncStorage.setItem("EstibaPallet", "0");
-                    await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
-                    await AsyncStorage.setItem("Observaciones", "0");
-
-
-                    this.props.navigation.navigate('ConsolidacionCarga', {
-                        embarque : resultado.data.embarque_id, 
-                        embarque_planta : resultado.data.embarque_planta_id,
-                        informeGeneral : "2",
-                        identificacionCarga:"1",})
-
-
-                }else{
-                    console.log("sin resultadox");
-                    this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
-                }
-
-              } catch (error) {
-                let resultado = JSON.stringify(error);
-                //let resultado = "errorx";
-                console.log("ERROR exportador ??? : " + error);
-                return resultado;
-               // return false
-              }
-
-              
-               
-    };
+    
     envio_menu = async () => {
 
         if(this.state.confirmacion==0){
@@ -815,7 +691,7 @@ export default class EspecificacionContenedor
 
 
             //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
-            let resultado = await WSRestApi.fnWSGuardaContenedor(USUARIO_ID,PLANTA_ID,embarque, embarque_planta, '02-06-2022',this.state.ano_fabricacion_contenedor, this.state.pti, this.state.preenfriado, this.state.limpio_sin_olor, this.state.buen_estado, this.state.temperatura, this.state.ventilacion, this.state.confirmacion, this.state.foto_ano_fabricacion,this.state.foto_pti, this.state.foto_grados_celsius, this.state.foto_estado_motor, this.state.foto_ventilacion);
+            let resultado = await WSRestApi.fnWSGuardaContenedor(USUARIO_ID,PLANTA_ID,embarque, embarque_planta, '02-06-2022',this.state.ano_fabricacion_contenedor, this.state.pti, this.state.preenfriado, this.state.limpio_sin_olor, this.state.buen_estado, this.state.temperatura, this.state.ventilacion, this.state.confirmacion, this.state.foto_ano_fabricacion,this.state.foto_pti, this.state.foto_temperatura, this.state.foto_estado_motor, this.state.foto_ventilacion);
             //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
             console.log("resultadox ->"+JSON.stringify(resultado)) ;
 
@@ -880,42 +756,86 @@ export default class EspecificacionContenedor
                 <ScrollView>
                             <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Container's fabrication year</Text> 
                             <View style={{width:'80%', marginLeft:'9%'}}>
+                            {this.state.ano_fabricacion!=''? (
+                            //   <View style={{width:'100%',paddingBottom:20,  marginTop:10, marginBottom:10, backgroundColor:'#efeeef', borderWidth:0.5, borderColor:'#E8E8E8'}}>
+                            //   <Text style={{marginLeft:20, marginTop:'3%'}}>{this.state.ano_fabricacion}</Text>
+                            //   </View>
                             <Select  
-                            ref={this.añoref}
-                            label={this.state.añorefInicio.label}
-                            value={this.state.añorefInicio.value}
-                            datos={[
-                            { label: '2021', value: '2021' },
-                            { label: '2020', value: '2020' },
-                            { label: '2019', value: '2019' },
-                            ]}
-                            xfuncion={async (x) => {
-                                //this.setState({ keyC: 0, comunaDeChile: [] })
-                                //await this.guardarSoloRegion(x);
-                                console.log("usuariox => ", x);
-                                this.setState({ano_fabricacion_contenedor:x});
-                                //this.mostrarMontoMax(x);
+                                ref={this.añoref}
+                                label={this.state.añorefInicio.label}
+                                value={this.state.añorefInicio.value}
+                                datos={[
+                                { label: '2021', value: '2021' },
+                                { label: '2020', value: '2020' },
+                                { label: '2019', value: '2019' },
+                                ]}
+                                xfuncion={async (x) => {
+                                    //this.setState({ keyC: 0, comunaDeChile: [] })
+                                    //await this.guardarSoloRegion(x);
+                                    console.log("usuariox => ", x);
+                                    this.setState({ano_fabricacion:x});
+                                    //this.mostrarMontoMax(x);
+    
+                                }}
+                                />
+                            ) :(
+                                <Select  
+                                ref={this.añoref}
+                                label={this.state.añorefInicio.label}
+                                value={this.state.añorefInicio.value}
+                                datos={[
+                                { label: '2021', value: '2021' },
+                                { label: '2020', value: '2020' },
+                                { label: '2019', value: '2019' },
+                                ]}
+                                xfuncion={async (x) => {
+                                    //this.setState({ keyC: 0, comunaDeChile: [] })
+                                    //await this.guardarSoloRegion(x);
+                                    console.log("usuariox => ", x);
+                                    this.setState({ano_fabricacion_contenedor:x});
+                                    //this.mostrarMontoMax(x);
+    
+                                }}
+                                />
+                            )}
 
-                            }}
-                            
-                            
-                            
-                            />
                             </View>
 
                             
-
+                            <View>
                          
-                                
+                                {this.state.foto_ano_fabricacion==1 ?(
+                                     <View style={{marginLeft:'10%',paddingTop:10, paddingBottom:10, marginBottom:10, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                                     <View style={{flex:0.5}}>
+                                     <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                                     </View>
+                                     <View style={{flex:2, marginLeft:10}}>
+                                     <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Photo year of manufacture container</Text> 
+                                     </View>                        
+                                     <View style={{flex:.5}}>
+                                     <TouchableHighlight style={{with:10}}
+                                           title="Press me"
+                                           onPress={() => this.setState({foto_ano_fabricacion:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                               >
+             
+                                        <Icon style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                                 </TouchableHighlight>
+                                              
+                                     </View>   
+                                         
+                                     </View>
+                                ):(
+                                     
+                                     <View style={{marginLeft:'0%', flexDirection:'column', alignItems:'center'}}>
+                                     <SelectorDataFrabicacion 
+                                     ref={this.Selector1}
+                                     mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                                     ocultarTeclado={() => this.ocultarTeclado()}
+                                     />
+                                     </View>
+                                 
+                                )}
 
-                                <View>
-                                    <View style={{marginLeft:'0%', flexDirection:'column', alignItems:'center'}}>
-                                    <SelectorDataFrabicacion 
-                                    ref={this.Selector1}
-                                    mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                                    ocultarTeclado={() => this.ocultarTeclado()}
-                                    />
-                                    </View>
                                 </View>
 
 
@@ -923,14 +843,35 @@ export default class EspecificacionContenedor
                         <View> 
                         <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>PTI</Text> 
                             <View>
-                                
+                                {this.state.pti!=null ? (
                                 <DatePicker
                                 style={{ width: "80%",marginLeft:'10%', marginTop:10, fontWeight:'bold' }}
-                                date={this.state.fechaSeleccionada}
+                                date={this.state.pti}
                                 mode="date"
+                                
                                 showIcon={true}
                                 //placeholder={this.state.fechaActual}
                                 format="YYYY-MM-DD"
+                                disabled={true}
+                                // minDate={this.state.fechaMinima}
+                                //maxDate={this.state.fechaMaxima}
+                                confirmBtnText="Confirmar"
+                                cancelBtnText="Cancelar"
+                                // customStyles={{
+                                //     dateInput: { ...styles.inputFechaHora, backgroundColor: "#E6E6E6" }
+                                // }
+                                // }
+                                onDateChange={(date) => { this.setState({ pti: date }) }}
+                                /> ):(
+                                    <DatePicker
+                                style={{ width: "80%",marginLeft:'10%', marginTop:10, fontWeight:'bold' }}
+                                date={this.state.pti}
+                                mode="date"
+                                
+                                showIcon={true}
+                                //placeholder={this.state.fechaActual}
+                                format="YYYY-MM-DD"
+                                
                                 // minDate={this.state.fechaMinima}
                                 //maxDate={this.state.fechaMaxima}
                                 confirmBtnText="Confirmar"
@@ -941,25 +882,39 @@ export default class EspecificacionContenedor
                                 // }
                                 onDateChange={(date) => { this.setState({ pti: date }) }}
                                 /> 
+                                )}
+                                
                             </View>
-
-                            {/* <View>
-                                    <View style={{marginLeft:'10%'}}>
-                                    <SelectorPTI
-                                    ref={this.Selector2}
-                                    mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                                    ocultarTeclado={() => this.ocultarTeclado()}
-                                    />
-                                    </View>
-                                </View> */}
-
+                            
                                 <View>
                                     <View style={{marginLeft:'0%', flexDirection:'column', alignItems:'center'}}>
-                                    <SelectorPTI
-                                    ref={this.Selector2}
-                                    mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                                    ocultarTeclado={() => this.ocultarTeclado()}
-                                    />
+                                    {this.state.foto_pti==1 ?(
+                                        <View style={{marginTop:10,paddingTop:10, paddingBottom:10, marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                                        <View style={{flex:0.5}}>
+                                        <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                                        </View>
+                                        <View style={{flex:2, marginLeft:10}}>
+                                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Foto PTI</Text> 
+                                        </View>                        
+                                        <View style={{flex:.5}}>
+                                        <TouchableHighlight style={{with:10}}
+                                              title="Press me"
+                                              onPress={() => this.setState({foto_pti:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                                  >
+                
+                                           <Icon style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                                    </TouchableHighlight>
+                                                 
+                                        </View>   
+                                            
+                                        </View>
+                                    ):(
+                                        <SelectorPTI
+                                        ref={this.Selector2}
+                                        mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                                        ocultarTeclado={() => this.ocultarTeclado()}
+                                        />
+                                    )}
                                     </View>
                                 </View>
 
@@ -967,7 +922,8 @@ export default class EspecificacionContenedor
 
                         
                             <View style={{ flexDirection: 'row', marginLeft:'10%', marginTop:20}} >
-                                            <CheckBox
+                            
+                                <CheckBox
                                             value={this.state.checked1}
                                             boxType={'square'}
                                             animationDuration={0.1}
@@ -982,6 +938,7 @@ export default class EspecificacionContenedor
                                             })}
                                             }
                                             />
+                                            
                                             <Text style={{marginTop:5}}>Pre-cooler container</Text>
                             </View>
 
@@ -1042,7 +999,7 @@ export default class EspecificacionContenedor
                                     colorMin={"blue"}
                                     height={40}
                                     size={20}
-                                    value={this.state.number}
+                                    value={this.state.temperatura}
                                     onChange={(num) => {
                                     console.log(num);
                                     this.setState({temperatura:num})
@@ -1056,22 +1013,67 @@ export default class EspecificacionContenedor
                           
                             <View>
                                     <View style={{marginLeft:'0%', flexDirection:'column', alignItems:'center'}}>
-                                    <SelectorTemperature
-                                    ref={this.Selector3}
-                                    mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                                    ocultarTeclado={() => this.ocultarTeclado()}
-                                    />
+                                    {this.state.foto_temperatura== 1 ?(
+                                        <View style={{marginBottom:20,marginTop:20, paddingTop:10, paddingBottom:10, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                                        <View style={{flex:0.5}}>
+                                        <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                                        </View>
+                                        <View style={{flex:2, marginLeft:10}}>
+                                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Reefer T° screen</Text> 
+                                        </View>                        
+                                        <View style={{flex:.5}}>
+                                        <TouchableHighlight style={{with:10}}
+                                              title="Press me"
+                                              onPress={() => this.setState({foto_temperatura:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                                  >
+                
+                                           <Icon style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                                    </TouchableHighlight>
+                                                 
+                                        </View>   
+                                            
+                                        </View>
+                                    ):(
+                                        <SelectorTemperature
+                                        ref={this.Selector3}
+                                        mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                                        ocultarTeclado={() => this.ocultarTeclado()}
+                                        />
+                                    )}
                                     </View>
                                 </View>
 
                                 <Text style={{marginLeft:'10%', marginTop:20, fontWeight:'bold'}}>Motor condition (condenser)</Text> 
                                 <View>
                                     <View style={{marginLeft:'0%', flexDirection:'column', alignItems:'center'}}>
+                                      {this.state.foto_estado_motor==1 ? (
+                                          <View style={{marginBottom:20,marginTop:20, paddingTop:10, paddingBottom:10, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                                          <View style={{flex:0.5}}>
+                                          <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                                          </View>
+                                          <View style={{flex:2, marginLeft:10}}>
+                                          <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Motor condition (condenser)</Text> 
+                                          </View>                        
+                                          <View style={{flex:.5}}>
+                                          <TouchableHighlight style={{with:10}}
+                                                title="Press me"
+                                                onPress={() => this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                                    >
+                  
+                                             <Icon style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                                      </TouchableHighlight>
+                                                   
+                                          </View>   
+                                              
+                                          </View>
+                                      ):(
                                     <SelectorMotor
                                     ref={this.Selector4}
                                     mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
                                     ocultarTeclado={() => this.ocultarTeclado()}
                                     />
+                                      )}  
+                                    
                                     </View>
                                 </View>
 
@@ -1107,11 +1109,34 @@ export default class EspecificacionContenedor
 
                             <View>
                                     <View style={{marginLeft:'0%', flexDirection:'column', alignItems:'center'}}>
-                                    <SelectorVentilacion
-                                    ref={this.Selector5}
-                                    mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                                    ocultarTeclado={() => this.ocultarTeclado()}
-                                    />
+                                        {this.state.foto_ventilacion==1?(
+                                            <View style={{marginBottom:20,marginTop:20, paddingTop:10, paddingBottom:10, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                                            <View style={{flex:0.5}}>
+                                            <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                                            </View>
+                                            <View style={{flex:2, marginLeft:10}}>
+                                            <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Ventilation settings(CBM)</Text> 
+                                            </View>                        
+                                            <View style={{flex:.5}}>
+                                            <TouchableHighlight style={{with:10}}
+                                                  title="Press me"
+                                                  onPress={() => this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                                      >
+                    
+                                               <Icon style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                                        </TouchableHighlight>
+                                                     
+                                            </View>   
+                                                
+                                            </View>
+                                        ):(
+                                        <SelectorVentilacion
+                                        ref={this.Selector5}
+                                        mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                                        ocultarTeclado={() => this.ocultarTeclado()}
+                                        />
+                                        )}
+                                    
                                     </View>
                                 </View>
 

@@ -12,6 +12,8 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 //import Icon from 'react-native-vector-icons/Feather';
 //import Icon2 from 'react-native-vector-icons/Ionicons';
 
+import Icon22 from 'react-native-vector-icons/Ionicons';
+
 import SelectorMultimedia from '../../components/SelectorMultimedia/SelectorMultimediaMultiple.component.js';
 
 import SelectorContenedorVacioBuffer from '../../components/SelectorMultimedia/ContenedorVacio/SelectorBuff.component.js';
@@ -72,6 +74,9 @@ export default class FotosContenedor extends Component {
 
             focoOrden:false,
 
+            foto_buffer_plate:'',
+            foto_fondo_contenedor:'',
+
 
         };
 
@@ -116,65 +121,103 @@ export default class FotosContenedor extends Component {
      
     componentDidMount =async () =>{
 
+
+        let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
         let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
         let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+
+        let embarque = this.props.route.params.embarque;
+        let embarque_planta = this.props.route.params.embarque_planta;
+        informeGeneral = this.props.route.params.informeGeneral
+
         this.setState({nombre_planta:PLANTA_NOMBRE});
         console.log("el nombre de la planta esss "+PLANTA_NOMBRE );
-        
-       // let useNativeDriver = true;
-        let exportador_data;
-        await this.exportador_detalle(PLANTA_ID).then(function (data) {
-         exportador_data = data;
-         });
- 
-         if (exportador_data.state == true) {
+        this.setState({informeGeneral:informeGeneral, embarque_id:embarque, embarque_planta_id:embarque_planta});
+
+        this.carga_datos_embarque(USUARIO_ID, PLANTA_ID, embarque, embarque_planta);
+
+
        
-           console.log("InfoGeneralEmbarque exportador_detalle resultado:-> "+JSON.stringify(exportador_data.data));
-           //this.setState({data_contenedor:result.data, usuario_id:USUARIO_ID, planta_id:PLANTA_ID}) ;
-             
-           let MyArray = [];
-           let MyArray2 = [];
-           let datos = exportador_data.data;
-           datos.forEach((elem) => {
-              
-                   let data = {
-                       value: elem.id,
-                       label: elem.name ,
-                       selected: '',
-                       //isSelect: elem.isSelect,
-                       //selectedClass: elem.selectedClass
-                   }
-
-
-
-                   let data2 ={                   
-                        key :elem.id,
-                    label: elem.name , 
-                    value: elem.id,
-                    }
-                 
-                
- 
-                   MyArray.push(data);
-                //  MyArray2.push(elem.name +" "+ elem.last_name);
-                  MyArray2.push(data2);
-                   
-               
-           });
-           
-           console.log("matriz "+JSON.stringify(MyArray2));
- 
-           this.setState({exportadorInicio:MyArray2 });
-             console.log("data exportador:"+this.state.exportadorInicio);
- 
-             
         
-       }else{
-          // this.setState({modalVisible:true})
-          console.log("2");
-       }
 
     }
+
+    carga_datos_embarque = async (usuario, planta, embarque, embarque_planta) =>{
+
+        //   console.log("carga_datos_embarque -->"+PLANTA_NOMBRE);
+               let result;
+            await this.embarque_detalle(usuario, planta, embarque, embarque_planta).then(function (data) {
+               result = data;
+             });
+   
+             if (result.state == true) {
+   
+               console.log("Estiba Pallet embarque_detalle resultado:-> "+JSON.stringify(result.data));
+   
+               console.log("array especies -->" + JSON.stringify(result.data.especies));
+               let paso_pallet = JSON.stringify(result.data.pallets);
+   
+               console.log("array pallets --> paso_pallet  "+paso_pallet);
+               console.log("array pallets --> paso_especie  "+result.data.pallets.length);
+                
+               this.setState({foto_buffer_plate:result.data.foto_buffer_plate,
+                foto_fondo_contenedor:result.data.foto_fondo_contenedor })
+   
+   
+                let MyArray = [];
+                let MyArray2 = [];
+               
+               let contador_pallet_vacios = 0;
+               let contador_pallet_ok = 0;
+               let id_pallet_siguiente = 0;
+               let id_especie_siguiente = 0;
+   
+              
+   
+                  // console.log("cantidad de pallet "+result.data.pallets.length);
+                 //  console.log("cantidad de pallet ok "+contador_pallet_ok);
+                 //  console.log("cantidad de pallet vacios "+contador_pallet_vacios);
+                 //  console.log("ID siguiente pallet "+id_pallet_siguiente);
+                  // console.log("ID siguiente especie "+id_especie_siguiente);
+                   //console.log("ID siguiente especie "+);
+                
+                
+            //        this.setState({id_proximo_pallet:id_pallet_siguiente,
+            //            id_proximo_especie:id_especie_siguiente,
+            //            tipo_nombre:result.data.tipo_nombre,
+            //         total_pallet:result.data.pallets.length,
+            //     total_pallet_ok:contador_pallet_ok,
+            // total_pallet_faltantes:contador_pallet_vacios})
+   
+          
+              
+   
+            //   this.props.navigation.navigate('App')
+           }else{
+              // this.setState({modalVisible:true})
+              console.log("2");
+           }
+   
+   
+       }
+
+
+       embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
+        try {
+          let resultado = await WSRestApi.fnWSDetalleembarque(usuario, planta,embarque, embarque_planta);
+          //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+          return resultado;
+        } catch (error) {
+          let resultado = JSON.stringify(error);
+          //let resultado = "errorx";
+          console.log("ERROR1??? : " + error);
+          return resultado;
+         // return false
+        }
+      }
+
+
+
 
     onChangeText =(e) =>{
        // console.log("wewe "+e);
@@ -410,11 +453,14 @@ export default class FotosContenedor extends Component {
 
     validarCampos = async () => {
         
-        let a = await this.carga_imagenes();
-
-        if(a==1){
-            return;
+        if(this.state.foto_buffer_plate!=1 && this.state.foto_fondo_contenedor!=1){
+            let a = await this.carga_imagenes();
         }
+        
+
+        // if(a==1){
+        //     return;
+        // }
 
       
         
@@ -501,8 +547,8 @@ export default class FotosContenedor extends Component {
 
 
                     this.props.navigation.navigate('ConsolidacionCarga', {
-                        embarque : resultado.data.embarque_id, 
-                        embarque_planta : resultado.data.embarque_planta_id,
+                        embarque : this.state.embarque_id, 
+                        embarque_planta : this.state.embarque_planta_id,
                         informeGeneral : "2",
                         identificacionCarga:"2",
                         EspecificacionContenedor:"2",
@@ -564,19 +610,66 @@ export default class FotosContenedor extends Component {
                             
 
                 <View style={{marginLeft:'0%', width:'100%'}}>
-                              <SelectorContenedorVacioBuffer 
+                    {this.state.foto_buffer_plate==1?(
+                    <View style={{marginLeft:'10%',paddingBottom:10, paddingTop:10, marginTop:20, marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                        <View style={{flex:0.5}}>
+                        <Icon22 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                        </View>
+                        <View style={{flex:2, marginLeft:10}}>
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Buffer plate</Text> 
+                        </View>                        
+                        <View style={{flex:.5}}>
+                        <TouchableHighlight style={{with:10}}
+                              title="Press me"
+                              onPress={() => this.setState({foto_buffer_plate:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                  >
+
+
+
+                              <Icon22 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                    </TouchableHighlight>
+                                 
+                        </View>   
+                            
+                        </View>):(
+                        <SelectorContenedorVacioBuffer 
                                   ref={this.Selector1}
                                   mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
                                   ocultarTeclado={() => this.ocultarTeclado()}
-                              />
+                              />)}
+                              
                           </View>
 
                 <View style={{marginLeft:'0%', width:'100%'}}>
-                              <SelectorFondoContenedor 
-                                  ref={this.Selector2}
-                                  mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                                  ocultarTeclado={() => this.ocultarTeclado()}
-                              />
+                {this.state.foto_fondo_contenedor==1?(
+                     <View style={{marginLeft:'10%', paddingTop:10, paddingBottom:10, marginTop:10, marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                     <View style={{flex:0.5}}>
+                     <Icon22 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                     </View>
+                     <View style={{flex:2, marginLeft:10}}>
+                     <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Rear inside of container </Text> 
+                     </View>                        
+                     <View style={{flex:.5}}>
+                     <TouchableHighlight style={{with:10}}
+                           title="Press me"
+                           onPress={() => this.setState({foto_fondo_contenedor:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                               >
+
+
+
+                           <Icon22 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                 </TouchableHighlight>
+                              
+                     </View>   
+                         
+                     </View>
+                ):(<SelectorFondoContenedor 
+                    ref={this.Selector2}
+                    mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                    ocultarTeclado={() => this.ocultarTeclado()}
+                />)}
+                
+                              
                           </View>
                        
                                 

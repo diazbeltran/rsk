@@ -71,15 +71,15 @@ export default class ConsultaEstibaConfirma extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Estiba de Pallets</Text>
+                    <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Closing container</Text>
                     <Icon style={{marginRight:'10%'}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column', alignItems:'center'}} >
-                    <Text style={{fontWeight:'bold', marginTop:'10%'}}>Aviso Importante</Text>
+                    <Text style={{fontWeight:'bold', marginTop:'10%'}}>IMPORTANT INFORMATION</Text>
                    <View style={{flex:.3, width:'70%'}}>
-                    <Text style={{marginTop:'2%'}}>Esta a punto de cerrar el contenedor ¿Esta unidad lleva instalación de cortina de atmosfera?</Text>  
+                    <Text style={{marginTop:'2%'}}>Will atmosphere curtain (CA) be installed?</Text>  
                     </View>
                     <View style={{flexDirection:'row', justifyContent: 'space-around', marginTop:'10%'}}>
                    <View>
@@ -87,7 +87,7 @@ export default class ConsultaEstibaConfirma extends Component {
                         title="Press me"
                         onPress={() => this.props.navigation.navigate('EstibaPalletFotos')}
                         >
-                        <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#75BE48', color:'white', }}>Si</Text>
+                        <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#75BE48', color:'white', }}>Yes</Text>
                         </TouchableHighlight>
                    </View>
                    <View>

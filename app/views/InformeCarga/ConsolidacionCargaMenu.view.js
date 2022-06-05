@@ -196,26 +196,26 @@ export default class ConsolidacionCarga extends Component {
 
        
         
-         // BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-       //  const responseJson = navigation.getParam("EstadoProceso");
+        // BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+        //  const responseJson = navigation.getParam("EstadoProceso");
          const responseJson2 = route.params["EstadoProceso"];
 
          
-       // console.log("data -->"+JSON.stringify(datacarga));
+        // console.log("data -->"+JSON.stringify(datacarga));
 
-   var jsonString = JSON.stringify(this.state.EstadoProceso);
-   console.log("estados -..>"+jsonString);
-   console.log("estados -..>"+JSON.stringify(responseJson2));
-        this.setState({informeGeneral :responseJson2.informeGeneral, 
+            var jsonString = JSON.stringify(this.state.EstadoProceso);
+            console.log("estados -..>"+jsonString);
+            console.log("estados -..>"+JSON.stringify(responseJson2));
+            this.setState({informeGeneral :responseJson2.informeGeneral, 
             identificacionCarga:responseJson2.identificacionCarga,
             EspecificacionContenedor:responseJson2.EspecificacionContenedor,
             FotosContenedor:responseJson2.FotosContenedor,
             EstibaPallet:responseJson2.EstibaPallet,
             FotosConsolidacionCarga:responseJson2.FotosConsolidacionCarga,
             Observaciones:responseJson2.Observaciones,
-        })
+            })
         return nextState.count != this.state.count;
-   // this.recibirDatos()
+        // this.recibirDatos()
 
     }
     catch(error){
@@ -224,20 +224,6 @@ export default class ConsolidacionCarga extends Component {
 
 
       }
-
-
-      mostrarCuadrosImagen = ({ item }) => {
-        return (
-            <TouchableOpacity
-                
-                onPress={console.log("hola")}
-            >
-                <View >
-                   <Text>hola</Text>
-                </View>
-            </TouchableOpacity>
-        )
-    }
 
 
 
@@ -573,7 +559,12 @@ export default class ConsolidacionCarga extends Component {
                 break;
 
             case "1":
-                buttonEstibaPallet=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet')}>
+                buttonEstibaPallet=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                 <View style={{paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:.3, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                 <View style={{flex:0.4}}>
                 
@@ -589,7 +580,12 @@ export default class ConsolidacionCarga extends Component {
                 </TouchableWithoutFeedback>;
                 break;
             case "2":
-                buttonEstibaPallet=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet')}>
+                buttonEstibaPallet=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                     <View style={{backgroundColor:'#75BE48',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                     <View style={{flex:0.4}}>
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
