@@ -9,6 +9,10 @@ import SelectDropdown from 'react-native-select-dropdown'
 import Select from '../../component/Select/Select.component.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+
+import RNFS from 'react-native-fs';
+
+
 //import Icon from 'react-native-vector-icons/Feather';
 //import Icon2 from 'react-native-vector-icons/Ionicons';
 
@@ -76,6 +80,8 @@ export default class FotosContenedor extends Component {
 
             foto_buffer_plate:'',
             foto_fondo_contenedor:'',
+            url1:'',
+            url2:''
 
 
         };
@@ -161,7 +167,8 @@ export default class FotosContenedor extends Component {
                console.log("array pallets --> paso_especie  "+result.data.pallets.length);
                 
                this.setState({foto_buffer_plate:result.data.foto_buffer_plate,
-                foto_fondo_contenedor:result.data.foto_fondo_contenedor })
+                foto_fondo_contenedor:result.data.foto_fondo_contenedor,
+                url1:result.data.foto_buffer_plate_url, url2: result.data.foto_fondo_contenedor_url })
    
    
                 let MyArray = [];
@@ -455,6 +462,8 @@ export default class FotosContenedor extends Component {
         
         if(this.state.foto_buffer_plate!=1 && this.state.foto_fondo_contenedor!=1){
             let a = await this.carga_imagenes();
+        }else{
+           console.log("wewe");
         }
         
 

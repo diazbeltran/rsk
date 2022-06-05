@@ -40,6 +40,41 @@ export default class ConsultaEstibaConfirma extends Component {
     }
 
 
+    componentDidMount = async () => {
+
+        let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
+        let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
+
+        //let usuario = this.props.route.params.usuario,
+        //planta = this.props.route.params.planta,
+        let embarque = this.props.route.params.embarque;
+        let embarque_planta = this.props.route.params.embarque_planta;
+        let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+
+
+        informeGeneral = this.props.route.params.informeGeneral
+
+
+        console.log("datox del InfoGeneralEmbarque USUARIO_ID->"+USUARIO_ID);
+        console.log("datox del InfoGeneralEmbarque PLANTA_ID->"+PLANTA_ID);
+        console.log("datox del InfoGeneralEmbarque embarque->"+embarque);
+        console.log("datox del InfoGeneralEmbarque embarque_planta->"+embarque_planta);
+        //console.log("datox del InfoGeneralEmbarque informeGeneral->"+informeGeneral);
+        this.setState({informeGeneral:informeGeneral, embarque_id:embarque, embarque_planta_id:embarque_planta});
+
+        //this.carga_datos_embarque(USUARIO_ID, PLANTA_ID, embarque, embarque_planta);
+       // this.carga_recibidor();
+       // this.carga_especies();
+       // this.carga_objetosEspecie();
+
+       
+       
+
+    }
+
+
+
+
     envio_menu = async () => {
 
         //this.Loading.current.mostrar();
@@ -85,7 +120,12 @@ export default class ConsultaEstibaConfirma extends Component {
                    <View>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('EstibaPalletFotos')}
+                        onPress={() => this.props.navigation.navigate('EstibaPalletFotos',{
+                            embarque : this.state.embarque_id, 
+                        embarque_planta : this.state.embarque_planta_id,
+                        id_pallet : this.state.id_proximo_pallet,
+                        id_especie : this.state.id_proximo_especie,
+                        })}
                         >
                         <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#75BE48', color:'white', }}>Yes</Text>
                         </TouchableHighlight>
@@ -93,7 +133,12 @@ export default class ConsultaEstibaConfirma extends Component {
                    <View>
                        <TouchableHighlight style={{with:10, marginLeft:20}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('EstibaPalletFotos')}
+                        onPress={() => this.props.navigation.navigate('EstibaPalletFotos',{
+                            embarque : this.state.embarque_id, 
+                        embarque_planta : this.state.embarque_planta_id,
+                        id_pallet : this.state.id_proximo_pallet,
+                        id_especie : this.state.id_proximo_especie,
+                        })}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#6f6aaa', color:'white', }}>No</Text>
                             </TouchableHighlight>

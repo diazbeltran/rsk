@@ -465,7 +465,7 @@ export default class ConsolidacionCarga extends Component {
                    
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Fotos contenedor vacio</Text>
+                     <Text style={{color:'white',marginTop:10}}>Empty container's photos</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="lock-outline" size={20} color="white" />
@@ -487,7 +487,7 @@ export default class ConsolidacionCarga extends Component {
                 
                 </View>
                  <View style={{flex:3}}>
-                 <Text style={{color:'white',marginTop:10}}>Fotos contenedor vacio</Text>
+                 <Text style={{color:'white',marginTop:10}}>Empty container's photos</Text>
                  </View>
                 <View style={{flex:0.5}}>
                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -509,7 +509,7 @@ export default class ConsolidacionCarga extends Component {
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Fotos contenedor vacio</Text>
+                     <Text style={{color:'white',marginTop:10}}>Empty container's photos</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -525,7 +525,7 @@ export default class ConsolidacionCarga extends Component {
                                 <Icon3 style={{marginLeft:10, marginTop:10}} name="warning" size={20} color="white" />
                                 </View>
                                  <View style={{flex:3}}>
-                                 <Text style={{color:'white',marginTop:10}}>Fotos contenedor vacio</Text>
+                                 <Text style={{color:'white',marginTop:10}}>Empty container's photos</Text>
                                  </View>
                                 <View style={{flex:0.5}}>
                                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -548,7 +548,7 @@ export default class ConsolidacionCarga extends Component {
                    
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Estiba de pallets</Text>
+                     <Text style={{color:'white',marginTop:10}}>Pallets' stowage</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="lock-outline" size={20} color="white" />
@@ -570,7 +570,7 @@ export default class ConsolidacionCarga extends Component {
                 
                 </View>
                  <View style={{flex:3}}>
-                 <Text style={{color:'white',marginTop:10}}>Estiba de pallets</Text>
+                 <Text style={{color:'white',marginTop:10}}>Pallets' stowage</Text>
                  </View>
                 <View style={{flex:0.5}}>
                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -591,7 +591,7 @@ export default class ConsolidacionCarga extends Component {
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Estiba de pallets</Text>
+                     <Text style={{color:'white',marginTop:10}}>Pallets' stowage</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -607,7 +607,7 @@ export default class ConsolidacionCarga extends Component {
                                 <Icon3 style={{marginLeft:10, marginTop:10}} name="warning" size={20} color="white" />
                                 </View>
                                  <View style={{flex:3}}>
-                                 <Text style={{color:'white',marginTop:10}}>Estiba de pallets</Text>
+                                 <Text style={{color:'white',marginTop:10}}>Pallets' stowage</Text>
                                  </View>
                                 <View style={{flex:0.5}}>
                                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />

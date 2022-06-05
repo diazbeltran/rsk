@@ -900,6 +900,84 @@ class WSRestApi {
   
     }
 
+    static async fnWSGuardaFotosCierre(user, panta,embarque_id,embarque_planta_id, img1, img2) {
+        
+        
+      
+    
+      var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/savePhotosCloseContainer';
+  
+  
+      console.log("****************************************");
+      console.log(" fnWSGuardaFotosContenedorVacio ws  ==>>> ", WSUrl);
+      console.log("****************************************");
+  
+      let date = new Date();
+      console.log("la horax es:"+date);
+
+      let day = date.getDate()
+      let month = date.getMonth() + 1
+      let year = date.getFullYear()
+
+      if(month < 10){
+      console.log('${day}-0${month}-${year}')
+      }else{
+      console.log('${day}-${month}-${year}')
+      }
+
+
+      let hora = date.getHours();
+      let minutos= date.getMinutes();
+      let segundos = date.getSeconds();
+
+      let fechax = date.getDate('YYYY-MM-DD')
+
+      console.log("la fecha para insertar es :"+year+"-"+((month<10)? "0"+month : month)+"-"+((fechax<10)? "0"+fechax : fechax) +" "+hora+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) );
+     // return;
+
+      let fechafinal = year+"-"+((month<10)? "0"+month : month)+"-"+((fechax<10)? "0"+fechax : fechax) +" "+((hora<10)? "0"+ hora : hora )+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) ;
+      console.log("la super fecha final es -->"+fechafinal);
+
+
+      let params = '{"user_id":' + user + ',"shipment_id":'+embarque_id+', "plant_id" : ' + panta + ',"shipment_plant_id":'+embarque_planta_id+',"photo_curtain_atmosphere":"'+(img1==''?('0'):(img1))+'" ,  "container_closure_photo":"'+(img2==''?('0'):(img2))+'"}';
+
+      let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
+
+
+      //  console.log(WSUrl);
+      //console.log(params);
+      try {
+        const response = await fetch(WSUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          //  'Authorization': 'Bearer ' + token,
+            token:"SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv"
+          },
+          body: params,
+        });
+
+
+        console.log('status : ' + response.status);
+        if (response.status == 200) {
+          responseJson = response.json();
+          let obj = responseJson;
+          return obj;
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("ERROR lista_documentos: " + JSON.stringify(error));
+        return error;
+      }
+      
+  
+  
+    }
+
+
+
 
 
 
