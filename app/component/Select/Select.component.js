@@ -51,6 +51,7 @@ export default class MySelect extends Component {
 
     return (
       <View style={{ width: '100%' }}>
+        
         <RNPickerSelect
           disabled={this.props.disabled}
           placeholder={placeholder}

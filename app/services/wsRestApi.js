@@ -64,7 +64,6 @@ class WSRestApi {
     
     
       }
-
     
     static async fnWSRecuperaPass(correo) {
 
@@ -111,7 +110,6 @@ class WSRestApi {
     
       }
 
-
     static async recuperapass(correo){
 
       const requestOptions = {
@@ -127,8 +125,7 @@ class WSRestApi {
         .then(response => response.json())
         .then(data => this.setState({ postId: data.id }));
 
-    }
-    
+    }    
 
     static async lista_documentos(user_id, panta_id) {
         
@@ -437,9 +434,6 @@ class WSRestApi {
   
     }
 
-
-
-
     static async fnWSRecibidor() {
         
         
@@ -585,10 +579,7 @@ class WSRestApi {
   
     }
 
-
-
-
-    static async fnWSGuardaCargoDetail(user, panta,embarque_id,embarque_planta_id,fecha,motonave, recibidor_id,puerto_carga, puerto_destino, numero_booking, especies,  img1) {
+    static async fnWSGuardaCargoDetail(user, panta,embarque_id,embarque_planta_id,motonave, recibidor_id,puerto_carga, puerto_destino, numero_booking, especies,  img1) {
         
         
       
@@ -665,7 +656,6 @@ class WSRestApi {
   
   
     }
-
 
     static async fnWSGuardaContenedor(user, panta,embarque_id,embarque_planta_id,fecha,ano_fabricacion_contenedor, pti,preenfriado,limpio_sin_olor,buen_estado, temperatura,ventilacion, confirmacion, img1, img2, img3, img4, img5    ) {
         
@@ -784,7 +774,7 @@ class WSRestApi {
       console.log("la super fecha final es -->"+fechafinal);
 
 
-      let params = '{"user_id":' + user + ',"shipment_id":'+embarque_id+', "plant_id" : ' + panta + ',"shipment_plant_id":'+embarque_planta_id+',"photo_buffer_plate":"'+(img1==''?('0'):(img1))+'" ,  "photo_background_container":"'+(img2==''?('0'):(img2))+'"}';
+      let params = '{"user_id":' + user + ',"shipment_id":'+embarque_id+', "plant_id" : ' + panta + ',"shipment_plant_id":'+embarque_planta_id+',"photo_buffer_plate":"'+(img1==''?('1'):(img1))+'" ,  "photo_background_container":"'+(img2==''?('1'):(img2))+'"}';
 
       let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
 
@@ -820,7 +810,6 @@ class WSRestApi {
   
   
     }
-
 
     static async fnWSGuardaPallet(user, panta,embarque_id,embarque_planta_id,pallet_id, especie_id,numero_pallet,ubicacion,posicion, temperatura, tiene_termografo, codigo_termografo, georeferenciado, termografo_tipo_id, foto_numero_pallet,foto_termografo   ) {
         
@@ -975,6 +964,344 @@ class WSRestApi {
   
   
     }
+    static async fnWSFotosEmbarque(user, panta, embarque, embarque_planta) {
+        
+        
+      
+      try {
+      var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/getConsolidationPhotos';
+  
+  
+      console.log("****************************************");
+      console.log("CONSULTA fnWSFotosEmbarque   ==>>> ", WSUrl);
+      console.log("****************************************");
+  
+    //  .replace(/['"]+/g, '')
+  
+      let params = '{"user_id":"' + user + '", "plant_id" : "' + panta + '", "shipment_id" : "' + embarque + '", "shipment_plant_id" : "' + embarque_planta+ '"}';
+
+      let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
+
+
+      //  console.log(WSUrl);
+      console.log(params);
+      
+        const response = await fetch(WSUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          //  'Authorization': 'Bearer ' + token,
+            token:"SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv"
+          },
+          body: params,
+        });
+
+
+        console.log('status : ' + response.status);
+        if (response.status == 200) {
+          responseJson = response.json();
+          let obj = responseJson;
+          return obj;
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("ERROR lista_documentos: " + JSON.stringify(error));
+        return error;
+      }
+  
+  
+  
+    }
+
+    static async fnWSGuardaObservacion(user, panta,embarque_id,embarque_planta_id,obs) {
+        
+        
+      
+    
+      var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/observations';
+  
+  
+      console.log("****************************************");
+      console.log(" fnWSGuardaFotosContenedorVacio ws  ==>>> ", WSUrl);
+      console.log("****************************************");
+  
+      let date = new Date();
+      console.log("la horax es:"+date);
+
+      let day = date.getDate()
+      let month = date.getMonth() + 1
+      let year = date.getFullYear()
+
+      if(month < 10){
+      console.log('${day}-0${month}-${year}')
+      }else{
+      console.log('${day}-${month}-${year}')
+      }
+
+
+      let hora = date.getHours();
+      let minutos= date.getMinutes();
+      let segundos = date.getSeconds();
+
+      let fechax = date.getDate('YYYY-MM-DD')
+
+      console.log("la fecha para insertar es :"+year+"-"+((month<10)? "0"+month : month)+"-"+((fechax<10)? "0"+fechax : fechax) +" "+hora+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) );
+     // return;
+
+      let fechafinal = year+"-"+((month<10)? "0"+month : month)+"-"+((fechax<10)? "0"+fechax : fechax) +" "+((hora<10)? "0"+ hora : hora )+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) ;
+      console.log("la super fecha final es -->"+fechafinal);
+
+
+      let params = '{"usuario_id":' + user + ',"embarque_id":'+embarque_id+', "planta_id" : ' + panta + ',"embarque_planta_id":'+embarque_planta_id+',"fecha":"'+fechafinal+'" ,  "observacion":"'+obs+'"}';
+
+      let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
+
+
+      //  console.log(WSUrl);
+      //console.log(params);
+      try {
+        const response = await fetch(WSUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          //  'Authorization': 'Bearer ' + token,
+            token:"SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv"
+          },
+          body: params,
+        });
+
+
+        console.log('status : ' + response.status);
+        if (response.status == 200) {
+          responseJson = response.json();
+          let obj = responseJson;
+          return obj;
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("ERROR lista_documentos: " + JSON.stringify(error));
+        return error;
+      }
+      
+  
+  
+    }
+    static async fnWSCierre(user, panta,embarque_id,embarque_planta_id, state) {
+        
+        
+      
+    
+      var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/cargoEndClosure';
+  
+  
+      console.log("****************************************");
+      console.log(" fnWSCierre ws  ==>>> ", WSUrl);
+      console.log("****************************************");
+  
+      let date = new Date();
+      console.log("la horax es:"+date);
+
+      let day = date.getDate()
+      let month = date.getMonth() + 1
+      let year = date.getFullYear()
+
+      if(month < 10){
+      console.log('${day}-0${month}-${year}')
+      }else{
+      console.log('${day}-${month}-${year}')
+      }
+
+
+      let hora = date.getHours();
+      let minutos= date.getMinutes();
+      let segundos = date.getSeconds();
+
+      let fechax = date.getDate('YYYY-MM-DD')
+
+      console.log("la fecha para insertar es :"+year+"-"+((month<10)? "0"+month : month)+"-"+((fechax<10)? "0"+fechax : fechax) +" "+hora+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) );
+     // return;
+
+      let fechafinal = year+"-"+((month<10)? "0"+month : month)+"-"+((fechax<10)? "0"+fechax : fechax) +" "+((hora<10)? "0"+ hora : hora )+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) ;
+      console.log("la super fecha final es -->"+fechafinal);
+
+
+      let params = '{"user_id":' + user + ',"shipment_id":'+embarque_id+', "plant_id" : ' + panta + ',"shipment_plant_id":'+embarque_planta_id+',"date":"'+fechafinal+'" ,  "state":'+(state==true?('1'):('0'))+'}';
+
+      let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
+
+
+       // console.log(WSUrl);
+      console.log(params);
+      //return;
+      try {
+        const response = await fetch(WSUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          //  'Authorization': 'Bearer ' + token,
+            token:"SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv"
+          },
+          body: params,
+        });
+
+
+        console.log('status : ' + response.status);
+        if (response.status == 200) {
+          responseJson = response.json();
+          let obj = responseJson;
+          return obj;
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("ERROR lista_documentos: " + JSON.stringify(error));
+        return error;
+      }
+      
+  
+  
+    }
+
+
+    static async fnWSConsultaDatosTipo(texto, tipo) {
+               
+      
+    
+      var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/consumeFleetmon';
+  
+  
+      console.log("****************************************");
+      console.log("CONSULTA USUARIO ws  ==>>> ", WSUrl);
+      console.log("****************************************");
+  
+     
+  
+      let params = '{"name":"' + texto + '", "endpoint" : "' + tipo + '"}';
+
+      let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
+
+
+      //  console.log(WSUrl);
+      console.log(params);
+      try {
+        const response = await fetch(WSUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          //  'Authorization': 'Bearer ' + token,
+            token:"SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv"
+          },
+          body: params,
+        });
+
+
+        //console.log('status : ' + response.status);
+        if (response.status == 200) {
+          responseJson = response.json();
+          let obj = responseJson;
+          return obj;
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("ERROR lista_documentos: " + JSON.stringify(error));
+        return error;
+      }
+  
+  
+  
+    }
+
+
+
+    static async fnWSEliminaPalletID(user, panta,embarque_id,embarque_planta_id,pallet_id) {
+        
+        
+      
+    
+      var WSUrl = 'https://plataforma-rsk.aeurus.cl/api/v100/deletePallet';
+  
+  
+      console.log("****************************************");
+      console.log(" fnWSEliminaPalletID ws  ==>>> ", WSUrl);
+      console.log("****************************************");
+  
+      let date = new Date();
+      console.log("la horax es:"+date);
+
+      let day = date.getDate()
+      let month = date.getMonth() + 1
+      let year = date.getFullYear()
+
+      if(month < 10){
+      console.log('${day}-0${month}-${year}')
+      }else{
+      console.log('${day}-${month}-${year}')
+      }
+
+
+      let hora = date.getHours();
+      let minutos= date.getMinutes();
+      let segundos = date.getSeconds();
+
+      let fechax = date.getDate('YYYY-MM-DD')
+
+      console.log("la fecha para insertar es :"+year+"-"+((month<10)? "0"+month : month)+"-"+fechax +" "+((hora<10)? "0"+ hora : hora )+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) );
+     // return;
+
+      let fechafinal = year+"-"+((month<10)? "0"+month : month)+"-"+((fechax<10)? "0"+fechax : fechax) +" "+((hora<10)? "0"+ hora : hora )+":"+((minutos<10)? "0"+ minutos : minutos )+":"+((segundos<10)? "0"+segundos : segundos) ;
+      console.log("la super fecha final es -->"+fechafinal);
+
+
+      let params = '{"user_id":"' + user + '","shipment_id":"'+embarque_id+'", "plant_id" : "' + panta + '","shipment_plant_id":"'+embarque_planta_id+'","pallet_id":"'+pallet_id+'","date":"'+fechafinal+'"}';
+
+     //console.info(params);
+      //return;
+      let token = "SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv";
+
+
+      //  console.log(WSUrl);
+      //console.log(params);
+      try {
+        const response = await fetch(WSUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          //  'Authorization': 'Bearer ' + token,
+            token:"SmFraXJvTG9NYXNHcmFuZGVEZWxEb3RpdGFHcmFjaWFzR2FiZW5Qb3JFc3Rv"
+          },
+          body: params,
+        });
+
+
+        console.log('status : ' + response.status);
+        if (response.status == 200) {
+          responseJson = response.json();
+          let obj = responseJson;
+          return obj;
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("ERROR lista_documentos: " + JSON.stringify(error));
+        return error;
+      }
+  
+  
+  
+    }
+
+
+
+
+
 
 
 

@@ -43,6 +43,7 @@ export default class EstibaPalletLista extends Component {
         id_proximo_especie:'',
         data_pallet_cargados:[],
         confirmacion:false,
+        actualiza: true,
             
     };
     this.HintAlertas = React.createRef();
@@ -79,6 +80,32 @@ export default class EstibaPalletLista extends Component {
 
        
        
+
+    }
+
+
+    recarga = async() =>{
+        let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
+        let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
+
+        //let usuario = this.props.route.params.usuario,
+        //planta = this.props.route.params.planta,
+        let embarque = this.props.route.params.embarque;
+        let embarque_planta = this.props.route.params.embarque_planta;
+        let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+
+
+        informeGeneral = this.props.route.params.informeGeneral
+
+
+        console.log("datox del InfoGeneralEmbarque USUARIO_ID->"+USUARIO_ID);
+        console.log("datox del InfoGeneralEmbarque PLANTA_ID->"+PLANTA_ID);
+        console.log("datox del InfoGeneralEmbarque embarque->"+embarque);
+        console.log("datox del InfoGeneralEmbarque embarque_planta->"+embarque_planta);
+        //console.log("datox del InfoGeneralEmbarque informeGeneral->"+informeGeneral);
+        this.setState({informeGeneral:informeGeneral, embarque_id:embarque, embarque_planta_id:embarque_planta, actualiza:false});
+
+        this.carga_datos_embarque(USUARIO_ID, PLANTA_ID, embarque, embarque_planta);
 
     }
 
@@ -201,16 +228,7 @@ export default class EstibaPalletLista extends Component {
 
                    }
    
-                   
-                   //this.setState({ arregloEspecies: [...this.state.arregloEspecies, objetoEspecie] });
-                 //  this.setState({ indexInicial: this.state.indexInicial + 1 });
-   
-                 //  this.setState({ suma_pallet: this.state.suma_pallet + a.especie_cantidad_pallets });
-                  // this.setState({ suma_box: this.state.suma_box + a.especie_cantidad_cajas });
-   
-                  // this.setState({ precarga:true, creado_web:result.data.creado_web});
-   
-   
+                    
                    
    
                 } );
@@ -224,14 +242,14 @@ export default class EstibaPalletLista extends Component {
                    console.log("ID siguiente especie "+id_especie_siguiente);
                    //console.log("ID siguiente especie "+);
                 
-                
-                   this.setState({id_proximo_pallet:id_pallet_siguiente,
-                       id_proximo_especie:id_especie_siguiente,
-                       tipo_nombre:result.data.tipo_nombre,
+
+                    this.setState({id_proximo_pallet:id_pallet_siguiente,
+                    id_proximo_especie:id_especie_siguiente,
+                    tipo_nombre:result.data.tipo_nombre,
                     total_pallet:result.data.pallets.length,
-                total_pallet_ok:contador_pallet_ok,
-            total_pallet_faltantes:contador_pallet_vacios})
-   
+                    total_pallet_ok:contador_pallet_ok,
+                    total_pallet_faltantes:contador_pallet_vacios})
+
           
               
    
@@ -243,6 +261,41 @@ export default class EstibaPalletLista extends Component {
    
    
        }
+
+
+       shouldComponentUpdate = async(nextProps, nextState) =>{
+        console.log('Ejecutando shouldComponentUpdate 1: ', nextProps )
+       console.log('Ejecutando shouldComponentUpdate 2: ', nextState )
+
+      console.log("nextState.pallet_id ",nextState.pallet_id);
+      console.log("nextProps.route.params.id_pallet_siguiente ",nextProps.route.params.id_pallet_siguiente);
+      console.log("nextState.especie_id ",nextState.especie_id);
+      console.log("nextProps.route.params.id_especie_siguiente ",nextProps.route.params.id_especie_siguiente);
+      console.log("nextProps.route.params.actualiza 1",nextProps.route.params.actualiza);
+      console.log("nextProps.route.params.actualiza 2",nextState.actualiza);
+      
+
+      
+
+       try{
+        if(  nextProps.route.params.actualiza==true && nextState.actualiza!=false ){
+            console.log("se tiene que actualizarrrrr");
+
+
+           
+
+        //return true
+        
+        
+           
+        }
+       }catch(e){
+        console.log("error accidente  "+e);
+       };
+        
+        return false
+      }
+
 
 
        embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
@@ -289,31 +342,46 @@ export default class EstibaPalletLista extends Component {
 
         let pallet = <View style={{marginLeft:'5%', marginBottom:10,borderWidth:1,borderColor:'#9f9f9f', borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', justifyContent:'space-around'}}>
         <View style={{ flex: 1, backgroundColor: 'white' , marginTop:10, marginBottom:10}}>   
-        <Text style={{marginLeft:10}}>Ubicación</Text>
+        <Text style={{marginLeft:10}}>Location</Text>
         <Text style={{marginLeft:10, fontWeight:'bold' }}>{item.pallet_ubicacion}</Text>  
         <Text style={{marginLeft:10}}>Temp °C</Text>
         <Text style={{marginLeft:10, fontWeight:'bold'}}>{item.pallet_temperatura}</Text>                       
         </View>  
         <View style={{ flex: 1, backgroundColor: 'white', marginTop:10 }}>   
-        <Text style={{marginLeft:10}}>N° de Pallet</Text>
+        <Text style={{marginLeft:10}}>Pallet N°</Text>
         <Text style={{marginLeft:10, fontWeight:'bold'}}>{item.pallet_numero_pallet}</Text>  
-        <Text style={{marginLeft:10}}>Termógrafo</Text>
+        <Text style={{marginLeft:10}}>Temp device</Text>
         <Text style={{marginLeft:10, fontWeight:'bold'}}>{item.pallet_codigo_termografo}</Text>                         
         </View> 
         <View style={{ flex: 1, backgroundColor: 'white' , marginTop:10, marginBottom:10}}>   
-        <Text style={{marginLeft:10}}>Posición</Text>
+        <Text style={{marginLeft:10}}>Position</Text>
         <Text style={{marginLeft:10, fontWeight:'bold' }}>{item.pallet_posicion == "true" ? 'Front':'Side'}</Text>  
                               
         </View>  
         <View style={{ flex: .5, backgroundColor: 'white' }}>   
-        <View style={{flex:1,backgroundColor:'#bb4d4b', paddingTop:15, paddingLeft:10}}>
+        {/* <View style={{flex:1,backgroundColor:'#bb4d4b', paddingTop:15, paddingLeft:10}}>
         <Icon22 style={{}} name="trash-can-outline" size={20} color="white" />
-        </View>
-        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPalletAgregar',{
+        </View> */}
+
+        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPalletConfirmaElimina',{
                             embarque : this.state.embarque_id, 
                         embarque_planta : this.state.embarque_planta_id,
                         id_pallet : this.state.id_proximo_pallet,
                         id_especie : this.state.id_proximo_especie,
+                        id_eliminar: item.key })}>
+        <View style={{flex:1,backgroundColor:'#bb4d4b', paddingTop:5, paddingLeft:10}}>
+        <Icon22 style={{paddingTop:5}} name="trash-can-outline" size={20} color="white" />                      
+        </View>   
+        </TouchableWithoutFeedback> 
+
+
+        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPalletModificar',{
+                            embarque : this.state.embarque_id, 
+                        embarque_planta : this.state.embarque_planta_id,
+                        id_pallet : this.state.id_proximo_pallet,
+                        id_especie : this.state.id_proximo_especie,
+                        id_modificar: item.key
+
                         })}>
         <View style={{flex:1,backgroundColor:'#9cc45c', paddingTop:5, paddingLeft:10}}>
         <Icon style={{paddingTop:5}} name="edit" size={20} color="white" />                      
@@ -353,6 +421,10 @@ export default class EstibaPalletLista extends Component {
                 {/* {this.state.data_pallet_cargados} */}
                <FlatList
                         ListHeaderComponent={(
+                            <View style={{flexDirection:'row'}} >
+                               
+
+                            
                            
                         <TouchableHighlight style={{with:100, flex:1, paddingBottom:20}}
                             title=""
@@ -364,12 +436,24 @@ export default class EstibaPalletLista extends Component {
                                 }
                                 } }
                             >
-                            <Text style={{marginTop:10, marginLeft:'25%', 
+                            <Text style={{marginTop:20, marginLeft:'25%', 
                                 width:200, borderRadius:5, 
                                 paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, 
                                 backgroundColor:'#ef882d', color:'white', }}
                                 >Add pallet {(this.state.total_pallet_ok!=this.state.total_pallet?(this.state.total_pallet_ok+1):(this.state.total_pallet_ok))} of {this.state.total_pallet}</Text>
-                            </TouchableHighlight>)}
+                            </TouchableHighlight>
+
+                            <TouchableHighlight style={{with:0, flex:0.2, paddingBottom:20, paddingTop:20}}
+                            title=""
+                            onPress={() =>{
+                                
+                                    this.recarga()
+                                
+                                } }
+                            >
+                            <Icon2 style={{marginLeft:10}} name="reload" size={30} color="#ef882d" />
+                            </TouchableHighlight>
+                            </View>)}
                         //horizontal={false}
                         //showsHorizontalScrollIndicator={false}
                         data={this.state.data_pallet_cargados}

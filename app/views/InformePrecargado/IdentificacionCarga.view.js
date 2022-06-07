@@ -19,8 +19,10 @@ import SelectorEspecies from '../../components/SelectorMultimedia/SelectorEspeci
 import HintImagenAmpliada from '../../components/Hint/Hint.component';
 
 
-import HintAlertas from '../../components/Hint/Hint.component';
+import HintAlertas from '../../components/Hint/Hint.component'
 
+
+import BuscaModal from '../../components/Busqueda/BusquedaModal.component';
 
 
 import WSRestApi from '../../services/wsRestApi';
@@ -79,6 +81,7 @@ export default class InfoGeneralEmbarque extends Component {
             precarga:false,
             creado_web:'',
             foto_numero_contenedor:'',
+            muestraMoto:true,
 
         };
         this.recibidor = React.createRef();
@@ -94,6 +97,10 @@ export default class InfoGeneralEmbarque extends Component {
         this.TextInputNumeroContenedor = React.createRef();
         this.Selector1 = React.createRef();
         this.SelectorEspecies_data = React.createRef();
+
+        this.BuscaModal = React.createRef();
+        this.BuscaModal1 = React.createRef();
+        this.BuscaModal2 = React.createRef();
 
 
 
@@ -655,7 +662,7 @@ export default class InfoGeneralEmbarque extends Component {
 
                                         value={0}
                                         ref={this.especie}
-                                       
+                                       key='0'
                                         datos={this.state.especie_data}
                                         xfuncion={async (x) => {
                                             //this.setState({ keyC: 0, comunaDeChile: [] })
@@ -782,8 +789,41 @@ export default class InfoGeneralEmbarque extends Component {
         try {
 
             
+            let motonavex = this.BuscaModal.current.devolverSeleccionadosTexto();
+            console.log("datox_motonavex ->",motonavex);
+
+            let puerto_origen = this.BuscaModal1.current.devolverSeleccionadosTexto();
+            console.log("puerto_origen ->",puerto_origen);
+
+            let puerto_destino = this.BuscaModal2.current.devolverSeleccionadosTexto();
+            console.log("puerto_destino ->",puerto_destino);
 
 
+            if (puerto_origen==puerto_destino) {
+                if(puerto_origen !='' && puerto_destino !=''){
+                    this.HintAlertas.current.mostrarConParametros("Error en los puertos");
+                    return;
+                }
+                
+            }
+
+
+
+
+            // let motonavex ='';
+
+            // dato_motonavex.forEach((a) =>{
+            //     console.log("datoxxxx de a ",a.text);
+            //     motonavex = a.text;
+                
+            // });
+
+           // console.log("datox_motonavex ->",dato_motonavex);
+
+            //let motonavex =  dato_motonavex.text;
+        
+            //console.log("el nombre de la motonave es->", motonavex);
+           // return;
 
             let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
             let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
@@ -811,7 +851,13 @@ export default class InfoGeneralEmbarque extends Component {
 
 
             //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
-            let resultado = await WSRestApi.fnWSGuardaCargoDetail(USUARIO_ID,PLANTA_ID,embarque, embarque_planta, '02-06-2022',this.state.motonave,this.state.recibidor_id, this.state.puerto_carga, this.state.puerto_destino, this.state.numero_booking, paso,this.state.foto_cargo);
+            let resultado = await WSRestApi.fnWSGuardaCargoDetail(USUARIO_ID,PLANTA_ID,embarque, embarque_planta, 
+                (motonavex==''?(this.state.motonave):(motonavex)),
+                this.state.recibidor_id, 
+                (puerto_origen==''?(this.state.puerto_carga):(puerto_origen)), 
+                (puerto_destino==''?(this.state.puerto_destino):(puerto_destino)), 
+                this.state.numero_booking,
+                paso,this.state.foto_cargo);
             //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
             console.log("resultadox ->"+JSON.stringify(resultado)) ;
 
@@ -859,7 +905,7 @@ export default class InfoGeneralEmbarque extends Component {
 
     render() {
 
-        console.log("la pregarga es1 :"+ this.state.precarga)
+       // console.log("la pregarga es1 :"+ this.state.precarga)
             
         //if(this.state.precarga==true){
     if(this.state.creado_web==1){
@@ -1138,18 +1184,34 @@ export default class InfoGeneralEmbarque extends Component {
                  >
                  </HintImagenAmpliada>
                 
-                
-                 <View>
                  <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
+                 <View style={{flexDirection:'row'}}>
+                 
                  <TextInput
-                 style={styles.input}
+                 style={styles.inputBusqueda}
                  selectTextOnFocus={true}
                       onChangeText={(valor) => this.setState({motonave:valor})}
-                 
+                      inlineImageLeft=''
                  value={this.state.motonave}
                  />
+                 <TouchableHighlight style={{width:20}}
+                          title="Press me"
+                          onPress={() => {
+
+                              console.log("texto a buscar:",this.state.muestraMoto);
+                              //this.BuscaModal.current.setModalVisible(true, this.state.motonave);
+                              this.BuscaModal.current.carga_dato_busqueda(true, this.state.motonave, "vesselsearch");
+
+                              //this.BuscaModal.current.carga_dato_busqueda();
+
+                            }}
+                              >
+                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:20}} name="search" size={20} color="red" />  
+                </TouchableHighlight>
                  </View>
-                
+                 <BuscaModal                        
+                        ref={this.BuscaModal} >
+                </BuscaModal>
                 
                  <View>
                  <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
@@ -1178,7 +1240,7 @@ export default class InfoGeneralEmbarque extends Component {
                 
                  <View>
                  <Text style={{marginLeft:30, marginTop:10}}>Port of loading</Text>
-                 <View   >
+                 {/* <View   >
                  
                 
                  <TextInput
@@ -1189,12 +1251,39 @@ export default class InfoGeneralEmbarque extends Component {
                  />
                 
                 
+                 </View> */}
+                 <View style={{flexDirection:'row'}}>
+                 
+                 <TextInput
+                 style={styles.inputBusqueda}
+                 selectTextOnFocus={true}
+                      onChangeText={(valor) => this.setState({puerto_carga:valor})}
+                      inlineImageLeft=''
+                 value={this.state.puerto_carga}
+                 />
+                 <TouchableHighlight style={{width:20}}
+                          title="Press me"
+                          onPress={() => {
+
+                              console.log("texto a buscar:",this.state.muestraMoto);
+                              //this.BuscaModal.current.setModalVisible(true, this.state.motonave);
+                              this.BuscaModal1.current.carga_dato_busqueda(true, this.state.puerto_carga, "portsearch");
+
+                              //this.BuscaModal.current.carga_dato_busqueda();
+
+                            }}
+                              >
+                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:20}} name="search" size={20} color="red" />  
+                </TouchableHighlight>
                  </View>
+                 <BuscaModal                        
+                        ref={this.BuscaModal1} >
+                </BuscaModal>
                  </View>
                 
                  <View>
                  <Text style={{marginLeft:30, marginTop:10}}>Port of destination</Text>
-                     <View  >
+                     {/* <View  >
                      
                      <TextInput
                      style={styles.input}
@@ -1202,7 +1291,37 @@ export default class InfoGeneralEmbarque extends Component {
                       onChangeText={(valor) => this.setState({puerto_destino:valor})}
                      value={this.state.puerto_destino}
                      />
-                     </View>
+                     </View> */}
+
+<View style={{flexDirection:'row'}}>
+                 
+                 <TextInput
+                 style={styles.inputBusqueda}
+                 selectTextOnFocus={true}
+                      onChangeText={(valor) => this.setState({puerto_destino:valor})}
+                      inlineImageLeft=''
+                 value={this.state.puerto_destino}
+                 />
+                 <TouchableHighlight style={{width:20}}
+                          title="Press me"
+                          onPress={() => {
+
+                              console.log("texto a buscar:",this.state.muestraMoto);
+                              //this.BuscaModal.current.setModalVisible(true, this.state.motonave);
+                              this.BuscaModal2.current.carga_dato_busqueda(true, this.state.puerto_destino, "portsearch");
+
+                              //this.BuscaModal.current.carga_dato_busqueda();
+
+                            }}
+                              >
+                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:20}} name="search" size={20} color="red" />  
+                </TouchableHighlight>
+                 </View>
+                 <BuscaModal                        
+                        ref={this.BuscaModal2} >
+                </BuscaModal>
+
+
                  </View>
                 
                  <View>
@@ -1401,4 +1520,16 @@ const styles = StyleSheet.create({
       borderColor: '#dadee3',
 
     },
+    inputBusqueda: {
+        marginLeft:30,
+        height: 40,
+        width:'70%',
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+        backgroundColor: '#efeeef',
+        borderRadius: 5,
+        borderColor: '#dadee3',
+  
+      },
   });

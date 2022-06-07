@@ -15,6 +15,11 @@ import InputSpinner from "react-native-input-spinner";
 //import Icon from 'react-native-vector-icons/Feather';
 //import Icon2 from 'react-native-vector-icons/Ionicons';
 
+
+import Icon22 from 'react-native-vector-icons/Ionicons';
+
+
+
 import Icon3 from 'react-native-vector-icons/MaterialIcons';
 
 import SelectorMultimedia from '../../components/SelectorMultimedia/SelectorMultimediaMultiple.component.js';
@@ -53,7 +58,7 @@ import Icon4 from 'react-native-vector-icons/FontAwesome5';
 import WSRestApi from '../../services/wsRestApi';
 
 
-export default class EstibaPalletAgregar
+export default class EstibaPalletModificar
  extends Component {
 
     static navigationOptions = {
@@ -142,7 +147,24 @@ export default class EstibaPalletAgregar
                     georeferenciado: "0",
                     termografo_tipo_id:"0",
                     foto_numero_pallet:'',
-                    foto_termografo:'',
+                    //foto_termografo:'',
+                    id_pallet_modificar:'',
+
+                        pallet_numero_pallet :'',
+                       pallet_ubicacion: '',
+                       pallet_posicion: '',
+                       pallet_especie: '',
+                       pallet_temperatura: '',
+                       pallet_tiene_termografo: 0,
+                       pallet_codigo_termografo:'',
+                       pallet_georeferenciado: '',
+                       pallet_termografo_tipo_id: '',
+                       pallet_fecha:'',
+                       foto_numero_pallet: 0,
+                       foto_termografo: 0,
+
+
+                       
         };
 
         this.exportador = React.createRef();
@@ -201,19 +223,31 @@ export default class EstibaPalletAgregar
         let id_pallet = this.props.route.params.id_pallet;
         let id_especie = this.props.route.params.id_especie;
 
+        let id_modificar_paso = this.props.route.params.id_modificar; 
+
+
+
         let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
 
 
         informeGeneral = this.props.route.params.informeGeneral
 
 
-        console.log("datox del EstibaPalletAgregar USUARIO_ID->"+USUARIO_ID);
-        console.log("datox del EstibaPalletAgregar PLANTA_ID->"+PLANTA_ID);
-        console.log("datox del EstibaPalletAgregar embarque->"+embarque);
-        console.log("datox del EstibaPalletAgregar embarque_planta->"+embarque_planta);
+        console.log("datox del EstibaPalletModificar USUARIO_ID->"+USUARIO_ID);
+        console.log("datox del EstibaPalletModificar PLANTA_ID->"+PLANTA_ID);
+        console.log("datox del EstibaPalletModificar embarque->"+embarque);
+        console.log("datox del EstibaPalletModificar embarque_planta->"+embarque_planta);
+
+        console.log("datox del EstibaPalletModificar id_modificar_paso-> "+id_modificar_paso);
+        
+
         //console.log("datox del InfoGeneralEmbarque informeGeneral->"+informeGeneral);
-        this.setState({informeGeneral:informeGeneral, embarque_id:embarque, embarque_planta_id:embarque_planta,
-        pallet_id:id_pallet, especie_id:id_especie});
+        this.setState({informeGeneral:informeGeneral, 
+            embarque_id:embarque, 
+            embarque_planta_id:embarque_planta,
+            pallet_id:id_pallet, 
+            especie_id:id_especie,
+            id_pallet_modificar:id_modificar_paso});
 
         this.carga_datos_embarque(USUARIO_ID, PLANTA_ID, embarque, embarque_planta);
        // this.carga_recibidor();
@@ -405,7 +439,7 @@ export default class EstibaPalletAgregar
                foto_pared_derecha:result.data.foto_pared_derecha,
                exportador_id:result.data.exportador_id,
                exportador_nombre:result.data.exportador_nombre,
-              // planta_nombre:PLANTA_NOMBRE,
+              
                fecha_creacion:result.data.pti,
                listado_especies:paso_especie,
                foto_numero_contenedor:result.data.foto_numero_contenedor,
@@ -416,19 +450,13 @@ export default class EstibaPalletAgregar
                pre_enfriado: result.data.pre_enfriado,
                limpio_sin_olor: result.data.limpio_sin_olor,
                buen_estado: result.data.buen_estado,
-               //temperatura: result.data.temperatura,
+             
                foto_temperatura: result.data.foto_temperatura,
                foto_estado_motor: result.data.foto_estado_motor,
                ventilacion: result.data.ventilacion,
                foto_ventilacion: result.data.foto_ventilacion,
                confirmacion: result.data.confirmacion,
-              // checked1: result.data.pre_enfriado ==0 ? false : true,
-              // checked2: result.data.limpio_sin_olor ==0 ? false : true,
-              // checked3: result.data.buen_estado ==0 ? false : true,
-               //checked4: result.data.confirmacion ==0 ? false : true,
-
-
-               //recibidor_data:[...this.state.recibidor_data,[MyArray2]]
+             
                });
    
                //let MyArray = [];
@@ -440,49 +468,40 @@ export default class EstibaPalletAgregar
                let id_especie_siguiente = 0;
    
                result.data.pallets.forEach((a) =>{
-                //   console.log("el datox es"+ JSON.stringify(a))
+                   console.log("el datox es "+this.state.id_pallet_modificar +"-"+ JSON.stringify(a))
    
-                   if (a.pallet_numero_pallet==null){
-                       contador_pallet_vacios = contador_pallet_vacios + 1;
-                       id_pallet_siguiente = a.pallet_id;
-                       id_especie_siguiente = a.pallet_especie.especie_id;
+                   if (a.pallet_id==this.state.id_pallet_modificar){
+
+                    this.setState({
+                        pallet_numero_pallet :a.pallet_numero_pallet,
+                        pallet_ubicacion: a.pallet_ubicacion,
+                        pallet_posicion: a.pallet_posicion,
+                        pallet_especie: a.pallet_especie,
+                        pallet_temperatura: a.pallet_temperatura,
+                        pallet_tiene_termografo: a.pallet_tiene_termografo,
+                        pallet_codigo_termografo:a.pallet_codigo_termografo,
+                        pallet_georeferenciado: a.pallet_georeferenciado,
+                        pallet_termografo_tipo_id: a.pallet_termografo_tipo_id,
+                        pallet_fecha:a.pallet_fecha,
+                        foto_numero_pallet: a.foto_numero_pallet,
+                        foto_termografo: a.foto_termografo,
+                        pallet_especie_pallet_id : a.pallet_especie.especie_id,
+                        pallet_especie_pallet_nombre : a.pallet_especie.especie_nombre,
+
+                        posicion: a.pallet_posicion=="true"?(true):(false),
+                        checked1: a.pallet_tiene_termografo==1?(true):(false),
+                        checked2: !a.pallet_tiene_termografo==1?(true):(false)
+                    })
+                       
                       
    
-                   }else{
-                       contador_pallet_ok = contador_pallet_ok +1;
-
-                       let objetoPallet = {
-                        key: a.pallet_id,
-                        //value: "Especie 1",
-                       // value: item.id,
-                       pallet_numero_pallet : a.pallet_numero_pallet,
-                       pallet_ubicacion: a.pallet_ubicacion,
-                       pallet_posicion: a.pallet_posicion,
-                       pallet_temperatura: a.pallet_temperatura,
-                       pallet_termografo_tipo_id: a.pallet_termografo_tipo_id,
-                       pallet_ubicacion: a.pallet_ubicacion
-                    }
-    
-                   MyArray22.push(objetoPallet);
-
-
                    }
-   
-                   
-                   //this.setState({ arregloEspecies: [...this.state.arregloEspecies, objetoEspecie] });
-                 //  this.setState({ indexInicial: this.state.indexInicial + 1 });
-   
-                 //  this.setState({ suma_pallet: this.state.suma_pallet + a.especie_cantidad_pallets });
-                  // this.setState({ suma_box: this.state.suma_box + a.especie_cantidad_cajas });
-   
-                  // this.setState({ precarga:true, creado_web:result.data.creado_web});
-   
-   
+    
                    
    
                 } );
-                console.info(MyArray22);
-                this.setState({data_pallet_cargados:MyArray22})
+               // console.info(MyArray22);
+               // this.setState({data_pallet_cargados:MyArray22})
    
                    console.log("cantidad de pallet "+result.data.pallets.length);
                    console.log("cantidad de pallet ok "+contador_pallet_ok);
@@ -826,12 +845,12 @@ export default class EstibaPalletAgregar
     
     envio_menu = async () => {
 
-        if(this.state.numero_pallet==""){
+        if(this.state.pallet_numero_pallet==""){
             this.HintAlertas.current.mostrarConParametros("Debe Ingresar un numero de pallet");
             return;
         }
 
-        if(this.state.ubicacion==""){
+        if(this.state.pallet_ubicacion==""){
             this.HintAlertas.current.mostrarConParametros("Debe ingresar una ubicacion");
             return;
         }
@@ -880,11 +899,11 @@ export default class EstibaPalletAgregar
 
 
             //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
-            let resultado = await WSRestApi.fnWSGuardaPallet(USUARIO_ID,PLANTA_ID,embarque, embarque_planta,this.state.pallet_id, this.state.especie_id, this.state.numero_pallet, this.state.ubicacion, this.state.posicion, this.state.temperatura, this.state.tiene_termografo, this.state.codigo_termografo,this.state.georeferenciado,this.state.termografo_tipo_id, this.state.foto_numero_pallet, this.state.foto_termografo );
+            let resultado = await WSRestApi.fnWSGuardaPallet(USUARIO_ID,PLANTA_ID,embarque, embarque_planta,this.state.id_pallet_modificar, this.state.pallet_especie_pallet_id, this.state.pallet_numero_pallet, this.state.pallet_ubicacion, this.state.posicion, this.state.pallet_temperatura, this.state.tiene_termografo, this.state.codigo_termografo,this.state.georeferenciado,this.state.termografo_tipo_id, this.state.foto_numero_pallet, this.state.foto_termografo );
             //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
             console.log("resultadox ->"+JSON.stringify(resultado)) ;
 
-            if(resultado.state==true)
+            if(resultado.state==true && resultado.message=="ok")
             {   
                 //console.log("okkkkkk");
                // let embarque_paso ='"'+ resultado.data.embarque_id + '"'
@@ -906,7 +925,8 @@ export default class EstibaPalletAgregar
                     embarque : resultado.data.embarque_id, 
                     embarque_planta : resultado.data.embarque_planta_id,
                     informeGeneral : "2",
-                    identificacionCarga:"2",})
+                    identificacionCarga:"2",
+                actualiza:true})
 
 
             }else{
@@ -943,27 +963,50 @@ export default class EstibaPalletAgregar
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
                 <ScrollView>
-                            <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Pallet N°</Text> 
+                            <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Pallet N° {this.state.pallet_numero_pallet} </Text> 
                             <View style={{width:'90%', marginLeft:'0%'}}>
 
                                 <TextInput
+                                
                                 style={styles.input}
                                 selectTextOnFocus={true}
-                                onChangeText={(valor) => this.setState({numero_pallet:valor})}
-                                keyboardType={'numeric'}
-                                value={this.state.numero_pallet}
+                                onChangeText={(valor) => this.setState({pallet_numero_pallet:valor})}
+                                //keyboardType={'numeric'}
+                                defaultValue={this.state.pallet_numero_pallet}
+                                value={this.state.pallet_numero_pallet.toString()}
                                 />
 
                             </View>
-
+            
                             
                             <View> 
                                      <View style={{marginLeft:'0%', flexDirection:'column', alignItems:'center'}}>
-                                     <SelectorNumeroPallet
-                                     ref={this.Selector1}
-                                     mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                                     ocultarTeclado={() => this.ocultarTeclado()}
-                                     />
+                                    {this.state.foto_numero_pallet==1?(
+                                        <View style={{marginBottom:20, paddingBottom:10, paddingTop:10, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                                        <View style={{flex:0.5}}>
+                                        <Icon22 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                                        </View>
+                                        <View style={{flex:2, marginLeft:10}}>
+                                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Photo N° pallet</Text> 
+                                        </View>                        
+                                        <View style={{flex:.5}}>
+                                        <TouchableHighlight style={{with:10}}
+                                              title="Press me"
+                                              onPress={() => this.setState({foto_numero_pallet:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                                  >
+                
+                                           <Icon22 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                                    </TouchableHighlight>
+                                                 
+                                        </View>   
+                                            
+                                        </View>
+                                    ):(<SelectorNumeroPallet
+                                        ref={this.Selector1}
+                                        mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                                        ocultarTeclado={() => this.ocultarTeclado()}
+                                        />)}
+                                     
                                      </View>
                                
 
@@ -975,16 +1018,16 @@ export default class EstibaPalletAgregar
                                 <TextInput
                                 style={styles.input}
                                 selectTextOnFocus={true}
-                                onChangeText={(valor) => this.setState({ubicacion:valor})}
+                                onChangeText={(valor) => this.setState({pallet_ubicacion:valor})}
 
-                                value={this.state.ubicacion}
+                                value={this.state.pallet_ubicacion}
                                 />
 
                             </View>
 
 
                         <View> 
-                        <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Position</Text> 
+                        <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Position </Text> 
                            
                             <View style={{ flexDirection: 'row', marginLeft:'10%', marginTop:20}} >
                             
@@ -1029,8 +1072,8 @@ export default class EstibaPalletAgregar
                             <View style={{width:'80%', marginLeft:'10%'}}>
                                 <Select
                                  disabled={true}
-                                value={this.state.especie_id}
-                                key={this.state.especie_id}
+                                value={this.state.pallet_especie_pallet_id}
+                                key={this.state.pallet_especie_pallet_id}
                                //ref={this.especie}
                                 datos={this.state.especie_data}
                                 xfuncion={async (x) => {
@@ -1046,7 +1089,7 @@ export default class EstibaPalletAgregar
                                 /></View>
 
 
-                            <Text style={{marginLeft:40, marginTop:40, fontWeight:'bold'}}>Temperature settings (Celcius)</Text> 
+                            <Text style={{marginLeft:40, marginTop:40, fontWeight:'bold'}}>Temperature settings (Celcius){this.state.pallet_temperatura}</Text> 
                             <View style={{flexDirection:'row',paddingTop:10, borderWidth:1, width:'75%', height:70, marginLeft:40, borderColor:'#D3D3D3'}}>
                                <View style={{flex:1}}>
                                <InputSpinner
@@ -1064,10 +1107,10 @@ export default class EstibaPalletAgregar
                                     colorMin={"blue"}
                                     height={40}
                                     size={20}
-                                    value={this.state.temperatura}
+                                    value={this.state.pallet_temperatura}
                                     onChange={(num) => {
                                     console.log(num);
-                                    this.setState({temperatura:num})
+                                    this.setState({pallet_temperatura:num})
                                     
                                     }}
                                     />
@@ -1075,7 +1118,7 @@ export default class EstibaPalletAgregar
                                
                                    </View> 
                             </View>
-                            <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Temperature device</Text> 
+                            <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Temperature device </Text> 
                            
                            <View style={{ flexDirection: 'row', marginLeft:'10%', marginTop:20}} >
                            
@@ -1124,15 +1167,15 @@ export default class EstibaPalletAgregar
                            
                            {this.state.checked1==true ? (
                                <View>
-                                   <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Serial N°</Text> 
+                                   <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Serial N° </Text> 
                             <View style={{width:'90%', marginLeft:'0%'}}>
 
                                 <TextInput
                                 style={styles.input}
                                 selectTextOnFocus={true}
-                                onChangeText={(valor) => this.setState({codigo_termografo:valor})}
+                                onChangeText={(valor) => this.setState({pallet_codigo_termografo:valor})}
 
-                                value={this.state.codigo_termografo}
+                                value={this.state.pallet_codigo_termografo}
                                 />
 
                             </View>
@@ -1140,11 +1183,37 @@ export default class EstibaPalletAgregar
                             
                             <View> 
                                      <View style={{marginLeft:'0%', flexDirection:'column', alignItems:'center'}}>
-                                     <SelectorTermografo
+
+                                    {this.state.foto_termografo==1?(
+                                        <View style={{marginBottom:20, paddingBottom:10, paddingTop:10, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                                        <View style={{flex:0.5}}>
+                                        <Icon22 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                                        </View>
+                                        <View style={{flex:2, marginLeft:10}}>
+                                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Temperature device location</Text> 
+                                        </View>                        
+                                        <View style={{flex:.5}}>
+                                        <TouchableHighlight style={{with:10}}
+                                              title="Press me"
+                                              onPress={() => this.setState({foto_termografo:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                                  >
+                
+                                           <Icon22 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                                    </TouchableHighlight>
+                                                 
+                                        </View>   
+                                            
+                                        </View>
+
+                                    ):(
+                                        <SelectorTermografo
                                      ref={this.Selector2}
                                      mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
                                      ocultarTeclado={() => this.ocultarTeclado()}
                                      />
+                                    )}
+                                     
+
                                      </View>
                                
 
@@ -1153,7 +1222,7 @@ export default class EstibaPalletAgregar
                            ):(<View></View>)}
                      
                           
-                     <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Real time logger</Text> 
+                     <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Real time logger {this.state.pallet_georeferenciado}</Text> 
                            
                            <View style={{ flexDirection: 'row', marginLeft:'10%', marginTop:20}} >
                            
@@ -1210,27 +1279,6 @@ export default class EstibaPalletAgregar
 
                                 value={this.state.termografo_tipo_id}
                                 />
-
-                                {/* <View style={{width:'80%', marginLeft:'10%'}}>
-                                <Select
-                                disabled={true}
-                                value={this.state.especie_id}
-                                key={this.state.especie_id}
-                                //ref={this.especie}
-                                datos={this.state.especie_data}
-                                xfuncion={async (x) => {
-                                //this.setState({ keyC: 0, comunaDeChile: [] })
-                                //await this.guardarSoloRegion(x);
-                                console.log("usuariox => ", x);
-                                //this.setState({especie_seleccionada:x});
-                                // this.setState({especie_seleccionada_Arreglo:[x]});
-                                // especie_seleccionada_Arreglo
-                                //this.mostrarMontoMax(x);
-
-                                }}
-                                /></View> */}
-
-
 
                                 </View>
 

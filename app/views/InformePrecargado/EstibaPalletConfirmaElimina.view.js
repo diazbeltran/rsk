@@ -18,7 +18,11 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 
 
-export default class ConsultaEstibaConfirma extends Component {
+import WSRestApi from '../../services/wsRestApi';
+
+
+
+export default class ConsultaEstibaConfirmaElimina extends Component {
 
     static navigationOptions = {
         header: null,
@@ -34,6 +38,12 @@ export default class ConsultaEstibaConfirma extends Component {
                 label: "Aeurus ",
                 value: "1"
             },
+            id_pallet_elimina:'',
+            usuario_id :'',
+            planta_id : '',
+            embarque_id:'',
+            embarque_planta_id:'',
+
         };
 
         this.exportador = React.createRef();
@@ -49,6 +59,8 @@ export default class ConsultaEstibaConfirma extends Component {
         //planta = this.props.route.params.planta,
         let embarque = this.props.route.params.embarque;
         let embarque_planta = this.props.route.params.embarque_planta;
+
+        let id_pallet_elimina = this.props.route.params.id_eliminar;
         let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
 
 
@@ -59,8 +71,15 @@ export default class ConsultaEstibaConfirma extends Component {
         console.log("datox del InfoGeneralEmbarque PLANTA_ID->"+PLANTA_ID);
         console.log("datox del InfoGeneralEmbarque embarque->"+embarque);
         console.log("datox del InfoGeneralEmbarque embarque_planta->"+embarque_planta);
+        console.log("datox del InfoGeneralEmbarque id_pallet_elimina->"+id_pallet_elimina);
+        
         //console.log("datox del InfoGeneralEmbarque informeGeneral->"+informeGeneral);
-        this.setState({informeGeneral:informeGeneral, embarque_id:embarque, embarque_planta_id:embarque_planta});
+        this.setState({informeGeneral:informeGeneral, 
+            embarque_id:embarque, 
+            embarque_planta_id:embarque_planta,
+            id_pallet_elimina:id_pallet_elimina,
+        usuario_id:USUARIO_ID,
+    planta_id:PLANTA_ID});
 
         //this.carga_datos_embarque(USUARIO_ID, PLANTA_ID, embarque, embarque_planta);
        // this.carga_recibidor();
@@ -72,7 +91,55 @@ export default class ConsultaEstibaConfirma extends Component {
 
     }
 
+    elimina_pallet = async() => {
 
+        console.log("por aqui vamos");
+        let result;
+        await this.elimina_palletID().then(function (data) {
+           result = data;
+
+
+         });
+
+         if(result.state == true && result.message=="Success"){
+
+            console.log("se elimino, ahora a ");
+
+            this.props.navigation.navigate('EstibaPalletLista',{
+                embarque : this.state.embarque_id, 
+            embarque_planta : this.state.embarque_planta_id,
+            actualiza:true   
+                         
+            
+            });
+
+            
+
+        }else{
+
+            console.log("que mal :(");
+        }
+
+
+
+
+    }
+
+    elimina_palletID = async () => {
+        try {
+
+
+          let resultado = await WSRestApi.fnWSEliminaPalletID(this.state.usuario_id, this.state.planta_id,this.state.embarque_id,this.state.embarque_planta_id, this.state.id_pallet_elimina);
+          //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+          return resultado;
+        } catch (error) {
+          let resultado = JSON.stringify(error);
+          //let resultado = "errorx";
+          console.log("ERROR1??? : " + error);
+          return resultado;
+         // return false
+        }
+      }
 
 
     envio_menu = async () => {
@@ -106,26 +173,22 @@ export default class ConsultaEstibaConfirma extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Closing container</Text>
+                    <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Pallets' stowagex</Text>
                     <Icon style={{marginRight:'10%'}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column', alignItems:'center'}} >
-                    <Text style={{fontWeight:'bold', marginTop:'10%'}}>IMPORTANT INFORMATION</Text>
+                    <Text style={{fontWeight:'bold', marginTop:'10%'}}>Pallet N° </Text>
                    <View style={{flex:.3, width:'70%'}}>
-                    <Text style={{marginTop:'2%'}}>Will atmosphere curtain (CA) be installed?</Text>  
+                    <Text style={{marginTop:'2%'}}>You are deleting this pallet.</Text>  
+                    <Text style={{marginTop:'2%'}}>Continue.</Text>  
                     </View>
                     <View style={{flexDirection:'row', justifyContent: 'space-around', marginTop:'10%'}}>
                    <View>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('EstibaPalletFotos',{
-                            embarque : this.state.embarque_id, 
-                        embarque_planta : this.state.embarque_planta_id,
-                        id_pallet : this.state.id_proximo_pallet,
-                        id_especie : this.state.id_proximo_especie,
-                        })}
+                        onPress={() => this.elimina_pallet()}
                         >
                         <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#75BE48', color:'white', }}>Yes</Text>
                         </TouchableHighlight>
@@ -133,8 +196,8 @@ export default class ConsultaEstibaConfirma extends Component {
                    <View>
                        <TouchableHighlight style={{with:10, marginLeft:20}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('EstibaPalletFotosUno',{
-                            embarque : this.state.embarque_id, 
+                        onPress={() => this.props.navigation.navigate('EstibaPalletLista',{
+                        embarque : this.state.embarque_id, 
                         embarque_planta : this.state.embarque_planta_id,
                         id_pallet : this.state.id_proximo_pallet,
                         id_especie : this.state.id_proximo_especie,

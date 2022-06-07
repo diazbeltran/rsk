@@ -80,7 +80,7 @@ export default class ConsultaContenedor extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Consulta Contenedor</Text>
+                    <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Check container</Text>
                     <Icon style={{marginRight:'10%'}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
@@ -93,7 +93,13 @@ export default class ConsultaContenedor extends Component {
                    <View>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
-                        onPress={() => this.envio_menu()}
+                        onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque',{
+                            usuario: this.props.route.params.usuario,
+                            planta: this.props.route.params.planta,
+                            embarque: this.props.route.params.embarque,
+                            embarque_planta: this.props.route.params.embarque_planta,
+                            informeGeneral:"1",
+                        })} 
                         >
                         <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#75BE48', color:'white', }}>Si</Text>
                         </TouchableHighlight>
@@ -101,13 +107,7 @@ export default class ConsultaContenedor extends Component {
                    <View>
                        <TouchableHighlight style={{with:10, marginLeft:20}}
                         title="Press me"
-                        onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque',{
-                            usuario: this.props.route.params.usuario,
-                            planta: this.props.route.params.planta,
-                            embarque: this.props.route.params.embarque,
-                            embarque_planta: this.props.route.params.embarque_planta,
-                            informeGeneral:"1",
-                        })}
+                        onPress={() => this.envio_menu()}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#6f6aaa', color:'white', }}>No</Text>
                             </TouchableHighlight>

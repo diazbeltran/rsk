@@ -176,7 +176,10 @@ import InformeScreen from '../views/InformePrecargado/InformePre.view.js';
 import ConsultaContenedorScreen from '../views/InformePrecargado/ConsultaContenedor.view.js';
 
 import EstibaPalletConfirma from '../views/InformePrecargado/EstibaPalletConfirma.view.js';
+import EstibaPalletConfirmaElimina from '../views/InformePrecargado/EstibaPalletConfirmaElimina.view.js';
 import EstibaPalletFotos from '../views/InformePrecargado/EstibaPalletFotos.view.js';
+import EstibaPalletFotosUno from '../views/InformePrecargado/EstibaPalletFotosUno.view.js';
+
 
 import InfoGeneralEmbarque from '../views/InformePrecargado/InformeGeneralEmbarque.view.js';
 import InfoGeneralEmbarqueNuevo from '../views/InformePrecargado/InfoGeneralEmbarqueNuevo.view.js';          
@@ -193,6 +196,9 @@ import FotosCarga from '../views/InformePrecargado/FotosCarga.view.js';
 
 import EstibaPallet from '../views/InformePrecargado/EstibaPallet.view.js';
 import EstibaPalletAgregar from '../views/InformePrecargado/EstibaPalletAgregar.view.js';
+
+import EstibaPalletModificar from '../views/InformePrecargado/EstibaPalletModificar.view.js';
+
 import EstibaPalletLista from '../views/InformePrecargado/EstibaPalletLista.view.js';
 import ConsolidacionCarga from '../views/InformeCarga/ConsolidacionCargaMenu.view.js';
 import ConsolidacionCargaCorto from '../views/InformeCarga/ConsolidadoCorto.view.js';
@@ -317,6 +323,12 @@ function AuthNavigator() {
                 options={{ headerShown: false }} 
                 component={EstibaPalletAgregar} />
 
+                <Stack.Screen name="EstibaPalletModificar" 
+                options={{ headerShown: false }} 
+                component={EstibaPalletModificar} />
+
+
+
                 <Stack.Screen name="EstibaPalletLista" 
                 options={{ headerShown: false }} 
                 component={EstibaPalletLista} />
@@ -325,9 +337,19 @@ function AuthNavigator() {
                 options={{ headerShown: false }} 
                 component={EstibaPalletConfirma} />
 
+                <Stack.Screen name="EstibaPalletConfirmaElimina" 
+                options={{ headerShown: false }} 
+                component={EstibaPalletConfirmaElimina} />
+
+
                 <Stack.Screen name="EstibaPalletFotos" 
                 options={{ headerShown: false }} 
                 component={EstibaPalletFotos} />
+
+                <Stack.Screen name="EstibaPalletFotosUno" 
+                options={{ headerShown: false }} 
+                component={EstibaPalletFotosUno} />
+
 
 
                  <Stack.Screen name="FotosCarga" 

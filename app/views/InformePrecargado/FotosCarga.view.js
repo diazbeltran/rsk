@@ -10,6 +10,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Ionicons';
+
+
+import WSRestApi from '../../services/wsRestApi';
+
+
 export default class FotosCarga extends Component {
 
     static navigationOptions = {
@@ -20,11 +25,133 @@ export default class FotosCarga extends Component {
         super(props);
         this.state = {
             status: false,
-            Imagen:false
+            Imagen:false,
+
+            img1:false,
+            img2:false,
+            img3:false,
+            img4:false,
+            img5:false,
+            img6:false,
+            img7:false,
+            img8:false,
+            img9:false,
+            img10:false,
+            img11:false,
+            img12:false,
+            img13:false,
+
+            general_photo_container  : '',
+            left_wall_container_photo   : '',
+            right_wall_container_photo: '',
+            photo_container_number: '',
+            container_manufacturing_year_photo: '',
+            pti_photo: '',
+            container_photo_setup: '',
+            general_photo_engine_condition: '',
+            photo_fan: '',
+            photo_buffer_plate: '',
+            photo_background_container: '',
+            photo_curtain_atmosphere: '',
+            container_closure_photo: '',
+
+
+
         };
 
         
     }
+
+    componentDidMount = async () => {
+
+        let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
+        let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
+
+        //let usuario = this.props.route.params.usuario,
+        //planta = this.props.route.params.planta,
+        let embarque = this.props.route.params.embarque;
+        let embarque_planta = this.props.route.params.embarque_planta;
+
+        let id_pallet = this.props.route.params.id_pallet;
+        let id_especie = this.props.route.params.id_especie;
+
+        let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+
+
+        informeGeneral = this.props.route.params.informeGeneral
+
+
+        console.log("datox del EstibaPalletAgregar USUARIO_ID->"+USUARIO_ID);
+        console.log("datox del EstibaPalletAgregar PLANTA_ID->"+PLANTA_ID);
+        console.log("datox del EstibaPalletAgregar embarque->"+embarque);
+        console.log("datox del EstibaPalletAgregar embarque_planta->"+embarque_planta);
+        //console.log("datox del InfoGeneralEmbarque informeGeneral->"+informeGeneral);
+        this.setState({informeGeneral:informeGeneral, embarque_id:embarque, embarque_planta_id:embarque_planta,
+        pallet_id:id_pallet, especie_id:id_especie});
+
+        this.carga_fotos_embarque(USUARIO_ID, PLANTA_ID, embarque, embarque_planta);
+       // this.carga_recibidor();
+        //this.carga_especies();
+       // this.carga_objetosEspecie();
+
+             
+
+    }
+
+
+    carga_fotos_embarque = async (usuario, planta, embarque, embarque_planta) =>{
+
+        //   console.log("carga_datos_embarque -->"+PLANTA_NOMBRE);
+               let result;
+            await this.embarque_fotos(usuario, planta, embarque, embarque_planta).then(function (data) {
+               result = data;
+             });
+   
+             if (result.state == true) {
+   
+               console.log("InfoGeneralEmbarque embarque_detalle resultado:-> "+JSON.stringify(result.data));
+
+               this.setState({
+                    general_photo_container  : result.data.general_photo_container,
+                    left_wall_container_photo   : result.data.left_wall_container_photo,
+                    right_wall_container_photo: result.data.right_wall_container_photo,
+                    photo_container_number: result.data.photo_container_number,
+                    container_manufacturing_year_photo: result.data.container_manufacturing_year_photo,
+                    pti_photo: result.data.pti_photo,
+                    container_photo_setup: result.data.container_photo_setup,
+                    general_photo_engine_condition: result.data.general_photo_engine_condition,
+                    photo_fan: result.data.photo_fan,
+                    photo_buffer_plate: result.data.photo_buffer_plate,
+                    photo_background_container: result.data.photo_background_container,
+                    photo_curtain_atmosphere: result.data.photo_curtain_atmosphere,
+                    container_closure_photo: result.data.container_closure_photo   })
+   
+           
+   
+            //   this.props.navigation.navigate('App')
+           }else{
+              // this.setState({modalVisible:true})
+              console.log("2");
+           }
+   
+   
+       }
+
+
+       embarque_fotos = async (usuario, planta,embarque, embarque_planta) => {
+        try {
+          let resultado = await WSRestApi.fnWSFotosEmbarque(usuario, planta,embarque, embarque_planta);
+          //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+          return resultado;
+        } catch (error) {
+          let resultado = JSON.stringify(error);
+          //let resultado = "errorx";
+          console.log("ERROR1??? : " + error);
+          return resultado;
+         // return false
+        }
+      }
+
 
     envio_menu = async () => {
 
@@ -40,7 +167,13 @@ export default class FotosCarga extends Component {
                 await AsyncStorage.setItem("Observaciones", "1");
 
 
-        this.props.navigation.navigate('ConsolidacionCarga', {a:'a'})
+        this.props.navigation.navigate('ConsolidacionCarga', {embarque : this.state.embarque_id, 
+            embarque_planta : this.state.embarque_planta_id,
+            informeGeneral : "2",
+            identificacionCarga:"2",
+            EspecificacionContenedor:"2",
+            FotosContenedor:"2",
+            EstibaPallet:"1" })
     };
     
 
@@ -59,7 +192,7 @@ export default class FotosCarga extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Fotos de consolidación </Text><Icon2 style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo's stuffing photos</Text><Icon2 style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
 
                 </View>
                
@@ -69,10 +202,20 @@ export default class FotosCarga extends Component {
                                 
                             
                                     
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                    <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img1 "+ this.state.img1);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img1: !this.state.img1,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -85,7 +228,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto general del contenedor
+                                Container general view
 
                                 </Text>
                                 </View>
@@ -94,12 +237,84 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
                                     
-                                 <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                {this.state.img1==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.general_photo_container}}
+                                    />
+
+                                </View>):(
+                                    <View></View>
+                                )}
+
+                            <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img2 "+ this.state.img2);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img2: !this.state.img2,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
+                                >
+
+                    <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
+                                <View style={{flex:4}}>
+                                <Text 
+                                style={{ 
+                                paddingTop:15, 
+                                paddingLeft:    5,paddingRight:5, 
+
+                                paddingLeft:20,
+                                 color:'black', 
+                                 fontWeight:'bold' ,
+                                color:"#ef882d"}}>
+                                External left side wall
+
+                                </Text>
+                                </View>
+                                <View>
+                                <Icon2 style={{flex:1, paddingTop:10,marginLeft:0, paddingRight:20}} name="eye" size={30} color="#ef882d" />
+                                </View>
+                                </View>                                    
+                                </TouchableWithoutFeedback>
+                                
+                                </View> 
+                                    
+                                {this.state.img2==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                     style={{ width: 300, height: 300}}
+                                     source={{ uri: this.state.left_wall_container_photo}}
+                                    />
+
+                                </View>):(
+                                    <View></View>
+                                )}
+
+                    <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                <TouchableWithoutFeedback style={{}}
+                                title=""
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img3 "+ this.state.img3);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img3: !this.state.img3,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -112,7 +327,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto contenedor pared izquierda
+                                External right side wall
 
                                 </Text>
                                 </View>
@@ -121,12 +336,35 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img3==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.right_wall_container_photo}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                </View>):(
+                                    <View></View>
+                                )}
+
+
+                    <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img4 "+ this.state.img4);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img4: !this.state.img4,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -139,7 +377,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto contenedor pared derecha
+                                Container N°
 
                                 </Text>
                                 </View>
@@ -148,12 +386,35 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img4==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.photo_container_number}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                </View>):(
+                                    <View></View>
+                                )}
+
+
+                        <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img5 "+ this.state.img5);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img5: !this.state.img5,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -166,7 +427,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto número del contenedor
+                                Fabrication year
 
                                 </Text>
                                 </View>
@@ -175,12 +436,35 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img5==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.container_manufacturing_year_photo}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                </View>):(
+                                    <View></View>
+                                )}
+
+                                
+                    <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img6 "+ this.state.img6);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img6: !this.state.img6,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -193,7 +477,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto año de fabricación contenedor
+                                PTI
 
                                 </Text>
                                 </View>
@@ -202,12 +486,35 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img6==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.pti_photo}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                </View>):(
+                                    <View></View>
+                                )}
+
+
+                            <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img7 "+ this.state.img7);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img7: !this.state.img7,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -220,7 +527,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto PTI
+                                Reefere T° screen
 
                                 </Text>
                                 </View>
@@ -229,12 +536,36 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img7==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.container_photo_setup}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                </View>):(
+                                    <View></View>
+                                )}
+
+
+                                    
+                            <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img8 "+ this.state.img8);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img8: !this.state.img8,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -247,7 +578,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto seteo contenedor
+                                Motor condition (condenser)
 
                                 </Text>
                                 </View>
@@ -256,12 +587,34 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img8==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.general_photo_engine_condition}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                </View>):(
+                                    <View></View>
+                                )}
+
+                        <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img9 "+ this.state.img9);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img9: !this.state.img9,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -274,7 +627,8 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto general estado motor (condensador)
+                                Ventilation settings (CBM)
+
                                 </Text>
                                 </View>
                                 <View>
@@ -282,12 +636,36 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img9==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.photo_fan}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                </View>):(
+                                    <View></View>
+                                )}
+
+
+
+                        <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img10 "+ this.state.img10);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img10: !this.state.img10,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -300,7 +678,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto ventilación (CBM)
+                                Buffer plate
 
                                 </Text>
                                 </View>
@@ -309,12 +687,35 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img10==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.photo_buffer_plate}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                </View>):(
+                                    <View></View>
+                                )}
+
+
+                            <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img11 "+ this.state.img11);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img11: !this.state.img11,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -327,7 +728,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto buffer plate
+                                Rear inside of container
 
                                 </Text>
                                 </View>
@@ -336,12 +737,35 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img11==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.photo_background_container}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                </View>):(
+                                    <View></View>
+                                )}
+
+
+                    <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img12 "+ this.state.img12);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img12: !this.state.img12,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -354,7 +778,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto dondo del contenedor
+                                Controlled atmosphere curtaine
 
                                 </Text>
                                 </View>
@@ -363,12 +787,35 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img12==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.photo_curtain_atmosphere}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
+                                </View>):(
+                                    <View></View>
+                                )}
+
+
+                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
                                 <TouchableWithoutFeedback style={{}}
                                 title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                //onPress={() => this.props.navigation.navigate('TomarFoto')}
+                                onPress={(value) => {
+                                    console.log("el valorx es img13 "+ this.state.img13);
+                                let x = !value;
+                               // let opcion = value==true ? 1:0;
+                                //console.log("el opcion es "+opcion);
+                                this.setState({
+                                    img13: !this.state.img13,
+                                   // preenfriado:  opcion,
+                                   // checked4:x
+                                })}}
                                 >
                                 <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
                                 <View style={{flex:4}}>
@@ -381,7 +828,7 @@ export default class FotosCarga extends Component {
                                  color:'black', 
                                  fontWeight:'bold' ,
                                 color:"#ef882d"}}>
-                                Foto cortina de atmósfera
+                                Closed doors
 
                                 </Text>
                                 </View>
@@ -390,34 +837,22 @@ export default class FotosCarga extends Component {
                                 </View>
                                 </View>                                    
                                 </TouchableWithoutFeedback>
-                                </View>
+                                
+                                </View> 
+                                    
+                                {this.state.img13==true?(
+                                <View style={{flexDirection:'column', alignItems:'center', marginTop:20}}>
+                                <Image
+                                    style={{ width: 300, height: 300}}
+                                    source={{ uri: this.state.container_closure_photo}}
+                                    />
 
-                                <View style={{height:70, marginLeft:30, alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, flexDirection:'row'}}>
-                                <TouchableWithoutFeedback style={{}}
-                                title=""
-                                onPress={() => this.props.navigation.navigate('TomarFoto')}
-                                >
-                                <View style={{backgroundColor:'#e4e4e4', flexDirection:'row',borderWidth:0.5,borderRadius:5, height:50, width:300, borderColor:'#e4e4e4'}}>
-                                <View style={{flex:4}}>
-                                <Text 
-                                style={{ 
-                                paddingTop:15, 
-                                paddingLeft:    5,paddingRight:5, 
+                                </View>):(
+                                    <View></View>
+                                )}
 
-                                paddingLeft:20,
-                                 color:'black', 
-                                 fontWeight:'bold' ,
-                                color:"#ef882d"}}>
-                                Foto cierre de contenedor
 
-                                </Text>
-                                </View>
-                                <View>
-                                <Icon2 style={{flex:1, paddingTop:10,marginLeft:0, paddingRight:20}} name="eye" size={30} color="#ef882d" />
-                                </View>
-                                </View>                                    
-                                </TouchableWithoutFeedback>
-                                </View>
+                             
 
 
                         
@@ -428,7 +863,7 @@ export default class FotosCarga extends Component {
                             title="Press me"
                             onPress={() => this.envio_menu()}
                             >
-                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Siguiente</Text>
+                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Next</Text>
                             </TouchableHighlight>
                             </View>
 
