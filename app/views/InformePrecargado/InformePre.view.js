@@ -17,6 +17,8 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Icon22 from 'react-native-vector-icons/MaterialIcons';
 
+import { RNCamera } from 'react-native-camera';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 
 export default class InformePrecargado extends Component {
 
@@ -218,8 +220,29 @@ export default class InformePrecargado extends Component {
         );
       };
 
+      // takePicture = async () => {
+      //   if (this.camera) {
+      //     const options = { quality: 0.5, base64: true };
+      //     const data = await this.camera.takePictureAsync(options);
+      //     console.log(data.uri);
+      //   }
+      // };
 
+      takePicture = async () => {
+        try {
+          const data = await this.camera.takePictureAsync();
+          console.log('Path to image: ' + data.uri);
+        } catch (err) {
+           console.log('err: ', err);
+        }
+      };
 
+      onSuccess = e => {
+        console.log(e);
+        // Linking.openURL(e.data).catch(err =>
+        //   console.error('An error occured', err)
+        // );
+      };
     render() {
 
         return (
@@ -245,6 +268,24 @@ export default class InformePrecargado extends Component {
 
           </View> */}
           
+          {/* <QRCodeScanner
+        onRead={this.onSuccess}
+        //flashMode={RNCamera.Constants.FlashMode.torch}
+        topContent={
+          <Text style={styles.centerText}>
+            Go to{' '}
+            <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
+            your computer and scan the QR code.
+          </Text>
+        }
+        bottomContent={
+          <TouchableOpacity style={styles.buttonTouchable}>
+            <Text style={styles.buttonText}>OK. Got it!</Text>
+          </TouchableOpacity>
+        }
+      /> */}
+
+      
           
           <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
           
@@ -284,6 +325,7 @@ export default class InformePrecargado extends Component {
     </View>
         );
     }
+
 
 
 

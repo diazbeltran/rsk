@@ -13,6 +13,7 @@ import SelectorMultimedia1 from '../../components/SelectorMultimedia/SelectorMul
 import SelectorMultimedia2 from '../../components/SelectorMultimedia/SelectorMultimediaLeft.component.js';
 import SelectorMultimedia3 from '../../components/SelectorMultimedia/SelectorMultimediaRight.component.js';
 
+import Loading from '../../components/Loading/Loading.component';
 
 import Hint from '../../components/Hint/Hint.component';
 import HintAlertas from '../../components/Hint/Hint.component';
@@ -78,7 +79,7 @@ export default class InfoGeneralEmbarque extends Component {
         this.HintPDF1 = React.createRef();
         this.HintPDF2 = React.createRef();
         this.HintPDF3 = React.createRef();
-
+        this.Loading = React.createRef();
 
     }
 
@@ -475,6 +476,10 @@ guarda_embarque = async () => {
        // console.log("img3 -->"+img3);
 
         try {
+
+            this.Loading.current.mostrar();
+
+
             //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
             let resultado = await WSRestApi.fnWSGuardaEmbarqueActualiza(USUARIO_ID,PLANTA_ID,fecha,this.state.embarque_id,this.state.embarque_planta_id,numero,expor,img1, img2, img3);
             //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
@@ -499,7 +504,7 @@ guarda_embarque = async () => {
                 await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
                 await AsyncStorage.setItem("Observaciones", "0");
 
-
+                this.Loading.current.ocultar();
                 this.props.navigation.navigate('ConsolidacionCarga', {
                     embarque : resultado.data.embarque_id, 
                     embarque_planta : resultado.data.embarque_planta_id,
@@ -508,11 +513,13 @@ guarda_embarque = async () => {
 
 
             }else{
+                this.Loading.current.ocultar();
                 console.log("sin resultadox");
                 this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
             }
 
           } catch (error) {
+            this.Loading.current.ocultar();
             let resultado = JSON.stringify(error);
             //let resultado = "errorx";
             console.log("ERROR exportador ??? : " + error);
@@ -810,7 +817,7 @@ guarda_embarque = async () => {
                
                 
                 
-                
+                            <Loading ref={this.Loading} />
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
                     
                     <Footer

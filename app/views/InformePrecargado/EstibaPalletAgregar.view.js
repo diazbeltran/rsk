@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, TouchableWithoutFeedback} from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, TouchableWithoutFeedback, TouchableOpacity, Modal} from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/FooterSimple.component';
 import FormLogin from '../../component/Login/FormLogin.component.js';
@@ -12,10 +12,13 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import InputSpinner from "react-native-input-spinner";
 
 
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { RNCamera } from 'react-native-camera';
+
 //import Icon from 'react-native-vector-icons/Feather';
 //import Icon2 from 'react-native-vector-icons/Ionicons';
 
-import Icon3 from 'react-native-vector-icons/MaterialIcons';
+import Icon3 from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import SelectorMultimedia from '../../components/SelectorMultimedia/SelectorMultimediaMultiple.component.js';
 
@@ -51,6 +54,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import Icon4 from 'react-native-vector-icons/FontAwesome5';
 import WSRestApi from '../../services/wsRestApi';
+import { Module } from 'module';
 
 
 export default class EstibaPalletAgregar
@@ -86,6 +90,8 @@ export default class EstibaPalletAgregar
             exportadorInicio: {},
             tecladoMostrado:false,
             rawDate: new Date(),
+            modalVisible:false,
+            modalVisible2:false,
 
             focoOrden:false,
             
@@ -223,6 +229,23 @@ export default class EstibaPalletAgregar
              
 
     }
+    onSuccess = e => {
+        console.log(e);
+        // Linking.openURL(e.data).catch(err =>
+        //   console.error('An error occured', err)
+        // );
+            this.setState({numero_pallet:e.data})
+            this.setModalVisible(!this.state.modalVisible)
+      };
+
+      onSuccess2 = e => {
+        console.log(e);
+        // Linking.openURL(e.data).catch(err =>
+        //   console.error('An error occured', err)
+        // );
+            this.setState({codigo_termografo:e.data})
+            this.setModalVisible2(!this.state.modalVisible2)
+      };
 
 
     carga_especies = async () =>{
@@ -460,7 +483,7 @@ export default class EstibaPalletAgregar
                        pallet_posicion: a.pallet_posicion,
                        pallet_temperatura: a.pallet_temperatura,
                        pallet_termografo_tipo_id: a.pallet_termografo_tipo_id,
-                       pallet_ubicacion: a.pallet_ubicacion
+                       //pallet_ubicacion: a.pallet_ubicacion
                     }
     
                    MyArray22.push(objetoPallet);
@@ -821,6 +844,13 @@ export default class EstibaPalletAgregar
 
       }
 
+      setModalVisible = async (visible) => {
+        this.setState({ modalVisible: visible});
+    }  
+
+    setModalVisible2 = async (visible) => {
+        this.setState({ modalVisible2: visible});
+    } 
 
 
     
@@ -941,10 +971,10 @@ export default class EstibaPalletAgregar
 
                 </View>
                
-                <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
+                <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'row'}} >
                 <ScrollView>
                             <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Pallet N°</Text> 
-                            <View style={{width:'90%', marginLeft:'0%'}}>
+                            <View style={{width:'70%', marginLeft:'0%', flexDirection:'row'}}>
 
                                 <TextInput
                                 style={styles.input}
@@ -953,8 +983,43 @@ export default class EstibaPalletAgregar
                                 keyboardType={'numeric'}
                                 value={this.state.numero_pallet}
                                 />
-
+                               <TouchableWithoutFeedback onPress={() => this.setModalVisible(!this.state.modalVisible)}>
+                    <View style={{marginTop:15}}>
+                    <Icon3  name="barcode-scan" size={30} color="#F4891F" />
+                                        
+                    </View> 
+                    </TouchableWithoutFeedback>
+                    
+                    
                             </View>
+                            <Modal animationType="fade"
+                    presentationStyle="overFullScreen"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                            <View style={{width:'80%', height:100}}>
+                        <QRCodeScanner style={{width:'80%', height:100}}
+                    onRead={this.onSuccess}
+                    // flashMode={RNCamera.Constants.FlashMode.torch}
+                    topContent={
+                    <Text style={styles.centerText}>
+                    Go to{' '}
+                    <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
+                    your computer and scan the QR code.
+                    </Text>
+                    }
+                    bottomContent={
+                    <TouchableOpacity style={styles.buttonTouchable}>
+                    <Text style={styles.buttonText}>OK. Got it!</Text>
+                    </TouchableOpacity>
+                    }
+                    />
+                        </View>
+                            </Modal>
+                        
 
                             
                             <View> 
@@ -1125,7 +1190,7 @@ export default class EstibaPalletAgregar
                            {this.state.checked1==true ? (
                                <View>
                                    <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Serial N°</Text> 
-                            <View style={{width:'90%', marginLeft:'0%'}}>
+                            <View style={{width:'70%', marginLeft:'0%', flexDirection:'row'}}>
 
                                 <TextInput
                                 style={styles.input}
@@ -1134,8 +1199,40 @@ export default class EstibaPalletAgregar
 
                                 value={this.state.codigo_termografo}
                                 />
-
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible2(!this.state.modalVisible)}>
+                    <View style={{marginTop:15}}>
+                    <Icon3  name="barcode-scan" size={30} color="#F4891F" />
+                                        
+                    </View> 
+                    </TouchableWithoutFeedback>
                             </View>
+                            <Modal animationType="fade"
+                    presentationStyle="overFullScreen"
+                    transparent={true}
+                    visible={this.state.modalVisible2}
+                    onRequestClose={() => {
+                        this.setModalVisible2(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                            <View style={{width:'80%', height:100}}>
+                        <QRCodeScanner style={{width:'80%', height:100}}
+                    onRead={this.onSuccess2}
+                    // flashMode={RNCamera.Constants.FlashMode.torch}
+                    topContent={
+                    <Text style={styles.centerText}>
+                    Go to{' '}
+                    <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
+                    your computer and scan the QR code.
+                    </Text>
+                    }
+                    bottomContent={
+                    <TouchableOpacity style={styles.buttonTouchable}>
+                    <Text style={styles.buttonText}>OK. Got it!</Text>
+                    </TouchableOpacity>
+                    }
+                    />
+                        </View>
+                            </Modal> 
 
                             
                             <View> 

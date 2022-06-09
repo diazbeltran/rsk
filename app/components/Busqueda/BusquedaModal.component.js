@@ -44,6 +44,8 @@ class ListMultiSelect extends Component {
             isLoading: false,
             sindatos:false,
             texto_final:'',
+            datox:this.props.datox,
+            motonave:''
 
         };
 
@@ -75,16 +77,18 @@ class ListMultiSelect extends Component {
     }   
 
     carga_dato_busqueda = async (visible, texto, tipo) =>{
+
+        console.log("datox a buscarx ", texto);
         this.setState({dataSource:[],dataSource1Selected:[]});
         this.Loading.current.mostrar();
         
         console.log(" ", tipo);
 
-        this.setState({ modalVisible: visible, texto_busqueda:texto });
+        this.setState({ modalVisible: visible, texto_busqueda:this.state.datox });
 
         let MyArray=[];
         
-        await WSRestApi.fnWSConsultaDatosTipo(texto, tipo).then((result) => {
+        await WSRestApi.fnWSConsultaDatosTipo(this.state.datox, tipo).then((result) => {
             //console.log(result.listadevalores);|
             if (tipo=='portsearch') {
                 
@@ -376,12 +380,37 @@ class ListMultiSelect extends Component {
                                                 backgroundColor: '#efeeef',
                                                 borderRadius: 5,
                                                 borderColor: '#dadee3', }}
-                            value={this.state.texto_final}
-                            editable={false}
+                           // value={this.state.texto_final}
+
+                            placeholder={this.state.texto_final}
+                        selectTextOnFocus={true}
+                        onChangeText={(valor) => this.setState({datox:valor})}
+
+
+                            editable={true}
                             ></TextInput>
                                 
                                 </View>
-                        ) : <View></View>}
+                        ) : <View style={{marginLeft:'9%', width: scale(240), height: '100%', alignContent: 'center', justifyContent: 'center', paddingBottom: verticalScale(1) }}>
+                        {/* <Text key='1' style={[{ color: Platform.OS === 'ios' ? 'black' : '#595B5A', marginLeft: scale(10), fontSize: 16, fontWeight: '100' }]}>
+                            {this.state.seleccionados[0].text} </Text> */}
+                        <TextInput style={{marginLeft:0,
+                                            height: 40,
+                                            width:'100%',
+                                            margin: 12,
+                                            borderWidth: 1,
+                                            padding: 10,
+                                            backgroundColor: '#efeeef',
+                                            borderRadius: 5,
+                                            borderColor: '#dadee3', }}
+                        placeholder={this.props.datox}
+                        selectTextOnFocus={true}
+                        onChangeText={(valor) => this.setState({datox:valor})}
+
+                        editable={true}
+                        ></TextInput>
+                            
+                            </View>}
                        
                                         <Hint
                                                 

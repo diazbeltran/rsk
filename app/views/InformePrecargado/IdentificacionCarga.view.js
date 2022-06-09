@@ -704,11 +704,11 @@ export default class InfoGeneralEmbarque extends Component {
 
     carga_imagenes = async () =>{
 
-        if(this.state.foto_numero_contenedor==1){
+        if(this.state.creado_web==1){
             this.setState({foto_cargo:'0'});
         }
-        else{
-
+        else{ 
+               if(this.state.foto_general_contenedor!=1){
         let arregloImagenes1 = this.Selector1.current.obtenerArregloImagenes();
            // let arregloImagenes2 = this.Selector2.current.obtenerArregloImagenes();
            // let arregloImagenes3 = this.Selector3.current.obtenerArregloImagenes();
@@ -758,7 +758,9 @@ export default class InfoGeneralEmbarque extends Component {
     
     
             this.setState({ foto_cargo: jsonImagenes1 });
-
+        }else{
+            this.setState({ foto_cargo: 1 });
+        }
         }
 
     }
@@ -772,6 +774,14 @@ export default class InfoGeneralEmbarque extends Component {
         this.HintAlertas.current.mostrarConParametros("Debe ingresar almenos una Producto");
         return;
         }
+        console.log("el recividor {"+this.state.recibidor_id+"}");
+        
+        if(this.state.recibidor_id==""){
+            this.HintAlertas.current.mostrarConParametros("Debe ingresar ingresar un 'reciver'");
+            return;
+            } 
+
+
         else{
         console.log("aqui");
                 await AsyncStorage.setItem("informeGeneral", "2");
@@ -788,42 +798,43 @@ export default class InfoGeneralEmbarque extends Component {
 
         try {
 
-            
-            let motonavex = this.BuscaModal.current.devolverSeleccionadosTexto();
-            console.log("datox_motonavex ->",motonavex);
+            let motonavex ="";
+            let puerto_origen="";
+            let puerto_destino="";
 
-            let puerto_origen = this.BuscaModal1.current.devolverSeleccionadosTexto();
-            console.log("puerto_origen ->",puerto_origen);
+            console.log("el valor essss:["+this.state.arregloEspecies.length+"]");
+            if(this.state.creado_web!=1 ){
 
-            let puerto_destino = this.BuscaModal2.current.devolverSeleccionadosTexto();
-            console.log("puerto_destino ->",puerto_destino);
-
-
-            if (puerto_origen==puerto_destino) {
-                if(puerto_origen !='' && puerto_destino !=''){
-                    this.HintAlertas.current.mostrarConParametros("Error en los puertos");
-                    return;
+                if(
+                    this.state.arregloEspecies.length>0
+                ){
+                    console.log("ya hay datos de especie");
                 }
-                
+                else{
+                console.log("los datos son: ["+this.state.creado_web+"] y ["+this.state.arregloEspecies.length+"]");
+
+                motonavex = this.BuscaModal.current.devolverSeleccionadosTexto();
+                console.log("datox_motonavex ->",motonavex);
+
+                puerto_origen = this.BuscaModal1.current.devolverSeleccionadosTexto();
+                console.log("puerto_origen ->",puerto_origen);
+
+                puerto_destino = this.BuscaModal2.current.devolverSeleccionadosTexto();
+                console.log("puerto_destino ->",puerto_destino);
+
+
+                    if (puerto_origen==puerto_destino) {
+                        if(puerto_origen !='' && puerto_destino !=''){
+                            this.HintAlertas.current.mostrarConParametros("Error en los puertos");
+                            return;
+                        }
+                        
+                    }
+                }
             }
 
 
-
-
-            // let motonavex ='';
-
-            // dato_motonavex.forEach((a) =>{
-            //     console.log("datoxxxx de a ",a.text);
-            //     motonavex = a.text;
-                
-            // });
-
-           // console.log("datox_motonavex ->",dato_motonavex);
-
-            //let motonavex =  dato_motonavex.text;
-        
-            //console.log("el nombre de la motonave es->", motonavex);
-           // return;
+            
 
             let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
             let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
@@ -849,13 +860,16 @@ export default class InfoGeneralEmbarque extends Component {
         //    console.info(e);
         });
 
+        if(motonavex==""){motonavex=this.state.motonave}
+        if(puerto_origen==""){puerto_origen=this.state.puerto_carga}
+        if(puerto_destino==""){puerto_destino=this.state.puerto_destino}
 
             //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
             let resultado = await WSRestApi.fnWSGuardaCargoDetail(USUARIO_ID,PLANTA_ID,embarque, embarque_planta, 
-                (motonavex==''?(this.state.motonave):(motonavex)),
+                ( this.state.creado_web==1  ? (this.state.motonave):(motonavex)),
                 this.state.recibidor_id, 
-                (puerto_origen==''?(this.state.puerto_carga):(puerto_origen)), 
-                (puerto_destino==''?(this.state.puerto_destino):(puerto_destino)), 
+                ( this.state.creado_web==1 ?(this.state.puerto_carga):(puerto_origen)), 
+                (this.state.creado_web==1 ?(this.state.puerto_destino):(puerto_destino)), 
                 this.state.numero_booking,
                 paso,this.state.foto_cargo);
             //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
@@ -908,7 +922,7 @@ export default class InfoGeneralEmbarque extends Component {
        // console.log("la pregarga es1 :"+ this.state.precarga)
             
         //if(this.state.precarga==true){
-    if(this.state.creado_web==1){
+    if(this.state.creado_web==1 || this.state.arregloEspecies.length>0){
     return (
         <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
             <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
@@ -928,134 +942,157 @@ export default class InfoGeneralEmbarque extends Component {
             <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
         
             <FlatList nestedScrollEnabled={true}
-            //inverted={true}
-            ListHeaderComponent={
-                <View>
-                <Text style={{marginLeft:'10%', marginTop:10}}>Container N°</Text>
-                 <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.numero_contenedor}</Text>
+           
+                        ListHeaderComponent={
+                        <View>
+                        <Text style={{marginLeft:'10%', marginTop:10}}>Container N°</Text>
+                        <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.numero_contenedor}</Text>
+
+
+                        <View  >
+
+                        {this.state.foto_numero_contenedor == 1 ? (
+                        <View style={{marginLeft:'10%',  marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                        <View style={{flex:0.5}}>
+                        <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                        </View>
+                        <View style={{flex:2, marginLeft:10}}>
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container number photo</Text> 
+                        </View>                        
+                        <View style={{flex:.5}}>
+                        <TouchableHighlight style={{with:10}}
+                        title="Press me"
+                        onPress={() => this.setState({foto_numero_contenedor:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                        >
+
+
+
+                        <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                        </TouchableHighlight>
+
+                        </View>   
+
+                        </View>
+                        ):(<SelectorMultimediaCargo style={{marginLeft:'50%'}}
+                        ref={this.Selector1}
+                        mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                        ocultarTeclado={() => this.ocultarTeclado()}
+                        />)}
+
+
+                        </View>
+
+
+
+                        <HintImagenAmpliada
+                        ref={this.HintImagenAmpliada1}
+                        title={""}
+                        componente={<Image style={{ height: 200, width: 200 }} source={{ uri: `data:image/jpeg;base64,${this.state.imagenAmpliada1}` }} />}
+                        eliminarFotoSelector={(key) => this.eliminarFotoSelector1(key)}
+                        >
+                        </HintImagenAmpliada>
+
+
+                        <View>
+                        <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
+                        <TextInput
+                        style={styles.input}
+                        editable={false}
+
+                        value={this.state.motonave}
+                        />
+                        </View>
+
+
+                        <View>
+                        <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
+                        <View   >
+                        <TextInput
+                        style={styles.input}
+                        editable={false}
+                        // onChangeText={(clave) => this.setState({clave})}
+                        // onChangeText={(text) => this.validate(text)}
+                        //    recibidor_id:'',
+                        //    recibidor_nombre:'',
+                        //    puerto_carga:'',
+                        //    puerto_destino:'',
+                        value={this.state.recibidor_nombre}
+                        />
+
+                        </View>
+                        </View>
+
+                        <View>
+                        <Text style={{marginLeft:30, marginTop:10}}>Port of loading</Text>
+                        <View   >
+
+
+                        <TextInput
+                        style={styles.input}
+                        editable={false}
+                        // onChangeText={(clave) => this.setState({clave})}
+                        // onChangeText={(text) => this.validate(text)}
+                        value={this.state.puerto_carga}
+                        />
+
+
+                        </View>
+                        </View>
+
+                        <View>
+                        <Text style={{marginLeft:30, marginTop:10}}>Port of destination</Text>
+                        <View  >
+
+                        <TextInput
+                        style={styles.input}
+                        editable={false}
+                        // onChangeText={(clave) => this.setState({clave})}
+                        // onChangeText={(text) => this.validate(text)}
+                        value={this.state.puerto_destino}
+                        />
+                        </View>
+                        </View>
+
+                        <View>
+                        <Text style={{marginLeft:30, marginTop:10}}>Booking N°</Text>
+                        <TextInput
+                        style={styles.input}
+                        editable={false}
+                        // onChangeText={(clave) => this.setState({clave})}
+                        // onChangeText={(text) => this.validate(text)}
+                        value={this.state.numero_booking}
+                        />
+                        </View> 
+
+                        <View style={{flexDirection:'row'}}>
+                <View style={{flex:1.5}}>
+                <Text style={{marginLeft:30, marginTop:10}}>Product</Text>
+                <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:30}} >
+                
+               
                 
                 
-                <View  >
-                
-                {this.state.foto_numero_contenedor == 1 ? (
-                   <View style={{marginLeft:'10%',  marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
-                   <View style={{flex:0.5}}>
-                   <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
-                   </View>
-                   <View style={{flex:2, marginLeft:10}}>
-                   <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container number photo</Text> 
-                   </View>                        
-                   <View style={{flex:.5}}>
-                   <TouchableHighlight style={{with:10}}
-                         title="Press me"
-                         onPress={() => this.setState({foto_numero_contenedor:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
-                             >
-
-
-
-                         <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
-               </TouchableHighlight>
-                            
-                   </View>   
-                       
-                   </View>
-                ):(<SelectorMultimediaCargo style={{marginLeft:'50%'}}
-                ref={this.Selector1}
-                mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                ocultarTeclado={() => this.ocultarTeclado()}
-                />)}
-
                 
                 </View>
+                </View>
+                <View style={{flex:1}}>
+                <Text style={{marginLeft:30, marginTop:10}}>Pallets</Text>
+               
                 
                 
-                 
-                 <HintImagenAmpliada
-                 ref={this.HintImagenAmpliada1}
-                 title={""}
-                 componente={<Image style={{ height: 200, width: 200 }} source={{ uri: `data:image/jpeg;base64,${this.state.imagenAmpliada1}` }} />}
-                 eliminarFotoSelector={(key) => this.eliminarFotoSelector1(key)}
-                 >
-                 </HintImagenAmpliada>
-                
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 
-                 value={this.state.motonave}
-                 />
-                 </View>
-                
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
-                 <View   >
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 // onChangeText={(clave) => this.setState({clave})}
-                 // onChangeText={(text) => this.validate(text)}
-                 //    recibidor_id:'',
-                 //    recibidor_nombre:'',
-                 //    puerto_carga:'',
-                 //    puerto_destino:'',
-                 value={this.state.recibidor_nombre}
-                 />
-                 
-                 </View>
-                 </View>
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Port of loading</Text>
-                 <View   >
+                </View>
+                <View style={{flex:1}}>
+                <Text style={{marginLeft:10, marginTop:10}}>Boxes</Text>
                  
                 
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 // onChangeText={(clave) => this.setState({clave})}
-                 // onChangeText={(text) => this.validate(text)}
-                 value={this.state.puerto_carga}
-                 />
                 
-                
-                 </View>
-                 </View>
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Port of destination</Text>
-                     <View  >
-                     
-                     <TextInput
-                     style={styles.input}
-                     editable={false}
-                     // onChangeText={(clave) => this.setState({clave})}
-                     // onChangeText={(text) => this.validate(text)}
-                     value={this.state.puerto_destino}
-                     />
-                     </View>
-                 </View>
-                
-                 <View>
-                     <Text style={{marginLeft:30, marginTop:10}}>Booking N°</Text>
-                     <TextInput
-                     style={styles.input}
-                     editable={false}
-                     // onChangeText={(clave) => this.setState({clave})}
-                     // onChangeText={(text) => this.validate(text)}
-                     value={this.state.numero_booking}
-                     />
-                 </View> 
-                
-            
-                
-                
-                 
-                
-                 </View>
+                </View>
+                </View>  
+
+
+
+
+                        </View>
                                 }
                     ListFooterComponent={ (item) =>
                         <View >
@@ -1111,6 +1148,8 @@ export default class InfoGeneralEmbarque extends Component {
       </View>
     );
  }else{
+    
+
     return (
         <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
             <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
@@ -1122,7 +1161,7 @@ export default class InfoGeneralEmbarque extends Component {
                 </TouchableWithoutFeedback>
 
 
-                <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo details</Text>
+                <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo details </Text>
                 <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
 
             </View>
@@ -1187,13 +1226,21 @@ export default class InfoGeneralEmbarque extends Component {
                  <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
                  <View style={{flexDirection:'row'}}>
                  
-                 <TextInput
+                 {/* <TextInput
                  style={styles.inputBusqueda}
                  selectTextOnFocus={true}
                       onChangeText={(valor) => this.setState({motonave:valor})}
                       inlineImageLeft=''
                  value={this.state.motonave}
-                 />
+                 /> */}
+                 <View style={{flex:1}} >
+                  <BuscaModal                        
+                        ref={this.BuscaModal} 
+                        datox={this.state.motonave}
+                        >
+                </BuscaModal>
+                </View>
+                <View style={{flex:0.2}} >
                  <TouchableHighlight style={{width:20}}
                           title="Press me"
                           onPress={() => {
@@ -1201,17 +1248,15 @@ export default class InfoGeneralEmbarque extends Component {
                               console.log("texto a buscar:",this.state.muestraMoto);
                               //this.BuscaModal.current.setModalVisible(true, this.state.motonave);
                               this.BuscaModal.current.carga_dato_busqueda(true, this.state.motonave, "vesselsearch");
-
-                              //this.BuscaModal.current.carga_dato_busqueda();
-
+                             // this.setState({motonave:this.BuscaModal.current.devolverSeleccionadosTexto()})  
+                                                          
                             }}
                               >
-                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:20}} name="search" size={20} color="red" />  
+                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:10}} name="search" size={20} color="#F4891F" />  
                 </TouchableHighlight>
+                </View>
                  </View>
-                 <BuscaModal                        
-                        ref={this.BuscaModal} >
-                </BuscaModal>
+                
                 
                  <View>
                  <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
@@ -1253,14 +1298,21 @@ export default class InfoGeneralEmbarque extends Component {
                 
                  </View> */}
                  <View style={{flexDirection:'row'}}>
-                 
-                 <TextInput
+                 <View style={{flex:1}} >
+                <BuscaModal                        
+                        ref={this.BuscaModal1} 
+                        datox={this.state.puerto_carga}
+                        >
+                </BuscaModal> 
+                </View>
+                 {/* <TextInput
                  style={styles.inputBusqueda}
                  selectTextOnFocus={true}
                       onChangeText={(valor) => this.setState({puerto_carga:valor})}
                       inlineImageLeft=''
                  value={this.state.puerto_carga}
-                 />
+                 /> */}
+                 <View style={{flex:0.2}} >
                  <TouchableHighlight style={{width:20}}
                           title="Press me"
                           onPress={() => {
@@ -1273,12 +1325,12 @@ export default class InfoGeneralEmbarque extends Component {
 
                             }}
                               >
-                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:20}} name="search" size={20} color="red" />  
+                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:10}} name="search" size={20} color="#F4891F" />  
                 </TouchableHighlight>
+                </View>
+
                  </View>
-                 <BuscaModal                        
-                        ref={this.BuscaModal1} >
-                </BuscaModal>
+                 
                  </View>
                 
                  <View>
@@ -1293,15 +1345,22 @@ export default class InfoGeneralEmbarque extends Component {
                      />
                      </View> */}
 
-<View style={{flexDirection:'row'}}>
-                 
-                 <TextInput
+                <View style={{flexDirection:'row'}}>
+                <View style={{flex:1}}>
+                <BuscaModal                        
+                        ref={this.BuscaModal2} 
+                        datox={this.state.puerto_destino}
+                        >
+                </BuscaModal>
+                </View>
+                <View style={{flex:0.2}} >
+                 {/* <TextInput
                  style={styles.inputBusqueda}
                  selectTextOnFocus={true}
                       onChangeText={(valor) => this.setState({puerto_destino:valor})}
                       inlineImageLeft=''
                  value={this.state.puerto_destino}
-                 />
+                 /> */}
                  <TouchableHighlight style={{width:20}}
                           title="Press me"
                           onPress={() => {
@@ -1314,12 +1373,10 @@ export default class InfoGeneralEmbarque extends Component {
 
                             }}
                               >
-                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:20}} name="search" size={20} color="red" />  
+                             <Icon2 style={{ marginTop:5, flex: 1, paddingTop:10}} name="search" size={20} color="#F4891F" />  
                 </TouchableHighlight>
                  </View>
-                 <BuscaModal                        
-                        ref={this.BuscaModal2} >
-                </BuscaModal>
+                 </View>
 
 
                  </View>
@@ -1341,7 +1398,7 @@ export default class InfoGeneralEmbarque extends Component {
                  >
                  <View style={{flexDirection:'row'}}>
                  <Icon2 style={{color:'#ef882d', marginLeft:'10%'}} name="add-circle" size={25}  />
-                 <Text style={{ color:'#ef882d', fontWeight:'bold', paddingTop:5}}>  Agregar una nueva especie</Text>
+                 <Text style={{ color:'#ef882d', fontWeight:'bold', paddingTop:5}}>  Agregar una nueva especixxe</Text>
                  </View>
                 
                 </TouchableOpacity>

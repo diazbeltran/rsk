@@ -21,9 +21,9 @@ export default class Login extends Component {
         this.state = {
             status: false,
            // correo:'tecnico@aeurus.cl',
-           correo:'',
+           correo:'tecnico@aeurus.cl',
             ///clave:'12345678',
-            clave:'',
+            clave:'12345678',
             email :'',
             modalVisible:false,
             modal_error:'',

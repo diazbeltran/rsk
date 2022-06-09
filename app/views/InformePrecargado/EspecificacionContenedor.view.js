@@ -649,13 +649,17 @@ export default class EspecificacionContenedor
     
     envio_menu = async () => {
 
-        if(this.state.confirmacion==0){
-            this.HintAlertas.current.mostrarConParametros("Debe confirmar los datos");
-            return;
-        }
+        // if(this.state.confirmacion==0){
+        //     this.HintAlertas.current.mostrarConParametros("Debe confirmar los datos");
+        //     return;
+        // }
 
-        this.carga_imagenes();
+       var a =  this.carga_imagenes();
 
+        if (
+            a ==1
+        ){this.HintAlertas.current.mostrarConParametros("Debe confirmar los datos");
+            return;}
         //return;
        // this.carga_objetosEspecie();
         //this.Loading.current.mostrar();
@@ -765,9 +769,14 @@ export default class EspecificacionContenedor
                                 label={this.state.añorefInicio.label}
                                 value={this.state.añorefInicio.value}
                                 datos={[
-                                { label: '2021', value: '2021' },
-                                { label: '2020', value: '2020' },
-                                { label: '2019', value: '2019' },
+                                    { label: '2024', value: '2024' },
+                                    { label: '2023', value: '2023' },
+                                    { label: '2021', value: '2021' },
+                                    { label: '2020', value: '2020' },
+                                    { label: '2019', value: '2019' },
+                                    { label: '2018', value: '2018' },
+                                    { label: '2017', value: '2017' },
+                                    { label: '2016', value: '2016' },
                                 ]}
                                 xfuncion={async (x) => {
                                     //this.setState({ keyC: 0, comunaDeChile: [] })
@@ -784,9 +793,15 @@ export default class EspecificacionContenedor
                                 label={this.state.añorefInicio.label}
                                 value={this.state.añorefInicio.value}
                                 datos={[
+                                { label: '2024', value: '2024' },
+                                { label: '2023', value: '2023' },
                                 { label: '2021', value: '2021' },
                                 { label: '2020', value: '2020' },
                                 { label: '2019', value: '2019' },
+                                { label: '2018', value: '2018' },
+                                { label: '2017', value: '2017' },
+                                { label: '2016', value: '2016' },
+
                                 ]}
                                 xfuncion={async (x) => {
                                     //this.setState({ keyC: 0, comunaDeChile: [] })
@@ -852,7 +867,7 @@ export default class EspecificacionContenedor
                                 showIcon={true}
                                 //placeholder={this.state.fechaActual}
                                 format="YYYY-MM-DD"
-                                disabled={true}
+                                //disabled={true}
                                 // minDate={this.state.fechaMinima}
                                 //maxDate={this.state.fechaMaxima}
                                 confirmBtnText="Confirmar"
