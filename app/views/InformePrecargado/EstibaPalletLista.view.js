@@ -156,7 +156,7 @@ export default class EstibaPalletLista extends Component {
             this.props.navigation.navigate('EstibaPalletAgregar', {embarque:this.state.embarque_id, embarque_planta: this.state.embarque_planta_id,
             id_pallet_siguiente:this.state.id_proximo_pallet,
             id_especie_siguiente:this.state.id_proximo_especie,
-            actualiza:true })
+            actualiza:true,nuevo:true })
 
 
         // this.props.navigation.navigate('EstibaPalletAgregar',{
@@ -461,7 +461,10 @@ export default class EstibaPalletLista extends Component {
                          ListFooterComponent={(
                             <View>
                                 <View style={{ flexDirection: 'row', marginLeft:'10%', marginTop:20, width:'60%'}} >
-                                            <CheckBox
+                                            
+                                        {(this.state.total_pallet_ok==this.state.total_pallet)?(
+                                            <View>
+                                                <CheckBox
                                             value={this.state.confirmacion}
                                             boxType={'square'}
                                             animationDuration={0.1}
@@ -476,10 +479,8 @@ export default class EstibaPalletLista extends Component {
                                             })}
                                             }
                                             />
-                                            <Text style={{marginTop:5, color:'#F4891F', fontWeight:'bold'}}>I confirm that all pallets' details are correct</Text>
-                            </View>
-
-                            <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
+                                             <Text style={{marginTop:5, color:'#F4891F', fontWeight:'bold'}}>I confirm that all pallets' details are correct</Text>
+                                             <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
                 <TouchableHighlight style={{with:10}}
                         title="Press me"
                          onPress={() => this.envio_menu()}
@@ -487,6 +488,15 @@ export default class EstibaPalletLista extends Component {
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Next</Text>
                             </TouchableHighlight>
                     </View>
+                                            </View>
+                                           
+                                        ):(
+                                            <View></View>
+                                        )}
+                                            
+                            </View>
+
+                            
                             </View>
                          )}
 

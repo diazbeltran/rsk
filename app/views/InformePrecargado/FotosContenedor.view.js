@@ -378,7 +378,7 @@ export default class FotosContenedor extends Component {
 
         if(arregloImagenes1.length ==0 || arregloImagenes2.length == 0 ){
 
-            this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+           
             return 1;
         }
 
@@ -462,6 +462,13 @@ export default class FotosContenedor extends Component {
         
         if(this.state.foto_buffer_plate!=1 && this.state.foto_fondo_contenedor!=1){
             let a = await this.carga_imagenes();
+
+
+            if (a==1)
+            {
+                this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+                return;
+            }
         }else{
            console.log("wewe");
         }

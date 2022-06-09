@@ -10,7 +10,7 @@ import Select from '../../component/Select/Select.component.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import InputSpinner from "react-native-input-spinner";
-
+import DatePicker2 from 'react-native-modern-datepicker';
 
 //import Icon from 'react-native-vector-icons/Feather';
 //import Icon2 from 'react-native-vector-icons/Ionicons';
@@ -121,6 +121,7 @@ export default class EspecificacionContenedor
             checked2:false,
             checked3:false,
             checked4:false,
+            selectedDate:'',
 
         };
 
@@ -439,59 +440,73 @@ export default class EspecificacionContenedor
 
     carga_imagenes = async () => {
 
-        let arregloImagenes1 = this.Selector1.current.obtenerArregloImagenes();
-        let arregloImagenes2 = this.Selector2.current.obtenerArregloImagenes();
-        let arregloImagenes3 = this.Selector3.current.obtenerArregloImagenes();
-        let arregloImagenes4 = this.Selector4.current.obtenerArregloImagenes();
-        let arregloImagenes5 = this.Selector5.current.obtenerArregloImagenes();
+        
 
-       // console.log("arreglox1 -->"+ JSON.stringify(arregloImagenes1));
-        let jsonImagenes1 = "";
 
-       // console.log("cantidad de imagenes .----> "+arregloImagenes1.length);
+        if (this.state.foto_ano_fabricacion==1) {
 
-        if(arregloImagenes1.length ==0 || arregloImagenes2.length == 0 || arregloImagenes3.length == 0 || arregloImagenes4.length == 0 || arregloImagenes5.length == 0){
+            this.setState({ foto_ano_fabricacion: 1 });
+            
+        } else {
 
-            this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
-            return 1;
+            if(arregloImagenes1.length ==0 ){
+
+                this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 1");
+                return 1;
+            }
+
+            let jsonImagenes1 = "";
+            let arregloImagenes1 = this.Selector1.current.obtenerArregloImagenes();
+
+            for (let i = 0; i < arregloImagenes1.length; i++) {
+                let elemento = arregloImagenes1[i];
+                //let nombre = arregloImagenes[i].NombreArchivo;
+                let nombre = "rem_";
+                let numero = i + 1;
+                if (i < 10) {
+                    nombre = nombre + "0" + numero.toString();
+                } else {
+                    nombre = nombre + numero.toString();
+                }
+    
+                let extension = arregloImagenes1[i].Extension;
+                let archivo = arregloImagenes1[i].Archivo;
+    
+                //let hash = await this.setJsStringHash(archivo);
+    
+                // con parametro hash
+                //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
+                jsonImagenes1 += '' + archivo + '';
+    
+                // sin parametro hash
+                //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
+    
+    
+                if (i != arregloImagenes1.length - 1) {
+                    jsonImagenes1 += ',';
+                }
+            }
+    
+            //console.log(jsonImagenes);
+    
+    
+            this.setState({ foto_ano_fabricacion: jsonImagenes1 });
+
         }
 
-
-        for (let i = 0; i < arregloImagenes1.length; i++) {
-            let elemento = arregloImagenes1[i];
-            //let nombre = arregloImagenes[i].NombreArchivo;
-            let nombre = "rem_";
-            let numero = i + 1;
-            if (i < 10) {
-                nombre = nombre + "0" + numero.toString();
+            if (this.state.foto_pti==1) {
+                this.setState({ foto_pti: 1 });
             } else {
-                nombre = nombre + numero.toString();
-            }
 
-            let extension = arregloImagenes1[i].Extension;
-            let archivo = arregloImagenes1[i].Archivo;
+                if( arregloImagenes2.length == 0 ){
 
-            //let hash = await this.setJsStringHash(archivo);
-
-            // con parametro hash
-            //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
-            jsonImagenes1 += '' + archivo + '';
-
-            // sin parametro hash
-            //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
+                    this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 2");
+                    return 1;
+                }
 
 
-            if (i != arregloImagenes1.length - 1) {
-                jsonImagenes1 += ',';
-            }
-        }
-
-        //console.log(jsonImagenes);
-
-
-        this.setState({ foto_ano_fabricacion: jsonImagenes1 });
-
-        let jsonImagenes2 = "";
+                let arregloImagenes2 = this.Selector2.current.obtenerArregloImagenes();
+                let jsonImagenes2 = "";
 
         for (let i = 0; i < arregloImagenes2.length; i++) {
             let elemento = arregloImagenes2[i];
@@ -526,44 +541,72 @@ export default class EspecificacionContenedor
 
 
         this.setState({ foto_pti: jsonImagenes2 });
+            }
+        
+        
 
-
-        let jsonImagenes3 = "";
-
-        for (let i = 0; i < arregloImagenes3.length; i++) {
-            let elemento = arregloImagenes3[i];
-            //let nombre = arregloImagenes[i].NombreArchivo;
-            let nombre = "rem_";
-            let numero = i + 1;
-            if (i < 10) {
-                nombre = nombre + "0" + numero.toString();
+            if (this.state.foto_temperatura==1) {
+                this.setState({ foto_temperatura: 1 });
+                
             } else {
-                nombre = nombre + numero.toString();
+
+                if(arregloImagenes3.length == 0 ){
+
+                    this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+                    return 1;
+                }
+
+
+                let arregloImagenes3 = this.Selector3.current.obtenerArregloImagenes();
+                let jsonImagenes3 = "";
+
+                for (let i = 0; i < arregloImagenes3.length; i++) {
+                    let elemento = arregloImagenes3[i];
+                    //let nombre = arregloImagenes[i].NombreArchivo;
+                    let nombre = "rem_";
+                    let numero = i + 1;
+                    if (i < 10) {
+                        nombre = nombre + "0" + numero.toString();
+                    } else {
+                        nombre = nombre + numero.toString();
+                    }
+        
+                    let extension = arregloImagenes3[i].Extension;
+                    let archivo = arregloImagenes3[i].Archivo;
+        
+                    //let hash = await this.setJsStringHash(archivo);
+        
+                    // con parametro hash
+                    //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
+                    jsonImagenes3 += '' + archivo + '';
+        
+                    // sin parametro hash
+                    //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
+        
+        
+                    if (i != arregloImagenes3.length - 1) {
+                        jsonImagenes3 += ',';
+                    }
+                }
+        
+                //console.log(jsonImagenes);
+        
+        
+                this.setState({ foto_temperatura: jsonImagenes3 });
             }
 
-            let extension = arregloImagenes3[i].Extension;
-            let archivo = arregloImagenes3[i].Archivo;
+            if (this.state.foto_estado_motor==1) {
 
-            //let hash = await this.setJsStringHash(archivo);
+                this.setState({ foto_estado_motor: 1 }); 
+            } else {
+                if(arregloImagenes4.length == 0 ){
 
-            // con parametro hash
-            //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
-            jsonImagenes3 += '' + archivo + '';
-
-            // sin parametro hash
-            //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
-
-
-            if (i != arregloImagenes3.length - 1) {
-                jsonImagenes3 += ',';
-            }
-        }
-
-        //console.log(jsonImagenes);
-
-
-        this.setState({ foto_temperatura: jsonImagenes3 });
-
+                    this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+                    return 1;
+                }
+                
+                let arregloImagenes4 = this.Selector4.current.obtenerArregloImagenes();
+                
         let jsonImagenes4 = "";
 
         for (let i = 0; i < arregloImagenes4.length; i++) {
@@ -599,9 +642,22 @@ export default class EspecificacionContenedor
 
 
         this.setState({ foto_estado_motor: jsonImagenes4 });
+            }
+        
+            if (this.state.foto_ventilacion==1) {
+                this.setState({ foto_ventilacion: 1 });  
+            } else {
+
+                if(arregloImagenes5.length == 0){
+
+                    this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+                    return 1;
+                }
 
 
-        let jsonImagenes5 = "";
+                let arregloImagenes5 = this.Selector5.current.obtenerArregloImagenes();
+
+                let jsonImagenes5 = "";
 
         for (let i = 0; i < arregloImagenes5.length; i++) {
             let elemento = arregloImagenes5[i];
@@ -638,6 +694,20 @@ export default class EspecificacionContenedor
         this.setState({ foto_ventilacion: jsonImagenes5 });
 
 
+            }
+        
+        
+
+       // console.log("arreglox1 -->"+ JSON.stringify(arregloImagenes1));
+       
+
+       // console.log("cantidad de imagenes .----> "+arregloImagenes1.length);
+
+        
+      
+         
+
+
 
         return 0;
     }   
@@ -654,11 +724,11 @@ export default class EspecificacionContenedor
         //     return;
         // }
 
-       var a =  this.carga_imagenes();
+       var a =  await this.carga_imagenes();
 
-        if (
-            a ==1
-        ){this.HintAlertas.current.mostrarConParametros("Debe confirmar los datos");
+        console.log("la validacion img es ["+a+"]", a);
+        if (a ==1){
+            this.HintAlertas.current.mostrarConParametros("Debe Ingresar imagenes");
             return;}
         //return;
        // this.carga_objetosEspecie();
@@ -760,6 +830,10 @@ export default class EspecificacionContenedor
                 <ScrollView>
                             <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Container's fabrication year</Text> 
                             <View style={{width:'80%', marginLeft:'9%'}}>
+
+                        
+
+
                             {this.state.ano_fabricacion!=''? (
                             //   <View style={{width:'100%',paddingBottom:20,  marginTop:10, marginBottom:10, backgroundColor:'#efeeef', borderWidth:0.5, borderColor:'#E8E8E8'}}>
                             //   <Text style={{marginLeft:20, marginTop:'3%'}}>{this.state.ano_fabricacion}</Text>
@@ -1000,9 +1074,9 @@ export default class EspecificacionContenedor
                             <View style={{flexDirection:'row',paddingTop:10, borderWidth:1, width:'75%', height:70, marginLeft:40, borderColor:'#D3D3D3'}}>
                                <View style={{flex:1}}>
                                <InputSpinner
-                                    max={100}
-                                    min={-100}
-                                    step={0.01}
+                                    max={24}
+                                    min={-24}
+                                    step={0.1}
                                     type={"real"}
                                     accelerationDelay={1000}
                                     longStep={1}
@@ -1097,8 +1171,8 @@ export default class EspecificacionContenedor
                                <View style={{flex:1}}>
                                <InputSpinner
                                     max={100}
-                                    min={-100}
-                                    step={0.01}
+                                    min={0}
+                                    step={5}
                                     height={40}
                                     type={"real"}
                                     accelerationDelay={1000}
@@ -1108,7 +1182,7 @@ export default class EspecificacionContenedor
                                     style={{width:'80%', marginLeft:'10%'}}
                                     color={"#F4891F"}
                                     colorMax={"red"}
-                                    colorMin={"blue"}
+                                    colorMin={"#F4891F"}
                                     size={20}
                                     value={this.state.number}
                                     onChange={(num) => {

@@ -373,7 +373,21 @@ export default class EstibaPalletAgregar
           //return true;
           //this.props.navigation.navigate('DenunciaSiniestro', {ir:"Accidente2"});
           
-          
+                if(nextProps.route.params.nuevo==true){
+                    this.setState({
+                        
+                        numero_pallet:"",
+                        ubicacion :"",
+                        posicion:false,
+                        temperatura:"0",
+                        tiene_termografo:"0",
+                        codigo_termografo:"",
+                        georeferenciado: "0",
+                        termografo_tipo_id:"0",
+                        foto_numero_pallet:'',
+                        foto_termografo:'',
+                    })
+                }
              
           }
          }catch(e){
@@ -1080,10 +1094,10 @@ export default class EstibaPalletAgregar
                                             {console.log("el valorx es "+value);
                                             let opcion = value==true ? 1:0;
                                             console.log("el opcion es "+opcion);
-                                            //this.setState({
-                                           //     posicion: value,
-                                           //     posicion:  opcion
-                                            //})
+                                            this.setState({
+                                               posicion: !value,
+                                               //posicion:  opcion
+                                            })
                                         }
                                             }
                                             />
@@ -1115,13 +1129,13 @@ export default class EstibaPalletAgregar
                             <View style={{flexDirection:'row',paddingTop:10, borderWidth:1, width:'75%', height:70, marginLeft:40, borderColor:'#D3D3D3'}}>
                                <View style={{flex:1}}>
                                <InputSpinner
-                                    max={100}
-                                    min={-100}
-                                    step={0.01}
+                                    max={24}
+                                    min={-24}
+                                    step={0.1}
                                     type={"real"}
                                     accelerationDelay={1000}
                                     longStep={1}
-                                    precision={2}
+                                    precision={1}
                                     speed={1}
                                     style={{width:'80%', marginLeft:'10%'}}
                                     color={"#F4891F"}
@@ -1129,6 +1143,7 @@ export default class EstibaPalletAgregar
                                     colorMin={"blue"}
                                     height={40}
                                     size={20}
+                                    prepend={(numero)=>{ <Text>{numero}</Text>}}
                                     value={this.state.temperatura}
                                     onChange={(num) => {
                                     console.log(num);
