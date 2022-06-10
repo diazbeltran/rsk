@@ -7,6 +7,8 @@ import InformeCaja from '../../component/InformeCaja/InformeCaja.component.js'
 //import TextInput from '../../../components/TextInput/TextInput.component.js';
 import SelectDropdown from 'react-native-select-dropdown'
 import Select from '../../component/Select/Select.component.js';
+import Select2 from '../../component/Select/Select.component.js';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import InputSpinner from "react-native-input-spinner";
@@ -129,8 +131,9 @@ export default class EstibaPalletAgregar
             checked1:false,
             checked2:true,
             checked3:false,
-            checked4:true,
+            checked4:false,
             especie_data: {},
+            termografo_data:{},
 
                     usuario_id:"",
                     embarque_id:"", 
@@ -171,6 +174,8 @@ export default class EstibaPalletAgregar
         this.HintPDF1 = React.createRef();
         this.HintPDF2 = React.createRef();
         this.HintPDF3 = React.createRef();
+
+        this.termografo_select = React.createRef();
 
 
 
@@ -224,6 +229,7 @@ export default class EstibaPalletAgregar
         this.carga_datos_embarque(USUARIO_ID, PLANTA_ID, embarque, embarque_planta);
        // this.carga_recibidor();
         this.carga_especies();
+        this.carga_termografo();
        // this.carga_objetosEspecie();
 
              
@@ -298,7 +304,7 @@ export default class EstibaPalletAgregar
             console.log("matriz especie_data "+JSON.stringify(MyArray2));
 
             this.setState({especie_data:MyArray2 });
-              console.log("data especie:"+this.state.especie_data);
+              console.log("data especie:",this.state.especie_data);
 
 
 
@@ -384,8 +390,8 @@ export default class EstibaPalletAgregar
                         codigo_termografo:"",
                         georeferenciado: "0",
                         termografo_tipo_id:"0",
-                        foto_numero_pallet:'0',
-                        foto_termografo:'0',
+                        foto_numero_pallet:'',
+                        foto_termografo:'',
                     })
                 }
              
@@ -770,6 +776,20 @@ export default class EstibaPalletAgregar
         return 0;
     }   
 
+    termografo_detalle = async () => {
+        try {
+          let resultado = await WSRestApi.fnWSTermografo();
+          //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+          return resultado;
+        } catch (error) {
+          let resultado = JSON.stringify(error);
+          //let resultado = "errorx";
+          console.log("ERROR exportador ??? : " + error);
+          return resultado;
+         // return false
+        }
+      }
+
     
     carga_termografo = async () =>{
 
@@ -806,7 +826,7 @@ export default class EstibaPalletAgregar
             console.log("matriz especie_data "+JSON.stringify(MyArray2));
 
             this.setState({termografo_data:MyArray2 });
-          //    console.log("data especie:"+this.state.especie_data);
+              console.log("xx xx data carga_termografo:",this.state.termografo_data);
 
 
 
@@ -1322,7 +1342,7 @@ export default class EstibaPalletAgregar
                                            let opcion = value==true ? 1:0;
                                            console.log("el opcion es "+opcion);
                                           this.setState({
-                                              checked4: value,
+                                            checked3: !value,
                                               //posicion:  opcion,
                                               //checked3:x
                                            })
@@ -1337,56 +1357,43 @@ export default class EstibaPalletAgregar
                             <View style={{width:'90%', marginLeft:'0%'}}>
                                 <View style={{width:'90%', marginLeft:'0%'}}>
 
-                                <TextInput
+                                {/* <TextInput
                                 style={styles.input}
                                 selectTextOnFocus={true}
                                 onChangeText={(valor) => this.setState({termografo_tipo_id:valor})}
 
                                 value={this.state.termografo_tipo_id}
-                                />
-
-                                {/* <View style={{width:'80%', marginLeft:'10%'}}>
-                                <Select
-                                disabled={true}
-                                value={this.state.especie_id}
-                                key={this.state.especie_id}
-                                //ref={this.especie}
-                                datos={this.state.especie_data}
-                                xfuncion={async (x) => {
-                                //this.setState({ keyC: 0, comunaDeChile: [] })
-                                //await this.guardarSoloRegion(x);
-                                console.log("usuariox => ", x);
-                                //this.setState({especie_seleccionada:x});
-                                // this.setState({especie_seleccionada_Arreglo:[x]});
-                                // especie_seleccionada_Arreglo
-                                //this.mostrarMontoMax(x);
-
-                                }}
-                                /></View> */}
-
+                                /> */}
 
 
                                 </View>
 
+                                <View style={{width:'80%', marginLeft:'10%'}}>
+                                <Select2
+                                // disabled={true}
+                                value={this.state.termografo_tipo_id}
+                                key={1}
+                               //ref={this.especie}
+                                datos={this.state.termografo_data}
+                                xfuncion={async (x) => {
+                                    //this.setState({ keyC: 0, comunaDeChile: [] })
+                                    //await this.guardarSoloRegion(x);
+                                    console.log("usuariox => ", x);
+                                    this.setState({termografo_tipo_id:x});
+                                   // this.setState({especie_seleccionada_Arreglo:[x]});
+                                   // especie_seleccionada_Arreglo
+                                    //this.mostrarMontoMax(x);
 
-                                    {/* <View style={{width:'80%', marginLeft:'10%'}}>
-                                        <Select
-                                        // disabled={true}
-                                        value={this.state.especie_id}
-                                        key={this.state.especie_id}
-                                    //ref={this.especie}
-                                        datos={this.state.especie_data}
-                                        xfuncion={async (x) => {
-                                            //this.setState({ keyC: 0, comunaDeChile: [] })
-                                            //await this.guardarSoloRegion(x);
-                                            console.log("usuariox => ", x);
-                                            //this.setState({especie_seleccionada:x});
-                                        // this.setState({especie_seleccionada_Arreglo:[x]});
-                                        // especie_seleccionada_Arreglo
-                                            //this.mostrarMontoMax(x);
+                                }}
+                                /></View>
+                                <View style={{width:'90%', marginLeft:'10%'}}>
 
-                                        }}
-                                        /></View> */}
+                                    
+                                
+                                </View>
+
+
+
 
                             </View>
 
