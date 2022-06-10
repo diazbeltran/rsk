@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView,TouchableWithoutFeedback} from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView,TouchableWithoutFeedback, Modal} from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/FooterSimple.component';
 import FormLogin from '../../component/Login/FormLogin.component.js';
@@ -20,7 +20,7 @@ import HintAlertas from '../../components/Hint/Hint.component';
 import Hint2 from '../../components/Hint/Hint.component';
 import HintImagenAmpliada from '../../components/Hint/Hint.component';
 import HintPDF from '../../components/Hint/HintPDF.component';
-
+import Icon4 from 'react-native-vector-icons/FontAwesome5';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
@@ -59,6 +59,7 @@ export default class InfoGeneralEmbarque extends Component {
             embarque_planta_id:"",
             embarque_id:"",
             informeGeneral:"",
+            modalVisible:false,
         };
 
         this.exportador = React.createRef();
@@ -530,7 +531,9 @@ guarda_embarque = async () => {
           
            
 }
-
+setModalVisible = async (visible, texto) => {
+    this.setState({ modalVisible: visible, texto_busqueda:texto });
+}   
 
     envio_menu = async () => {
 
@@ -583,8 +586,15 @@ guarda_embarque = async () => {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>General shipment information(Preloaded) </Text><Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
-
+                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>General shipment information(Preloaded) </Text>
+                    
+                    {/* <Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" /> */}
+                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
+                    <View style={{}}>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                                        
+                    </View> 
+                    </TouchableWithoutFeedback>
                 </View>
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
@@ -813,6 +823,49 @@ guarda_embarque = async () => {
                             
                                 </ScrollView>
                                 
+
+                                <Modal 
+                     style={{height:90, width:90}}
+                    animationType="fade"
+                   // presentationStyle="formSheet"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                        <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width:'80%',height:'20%' ,backgroundColor:'white'}}>
+                                    <View style={{ flex: 1 ,alignItems:'center', flexDirection: 'column'}} >
+                                   <View style={{flex:1}}>
+                                   <Text style={{fontSize:30}}>¿Sign off?</Text>
+                                   </View>
+
+                                    <View style={{flex:2, flexDirection:'row'}}>
+                                        <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="times" size={30} color="red" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Login')}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="check" size={30} color="green" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    </View>
+                                    </View>
+
+                            </View>
+                        
+                        </View>
+                        
+                </Modal>
                             </View>                           
                
                 

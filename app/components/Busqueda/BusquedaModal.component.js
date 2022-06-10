@@ -78,6 +78,25 @@ class ListMultiSelect extends Component {
 
     carga_dato_busqueda = async (visible, texto, tipo) =>{
 
+
+        console.log("la cantidadxxx es: ["+this.state.datox+"]");
+        if (this.state.datox==''||this.state.datox==null) {
+            
+            this.Hint.current.mostrarConParametros("Debe ingresar 3 o mas caracteres");
+            this.setState({sindatos:true});
+            this.Loading.current.ocultar();
+            return
+            
+        } else {
+            if(this.state.datox.length<3){
+                this.Hint.current.mostrarConParametros("Debe ingresar 3 o mas caracteres");
+                this.setState({sindatos:true});
+                this.Loading.current.ocultar();
+                return
+                console.log("la cantidadxxx es: ["+this.state.datox.length+"]");
+            }
+            
+        }
         console.log("datox a buscarx ", texto);
         this.setState({dataSource:[],dataSource1Selected:[]});
         this.Loading.current.mostrar();

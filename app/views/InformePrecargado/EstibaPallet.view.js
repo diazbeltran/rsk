@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, TouchableWithoutFeedback, SafeAreaView, FlatList,Item, TouchableOpacity} from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, 
+    TouchableWithoutFeedback, SafeAreaView, FlatList,Item, TouchableOpacity,Modal} from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/FooterSimple.component';
 
@@ -85,7 +86,7 @@ export default class EstibaPallet extends Component {
             creado_web:'',
             foto_numero_contenedor:'',
             informeGeneral:'',
-
+            modalVisible:false,
         };
         this.recibidor = React.createRef();
         this.especie = React.createRef();
@@ -115,6 +116,12 @@ export default class EstibaPallet extends Component {
 
 
     }
+
+
+    setModalVisible = async (visible, texto) => {
+        this.setState({ modalVisible: visible, texto_busqueda:texto });
+    }  
+
 
     componentDidMount = async () => {
 
@@ -668,13 +675,19 @@ export default class EstibaPallet extends Component {
 
 
                 <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Pallets' stowage</Text>
-                <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                
+<TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
+                    <View style={{}}>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                                        
+                    </View> 
+  </TouchableWithoutFeedback>
 
             </View>
 
             <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
 
-            <Text style={{marginLeft:120, marginTop:30}}>Tipo {this.state.tipo_nombre}</Text> 
+            <Text style={{marginLeft:120, marginTop:30}}>Type {this.state.tipo_nombre}</Text> 
                                 <Text style={{marginLeft:100, marginTop:30,fontWeight:'bold'}}>Pallets have not been added</Text> 
                                 <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
                         <TouchableHighlight style={{with:10}}
@@ -698,9 +711,11 @@ export default class EstibaPallet extends Component {
                         }}
                             >
                                 <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>
-                                    Ingresar pallet {(this.state.total_pallet_ok!=this.state.total_pallet?(this.state.total_pallet_ok+1):(this.state.total_pallet_ok))} de {this.state.total_pallet}</Text>
+                                    Add pallet {(this.state.total_pallet_ok!=this.state.total_pallet?(this.state.total_pallet_ok+1):(this.state.total_pallet_ok))} of {this.state.total_pallet}</Text>
                             </TouchableHighlight>
                     </View>
+
+                    
             <HintAlertas
             title={this.state.tituloHintAlerta}
             ref={this.HintAlertas}
@@ -708,7 +723,48 @@ export default class EstibaPallet extends Component {
 
             </View>
 
+            <Modal 
+                     style={{height:90, width:90}}
+                    animationType="fade"
+                   // presentationStyle="formSheet"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                        <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width:'80%',height:'20%' ,backgroundColor:'white'}}>
+                                    <View style={{ flex: 1 ,alignItems:'center', flexDirection: 'column'}} >
+                                   <View style={{flex:1}}>
+                                   <Text style={{fontSize:30}}>¿Sign off?</Text>
+                                   </View>
 
+                                    <View style={{flex:2, flexDirection:'row'}}>
+                                        <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="times" size={30} color="red" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Login')}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="check" size={30} color="green" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    </View>
+                                    </View>
+
+                            </View>
+                        
+                        </View>
+                        
+                </Modal>
 
 
             <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >

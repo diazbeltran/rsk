@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button , FlatList, TouchableOpacity, TouchableWithoutFeedback,ScrollView, RefreshControl} from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button , FlatList, TouchableOpacity, TouchableWithoutFeedback,ScrollView, RefreshControl, Modal} from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/FooterSimple.component';
-
+import Icon4 from 'react-native-vector-icons/FontAwesome5';
 import FormLogin from '../../component/Login/FormLogin.component.js';
 import InformeCaja from '../../component/InformeCaja/InformeCaja.component.js';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
@@ -34,7 +34,8 @@ export default class InformePrecargado extends Component {
             data_contenedor:[],
             refreshing: false,
             usuario_id:'',
-            planta_id:''
+            planta_id:'',
+            modalVisible:false,
         };
         this.Loading = React.createRef();
         
@@ -237,6 +238,10 @@ export default class InformePrecargado extends Component {
         }
       };
 
+      setModalVisible = async (visible, texto) => {
+        this.setState({ modalVisible: visible, texto_busqueda:texto });
+    }   
+
       onSuccess = e => {
         console.log(e);
         // Linking.openURL(e.data).catch(err =>
@@ -257,7 +262,14 @@ export default class InformePrecargado extends Component {
                 </TouchableWithoutFeedback>
 
 
-                <Text style={{flex:1,marginLeft:10, color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Working instructions</Text><Icon style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                <Text style={{flex:1,marginLeft:10, color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Working instructions</Text>
+                {/* <Icon style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" /> */}
+                <TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
+                    <View style={{}}>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                                        
+                    </View> 
+                    </TouchableWithoutFeedback>
 
             </View>
 
@@ -315,6 +327,48 @@ export default class InformePrecargado extends Component {
                       </FlatList>
                   </View>                          
                   </View>
+                  <Modal 
+                     style={{height:90, width:90}}
+                    animationType="fade"
+                   // presentationStyle="formSheet"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                        <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width:'80%',height:'20%' ,backgroundColor:'white'}}>
+                                    <View style={{ flex: 1 ,alignItems:'center', flexDirection: 'column'}} >
+                                   <View style={{flex:1}}>
+                                   <Text style={{fontSize:30}}>¿Sign off?</Text>
+                                   </View>
+
+                                    <View style={{flex:2, flexDirection:'row'}}>
+                                        <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="times" size={30} color="red" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Login')}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="check" size={30} color="green" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    </View>
+                                    </View>
+
+                            </View>
+                        
+                        </View>
+                        
+                </Modal>
          
                    <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
               

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, TouchableWithoutFeedback, SafeAreaView, FlatList,Item, TouchableOpacity} from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, 
+    TouchableWithoutFeedback, SafeAreaView, FlatList,Item, TouchableOpacity,Modal} from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/FooterSimple.component';
 
@@ -56,7 +57,7 @@ export default class InfoGeneralEmbarque extends Component {
             recibidor_data: {},
             especie_data: {},
             recibidor_seleccionado:'',
-            especie_seleccionada:'',
+            especie_seleccionada:false,
             data_especies:{},
             arregloEspecies: [],
             indexInicial:0,
@@ -75,13 +76,16 @@ export default class InfoGeneralEmbarque extends Component {
             seteo:0,
             pallet_base:0,
             caja_base:30,
-            foto_cargo:"",
+            foto_cargo:"1",
             listado_especies:{},
 
             precarga:false,
             creado_web:'',
             foto_numero_contenedor:'',
             muestraMoto:true,
+            cantidad_productos:0,
+            presentar_datos:true,
+            modalVisible:false,
 
         };
         this.recibidor = React.createRef();
@@ -149,11 +153,17 @@ export default class InfoGeneralEmbarque extends Component {
 
     }
 
+    setModalVisible = async (visible, texto) => {
+        this.setState({ modalVisible: visible, texto_busqueda:texto });
+    }  
+
+
+
     mostrarEspecies = ({item}  ) => {
         //console.log("item  item.key["+JSON.stringify(item.key)+"]   ->"+ JSON.stringify(this.state.arregloEspecies[item.key]))
         console.log("item  item.key["+JSON.stringify(item)+"]  ");
-        let a = this.state.arregloEspecies[item.key].producto_id;// this.state.texto_paso_producto_id,
-        let b = this.state.arregloEspecies[item.key].cantidad_pallet; //this.state.texto_paso_pallet,
+        let a = (this.state.arregloEspecies[item.key].producto_id)?(this.state.arregloEspecies[item.key].producto_id):(0);// this.state.texto_paso_producto_id,
+        let b = (this.state.arregloEspecies[item.key].cantidad_pallet)?(this.state.arregloEspecies[item.key].cantidad_pallet):(0); //this.state.texto_paso_pallet,
         const c = (this.state.arregloEspecies[item.key].cantidad_cajas!='')?this.state.arregloEspecies[item.key].cantidad_cajas:0 ; //this.state.texto_paso_box;
 
 
@@ -257,7 +267,7 @@ export default class InfoGeneralEmbarque extends Component {
                                     /> */}
 
                                </View>
-                               {/* <View style={{flex:1}}>
+                               {this.state.presentar_datos==true?(<View style={{flex:0.5}}>
                                <TouchableOpacity
                                style={{marginTop:'0%'}}
                                         onPress={() => 
@@ -267,14 +277,15 @@ export default class InfoGeneralEmbarque extends Component {
                                     }
                                 >
                                     
-                                    <Icon2 style={{color:'#ef882d', paddingTop:'50%', marginRight:30}} name="add-circle" size={25}  />
+                                    <Icon2 style={{color:'#ef882d', paddingTop:'50%', marginRight:0}} name="trash-sharp" size={25}  />
                                     
                                     
                                     
 
                                 </TouchableOpacity>
                                    
-                               </View> */}
+                               </View>):(<View></View>)}
+                               
 
 
 
@@ -293,18 +304,25 @@ export default class InfoGeneralEmbarque extends Component {
 
     elimina_dato_especie = async (id) => {
 
-            console.log("eliminar dato"+id);
-            console.info(this.state.arregloEspecies[id]);
-        var a = this.eliminaItem(this.state.arregloEspecies, id);
-        console.info(a);
-    }
+            console.log("eliminar dato "+id);
+            console.info(this.state.arregloEspecies);
+            //var a = this.eliminaItem(this.state.arregloEspecies, id);
+            this.setState({suma_pallet: this.state.suma_pallet - this.state.arregloEspecies[id].cantidad_pallet});
+            this.setState({suma_box: this.state.suma_box - this.state.arregloEspecies[id].cantidad_cajas});
+            var arraypaso = this.state.arregloEspecies;
+            arraypaso.splice(id, 1);
 
-    eliminaItem = (array, item) =>{
+            console.log(arraypaso);
+            this.setState({arregloEspecies:arraypaso});
+            // console.info(a);
+        }
+
+        eliminaItem = (array, item) =>{
         return array.filter((e) => {
             return e !== item;
         });
 
-    }
+        }
 
      removeItem(index) {
           this.setState((arregloEspecies) => ({
@@ -313,14 +331,14 @@ export default class InfoGeneralEmbarque extends Component {
     carga_objetosEspecie = async () =>{
 
         console.log("texto_paso_producto_id "+this.state.texto_paso_producto_id);
-        if(this.state.texto_paso_producto_id==null){
+        if(this.state.texto_paso_producto_id==null && this.state.arregloEspecies.length==0){
 
           this.HintAlertas.current.mostrarConParametros("Debe seleccionar un Producto");
           return;
         }
 
         console.log("texto_paso_pallet "+this.state.texto_paso_pallet);
-        if(this.state.texto_paso_pallet==null || this.state.texto_paso_pallet==''){
+        if((this.state.texto_paso_pallet==null || this.state.texto_paso_pallet=='')){
 
           this.HintAlertas.current.mostrarConParametros("Debe Ingresar una cantidad de pallet > 0");
           return;
@@ -356,7 +374,8 @@ export default class InfoGeneralEmbarque extends Component {
        // this.especie.current.clear();
         this.setState({ arregloEspecies: [...this.state.arregloEspecies, objetoEspecie] });
         this.setState({ indexInicial: this.state.indexInicial + 1 });
-        this.setState({caja_base:0,especie:null, seteo:'0'});
+        this.setState({caja_base:0,especie:null, seteo:'0', cantidad_productos:this.state.cantidad_productos+1, especie_seleccionada:false,
+        texto_paso_producto_id:null,texto_paso_pallet:0, texto_paso_box:0 });
 
         this.box.current.clear();
         this.especie.current.recarga();
@@ -595,7 +614,7 @@ export default class InfoGeneralEmbarque extends Component {
                 this.setState({ suma_pallet: this.state.suma_pallet + a.especie_cantidad_pallets });
                 this.setState({ suma_box: this.state.suma_box + a.especie_cantidad_cajas });
 
-                this.setState({ precarga:true, creado_web:result.data.creado_web});
+                this.setState({ precarga:true, creado_web:result.data.creado_web, presentar_datos:false});
 
 
                 
@@ -625,6 +644,8 @@ export default class InfoGeneralEmbarque extends Component {
             //recibidor_data:[...this.state.recibidor_data,[MyArray2]]
             });
 
+
+            
            
 
          //   this.props.navigation.navigate('App')
@@ -668,7 +689,7 @@ export default class InfoGeneralEmbarque extends Component {
                                             //this.setState({ keyC: 0, comunaDeChile: [] })
                                             //await this.guardarSoloRegion(x);
                                             console.log("usuariox => ", x);
-                                            this.setState({especie_seleccionada:x,texto_paso_producto_id:x});
+                                            this.setState({especie_seleccionada:true,texto_paso_producto_id:x});
                                             //this.mostrarMontoMax(x);
 
                                         }}
@@ -708,7 +729,7 @@ export default class InfoGeneralEmbarque extends Component {
             this.setState({foto_cargo:'0'});
         }
         else{ 
-               if(this.state.foto_general_contenedor!=1){
+               if(this.state.foto_numero_contenedor!=1){
         let arregloImagenes1 = this.Selector1.current.obtenerArregloImagenes();
            // let arregloImagenes2 = this.Selector2.current.obtenerArregloImagenes();
            // let arregloImagenes3 = this.Selector3.current.obtenerArregloImagenes();
@@ -766,23 +787,45 @@ export default class InfoGeneralEmbarque extends Component {
     }
 
     envio_menu = async () => {
-        this.carga_imagenes();
 
-       // this.carga_objetosEspecie();
+
+        // this.carga_objetosEspecie();
         //this.Loading.current.mostrar();
-        if(this.state.arregloEspecies.length==0){
-        this.HintAlertas.current.mostrarConParametros("Debe ingresar almenos una Producto");
-        return;
+        // if(this.state.arregloEspecies.length==0){
+        //     this.HintAlertas.current.mostrarConParametros("Debe ingresar almenos una Producto");
+        //     return;
+        //     }
+            console.log("el recividor {"+this.state.recibidor_id+"}");
+            
+            if(this.state.recibidor_id==" " || this.state.recibidor_id==null){
+                this.HintAlertas.current.mostrarConParametros("Debe ingresar ingresar un 'reciver'");
+                return;
+                } 
+
+        var a =  await this.carga_imagenes();
+
+        if (a==1){
+            this.HintAlertas.current.mostrarConParametros("Debe ingresar una imagen ");
+            return
         }
-        console.log("el recividor {"+this.state.recibidor_id+"}");
+        if(this.state.presentar_datos==true){           
         
-        if(this.state.recibidor_id==""){
-            this.HintAlertas.current.mostrarConParametros("Debe ingresar ingresar un 'reciver'");
-            return;
-            } 
 
 
-        else{
+         console.log("la cantidad de productos ["+this.state.cantidad_productos+"]");
+
+         if(this.state.cantidad_productos==0 || this.state.especie_seleccionada==true){
+            await this.carga_objetosEspecie();
+         }
+
+         
+        }
+        
+
+       
+
+
+        
         console.log("aqui");
                 await AsyncStorage.setItem("informeGeneral", "2");
                 await AsyncStorage.setItem("identificacionCarga", "2");
@@ -803,34 +846,45 @@ export default class InfoGeneralEmbarque extends Component {
             let puerto_destino="";
 
             console.log("el valor essss:["+this.state.arregloEspecies.length+"]");
-            if(this.state.creado_web!=1 ){
+            if(this.state.creado_web!=1 && this.state.presentar_datos==true ){
 
-                if(
-                    this.state.arregloEspecies.length>0
-                ){
-                    console.log("ya hay datos de especie");
-                }
-                else{
-                console.log("los datos son: ["+this.state.creado_web+"] y ["+this.state.arregloEspecies.length+"]");
+                
+                
+                    console.log("los datos son: ["+this.state.creado_web+"] y ["+this.state.arregloEspecies.length+"]");
 
-                motonavex = this.BuscaModal.current.devolverSeleccionadosTexto();
-                console.log("datox_motonavex ->",motonavex);
+                    motonavex = this.BuscaModal.current.devolverSeleccionadosTexto();
+                    console.log("datox_motonavex ->",motonavex);
 
-                puerto_origen = this.BuscaModal1.current.devolverSeleccionadosTexto();
-                console.log("puerto_origen ->",puerto_origen);
-
-                puerto_destino = this.BuscaModal2.current.devolverSeleccionadosTexto();
-                console.log("puerto_destino ->",puerto_destino);
-
-
-                    if (puerto_origen==puerto_destino) {
-                        if(puerto_origen !='' && puerto_destino !=''){
-                            this.HintAlertas.current.mostrarConParametros("Error en los puertos");
-                            return;
-                        }
-                        
+                    if(motonavex==""){
+                        this.HintAlertas.current.mostrarConParametros("Debe ingresar una 'Vessel'");
+                        return
                     }
-                }
+
+                    puerto_origen = this.BuscaModal1.current.devolverSeleccionadosTexto();
+                    console.log("puerto_origen ->",puerto_origen);
+
+                    if(puerto_origen==""){
+                        this.HintAlertas.current.mostrarConParametros("Debe ingresar 'Port of loading'");
+                        return
+                    }
+
+                    puerto_destino = this.BuscaModal2.current.devolverSeleccionadosTexto();
+                    console.log("puerto_destino ->",puerto_destino);
+
+
+                    if(puerto_destino==""){
+                        this.HintAlertas.current.mostrarConParametros("Debe ingresar una 'Port of destination'");
+                        return
+                    }
+
+                        if (puerto_origen==puerto_destino) {
+                            if(puerto_origen !='' && puerto_destino !=''){
+                                this.HintAlertas.current.mostrarConParametros("Error en los puertos");
+                                return;
+                            }
+                            
+                        }
+                
             }
 
 
@@ -912,7 +966,7 @@ export default class InfoGeneralEmbarque extends Component {
             console.warn(e);
         }
 
-        }
+        
        // this.props.navigation.navigate('ConsolidacionCarga', {a:'a'})
     };
 
@@ -922,7 +976,7 @@ export default class InfoGeneralEmbarque extends Component {
        // console.log("la pregarga es1 :"+ this.state.precarga)
             
         //if(this.state.precarga==true){
-    if(this.state.creado_web==1 || this.state.arregloEspecies.length>0){
+    if(this.state.creado_web==1 || this.state.presentar_datos==false){
     return (
         <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
             <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
@@ -935,12 +989,58 @@ export default class InfoGeneralEmbarque extends Component {
 
 
                 <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo details</Text>
-                <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                <TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
+                    <View style={{}}>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                                        
+                    </View> 
+  </TouchableWithoutFeedback>
 
             </View>
 
             <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
-        
+            <Modal 
+                     style={{height:90, width:90}}
+                    animationType="fade"
+                   // presentationStyle="formSheet"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                        <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width:'80%',height:'20%' ,backgroundColor:'white'}}>
+                                    <View style={{ flex: 1 ,alignItems:'center', flexDirection: 'column'}} >
+                                   <View style={{flex:1}}>
+                                   <Text style={{fontSize:30}}>¿Sign off?</Text>
+                                   </View>
+
+                                    <View style={{flex:2, flexDirection:'row'}}>
+                                        <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="times" size={30} color="red" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Login')}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="check" size={30} color="green" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    </View>
+                                    </View>
+
+                            </View>
+                        
+                        </View>
+                        
+                </Modal>
             <FlatList nestedScrollEnabled={true}
            
                         ListHeaderComponent={
@@ -952,7 +1052,7 @@ export default class InfoGeneralEmbarque extends Component {
                         <View  >
 
                         {this.state.foto_numero_contenedor == 1 ? (
-                        <View style={{marginLeft:'10%',  marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                        <View style={{marginLeft:'10%',  marginBottom:20, marginTop:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
                         <View style={{flex:0.5}}>
                         <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
                         </View>
@@ -1116,7 +1216,7 @@ export default class InfoGeneralEmbarque extends Component {
                             title="Press me"
                             onPress={() => this.envio_menu()}
                             >
-                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Next</Text>
                             </TouchableHighlight>
                         </View>
                         </View>
@@ -1162,12 +1262,60 @@ export default class InfoGeneralEmbarque extends Component {
 
 
                 <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo details </Text>
-                <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                <TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
+                    <View style={{}}>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                                        
+                    </View> 
+  </TouchableWithoutFeedback>
 
             </View>
 
             <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
         
+            <Modal 
+                     style={{height:90, width:90}}
+                    animationType="fade"
+                   // presentationStyle="formSheet"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                        <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width:'80%',height:'20%' ,backgroundColor:'white'}}>
+                                    <View style={{ flex: 1 ,alignItems:'center', flexDirection: 'column'}} >
+                                   <View style={{flex:1}}>
+                                   <Text style={{fontSize:30}}>¿Sign off?</Text>
+                                   </View>
+
+                                    <View style={{flex:2, flexDirection:'row'}}>
+                                        <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="times" size={30} color="red" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Login')}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="check" size={30} color="green" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    </View>
+                                    </View>
+
+                            </View>
+                        
+                        </View>
+                        
+                </Modal>
+
             <FlatList nestedScrollEnabled={true}
             //inverted={true}
             ListHeaderComponent={
@@ -1398,7 +1546,7 @@ export default class InfoGeneralEmbarque extends Component {
                  >
                  <View style={{flexDirection:'row'}}>
                  <Icon2 style={{color:'#ef882d', marginLeft:'10%'}} name="add-circle" size={25}  />
-                 <Text style={{ color:'#ef882d', fontWeight:'bold', paddingTop:5}}>  Agregar una nueva especixxe</Text>
+                 <Text style={{ color:'#ef882d', fontWeight:'bold', paddingTop:5}}>  Agregar una nueva especie</Text>
                  </View>
                 
                 </TouchableOpacity>
@@ -1467,6 +1615,7 @@ export default class InfoGeneralEmbarque extends Component {
                 />
                 
                 </View>
+                <View style={{flex:0.2}}></View>
                 </View>
                 
                  </View>

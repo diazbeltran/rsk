@@ -264,8 +264,8 @@ export default class EstibaPalletLista extends Component {
 
 
        shouldComponentUpdate = async(nextProps, nextState) =>{
-        console.log('Ejecutando shouldComponentUpdate 1: ', nextProps )
-       console.log('Ejecutando shouldComponentUpdate 2: ', nextState )
+        console.log('Ejecutando lista shouldComponentUpdate 1: ', nextProps )
+       console.log('Ejecutando lista shouldComponentUpdate 2: ', nextState )
 
       console.log("nextState.pallet_id ",nextState.pallet_id);
       console.log("nextProps.route.params.id_pallet_siguiente ",nextProps.route.params.id_pallet_siguiente);
@@ -281,7 +281,7 @@ export default class EstibaPalletLista extends Component {
         if(  nextProps.route.params.actualiza==true && nextState.actualiza!=false ){
             console.log("se tiene que actualizarrrrr");
 
-
+            this.recarga()
            
 
         //return true
