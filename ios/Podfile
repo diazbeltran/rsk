@@ -16,7 +16,8 @@ target 'rsk' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'  
+pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
   target 'rskTests' do
     inherit! :complete
