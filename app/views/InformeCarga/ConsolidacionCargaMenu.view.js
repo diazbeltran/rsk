@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, TouchableWithoutFeedback, FlatList} from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, TouchableWithoutFeedback, FlatList, Modal} from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/FooterSimple.component';
 import FormLogin from '../../component/Login/FormLogin.component.js';
@@ -57,11 +57,17 @@ export default class ConsolidacionCarga extends Component {
             embarque_planta_id:'',
 
             confirmacion:false,
+            modalVisible:false,
 
         };
         this.HintAlertas = React.createRef();
         
     }
+
+    setModalVisible = async (visible, texto) => {
+        this.setState({ modalVisible: visible, texto_busqueda:texto });
+    }   
+
 
     componentDidMount = async () => {
         let usuario = this.props.route.params.usuario, 
@@ -940,8 +946,13 @@ export default class ConsolidacionCarga extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:"20%",fontWeight:'bold', color:'white',marginTop:0, fontSize:16}}>Stuffing report</Text><Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
-
+                    <Text style={{flex:1,marginLeft:"20%",fontWeight:'bold', color:'white',marginTop:0, fontSize:16}}>Stuffing report</Text>
+                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
+                    <View style={{}}>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                                        
+                    </View> 
+                    </TouchableWithoutFeedback>
                 </View>
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: '#6c649c', flexDirection: 'column'}} >
@@ -957,14 +968,59 @@ export default class ConsolidacionCarga extends Component {
                     
                 </ScrollView>
 
+
+                <Modal 
+                     style={{height:90, width:90}}
+                    animationType="fade"
+                   // presentationStyle="formSheet"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                        <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width:'80%',height:'20%' ,backgroundColor:'white'}}>
+                                    <View style={{ flex: 1 ,alignItems:'center', flexDirection: 'column'}} >
+                                   <View style={{flex:1}}>
+                                   <Text style={{fontSize:30}}>¿Sign off?</Text>
+                                   </View>
+
+                                    <View style={{flex:2, flexDirection:'row'}}>
+                                        <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="times" size={30} color="red" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Login')}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="check" size={30} color="green" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    </View>
+                                    </View>
+
+                            </View>
+                        
+                        </View>
+                        
+                </Modal>
+
+                
                 </View>   
-                <HintAlertas
+                                <HintAlertas
                                     title={this.state.tituloHintAlerta}
                                     ref={this.HintAlertas}
                                 ></HintAlertas>
                                   
                
-                
+               
                 
                
                

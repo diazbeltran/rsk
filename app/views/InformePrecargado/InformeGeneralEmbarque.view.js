@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView,TouchableWithoutFeedback} from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView,TouchableWithoutFeedback, Modal} from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/FooterSimple.component';
 import FormLogin from '../../component/Login/FormLogin.component.js';
@@ -7,19 +7,21 @@ import InformeCaja from '../../component/InformeCaja/InformeCaja.component.js'
 import SelectDropdown from 'react-native-select-dropdown'
 import Select from '../../component/Select/Select.component.js';
 
+
 import SelectorMultimedia from '../../components/SelectorMultimedia/SelectorMultimediaMultiple.component.js';
 
 import SelectorMultimedia1 from '../../components/SelectorMultimedia/SelectorMultimediaGeneral.component.js';
 import SelectorMultimedia2 from '../../components/SelectorMultimedia/SelectorMultimediaLeft.component.js';
 import SelectorMultimedia3 from '../../components/SelectorMultimedia/SelectorMultimediaRight.component.js';
 
+import Loading from '../../components/Loading/Loading.component';
 
 import Hint from '../../components/Hint/Hint.component';
 import HintAlertas from '../../components/Hint/Hint.component';
 import Hint2 from '../../components/Hint/Hint.component';
 import HintImagenAmpliada from '../../components/Hint/Hint.component';
 import HintPDF from '../../components/Hint/HintPDF.component';
-
+import Icon4 from 'react-native-vector-icons/FontAwesome5';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
@@ -58,6 +60,7 @@ export default class InfoGeneralEmbarque extends Component {
             embarque_planta_id:"",
             embarque_id:"",
             informeGeneral:"",
+            modalVisible:false,
         };
 
         this.exportador = React.createRef();
@@ -78,7 +81,7 @@ export default class InfoGeneralEmbarque extends Component {
         this.HintPDF1 = React.createRef();
         this.HintPDF2 = React.createRef();
         this.HintPDF3 = React.createRef();
-
+        this.Loading = React.createRef();
 
     }
 
@@ -167,15 +170,17 @@ if(embarque==null || embarque == undefined){
                   }
                   
                   let data2 = {
+                      key: elem.id,
                     value: elem.id,
                     label: elem.name ,
-                    selected: '',
+                    //selected: '',
                     //isSelect: elem.isSelect,
                     //selectedClass: elem.selectedClass
                 }
 
                   MyArray.push(data);
-                  MyArray2.push(elem.name);
+                  //MyArray2.push(elem.name);
+                  MyArray2.push(data2);
               
           });
   
@@ -475,6 +480,10 @@ guarda_embarque = async () => {
        // console.log("img3 -->"+img3);
 
         try {
+
+            this.Loading.current.mostrar();
+
+
             //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
             let resultado = await WSRestApi.fnWSGuardaEmbarqueActualiza(USUARIO_ID,PLANTA_ID,fecha,this.state.embarque_id,this.state.embarque_planta_id,numero,expor,img1, img2, img3);
             //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
@@ -499,7 +508,7 @@ guarda_embarque = async () => {
                 await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
                 await AsyncStorage.setItem("Observaciones", "0");
 
-
+                this.Loading.current.ocultar();
                 this.props.navigation.navigate('ConsolidacionCarga', {
                     embarque : resultado.data.embarque_id, 
                     embarque_planta : resultado.data.embarque_planta_id,
@@ -508,11 +517,13 @@ guarda_embarque = async () => {
 
 
             }else{
+                this.Loading.current.ocultar();
                 console.log("sin resultadox");
                 this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
             }
 
           } catch (error) {
+            this.Loading.current.ocultar();
             let resultado = JSON.stringify(error);
             //let resultado = "errorx";
             console.log("ERROR exportador ??? : " + error);
@@ -523,7 +534,9 @@ guarda_embarque = async () => {
           
            
 }
-
+setModalVisible = async (visible, texto) => {
+    this.setState({ modalVisible: visible, texto_busqueda:texto });
+}   
 
     envio_menu = async () => {
 
@@ -576,8 +589,15 @@ guarda_embarque = async () => {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>General shipment information(Preloaded) </Text><Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
-
+                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>General shipment information(Preloaded) </Text>
+                    
+                    {/* <Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" /> */}
+                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
+                    <View style={{}}>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                                        
+                    </View> 
+                    </TouchableWithoutFeedback>
                 </View>
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
@@ -762,7 +782,7 @@ guarda_embarque = async () => {
                        
 
                         <Text style={{marginLeft:'10%', marginTop:10}}>Exporter</Text> 
-                        <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:'10%'}} >
+                        <View  style={{backgroundColor:'#efeeef', width:'80%',height:40, marginLeft:'10%'}} >
                             {/* <Select  
                             ref={this.exportador}
                             label={this.state.exportador_nombre}
@@ -772,11 +792,15 @@ guarda_embarque = async () => {
                             //   datos={this.state.beneficiarios} 
                             /> */}
 
-                            <SelectDropdown
-
+                            {/* <SelectDropdown
+                            buttonStyle={{color:'red'}}
+                            rowTextStyle={{color:'red'}}
+                            
+                            dropdownStyle={{color:'red'}}
+                            style={{fontSize:10}}
                             data={this.state.exportadorInicio}
                             defaultButtonText ={this.state.exportador_nombre}
-                            disabled={true}
+                           // disabled={true}
                             onSelect={(selectedItem, index) => {
                                 console.log(selectedItem, index)
                             }}
@@ -787,12 +811,33 @@ guarda_embarque = async () => {
                             }}
                             >
                                 
-                            </SelectDropdown>
+                            </SelectDropdown> */}
+
+                    <Text style={{marginLeft:5,fontSize:15, marginTop:10, fontWeight:'bold'}}>{this.state.exportador_nombre}</Text>
+
+
+                        {/* <Select
+                        value={this.state.exportador_id}
+                        //label={this.state.exportador_nombre}
+                        //ref={this.especie}
+                        datos={this.state.exportadorInicio}
+                        xfuncion={async (x) => {
+                            //this.setState({ keyC: 0, comunaDeChile: [] })
+                            //await this.guardarSoloRegion(x);
+                            console.log("usuariox => ", x);
+                            this.setState({recibidor_id:x});
+                           // this.setState({especie_seleccionada_Arreglo:[x]});
+                           // especie_seleccionada_Arreglo
+                            //this.mostrarMontoMax(x);
+
+                         }}
+                        /> */}
+
                         </View>
 
                         <View>
                             <Text style={{marginLeft:'10%', marginTop:10}}>Report date</Text> 
-                            <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>{this.state.fecha_creacion}</Text> 
+                            <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.fecha_creacion}</Text> 
                             </View>
                     
                             <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
@@ -806,11 +851,54 @@ guarda_embarque = async () => {
                             
                                 </ScrollView>
                                 
+
+                                <Modal 
+                     style={{height:90, width:90}}
+                    animationType="fade"
+                   // presentationStyle="formSheet"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                        <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width:'80%',height:'20%' ,backgroundColor:'white'}}>
+                                    <View style={{ flex: 1 ,alignItems:'center', flexDirection: 'column'}} >
+                                   <View style={{flex:1}}>
+                                   <Text style={{fontSize:30}}>¿Sign off?</Text>
+                                   </View>
+
+                                    <View style={{flex:2, flexDirection:'row'}}>
+                                        <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="times" size={30} color="red" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Login')}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="check" size={30} color="green" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    </View>
+                                    </View>
+
+                            </View>
+                        
+                        </View>
+                        
+                </Modal>
                             </View>                           
                
                 
                 
-                
+                            <Loading ref={this.Loading} />
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
                     
                     <Footer

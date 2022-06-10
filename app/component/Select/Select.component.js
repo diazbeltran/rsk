@@ -27,6 +27,7 @@ export default class MySelect extends Component {
   }
 
   componentDidMount() {
+    console.log("el datos exportador es : ",this.props.datos);
     this.setState({ dataSource: this.props.datos })
 
     //artist = this.props.datos;
@@ -34,6 +35,8 @@ export default class MySelect extends Component {
   }
 
   UNSAFE_componentWillMount() {
+
+    console.log("sdasdsadasdasd ", this.props.value);
     this.setState({ selected: this.props.value })
   }
   recarga(){
@@ -53,6 +56,7 @@ export default class MySelect extends Component {
       <View style={{ width: '100%' }}>
         
         <RNPickerSelect
+        style={{fontSize:10}}
           disabled={this.props.disabled}
           placeholder={placeholder}
           items={this.props.datos}
@@ -168,7 +172,7 @@ export default class MySelect extends Component {
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    fontSize: 16,
+    fontSize: 15,
     //paddingVertical: 12,
     paddingHorizontal: 10,
     //borderWidth: 1,
@@ -179,7 +183,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
   },
   inputAndroid: {
-    fontSize: 16,
+    fontSize: 15,
     paddingHorizontal: 10,
     // borderWidth: 0.5,
     // borderColor: '#808080',

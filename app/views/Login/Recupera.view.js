@@ -86,7 +86,7 @@ export default class InformePrecargado extends Component {
                     >
                   <View style={{flex:0.7,marginLeft:'10%',marginTop:'25%', backgroundColor:"#efeeef",  width:'80%', flexDirection:'column', borderRadius:20}}>
                     <View style={{flex:1,alignItems:'center'}}>
-                      <Text style={{marginTop:'30%'}}>Error en las credenciales</Text>
+                      <Text style={{marginTop:'30%'}}>Error</Text>
                     
                         </View>
                         <View style={{flex:0.3,alignItems:'center'}}>
@@ -135,11 +135,11 @@ export default class InformePrecargado extends Component {
                 
                 <View style={{ flex: 1, backgroundColor: 'white' }} >
                 <View style={{flex:0.5}}>
-                       <Text style={{marginLeft:'30%', fontWeight:'bold'}}>Recuperar Contraseña</Text> 
+                       <Text style={{marginLeft:'30%', fontWeight:'bold'}}>Password recovery</Text> 
                        
                     </View>
                     <View>
-                       <Text style={{marginLeft:30}}>Ingresar correo electrónico registrado</Text> 
+                       <Text style={{marginLeft:30}}>Enter registerred email</Text> 
                        <TextInput
                         style={styles.input}
                         onChangeText={(email) => this.setState({email})}
@@ -151,16 +151,16 @@ export default class InformePrecargado extends Component {
                         title="recupera_pass"
                         onPress={() => this.ingresa_recuperar(this.state.email)}
                             >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Send</Text>
                             </TouchableHighlight>
                     </View>
                     <View style={{alignItems:'center'}}>
-                        <TouchableHighlight style={{with:10,height:20, marginTop:20}}
+                        {/* <TouchableHighlight style={{with:10,height:20, marginTop:20}}
                         title="Press me"
                         onPress={() => this.props.navigation.navigate('Login')}
                             >
                                 <Text style={{color:'#ef882d'}}>atras</Text>
-                            </TouchableHighlight>
+                            </TouchableHighlight> */}
                     </View>
 
                 </View>

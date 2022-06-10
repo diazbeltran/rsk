@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, TouchableWithoutFeedback, SafeAreaView, FlatList,Item, TouchableOpacity} from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, 
+    TouchableWithoutFeedback, SafeAreaView, FlatList,Item, TouchableOpacity,Modal} from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/FooterSimple.component';
 
@@ -56,7 +57,7 @@ export default class InfoGeneralEmbarque extends Component {
             recibidor_data: {},
             especie_data: {},
             recibidor_seleccionado:'',
-            especie_seleccionada:'',
+            especie_seleccionada:false,
             data_especies:{},
             arregloEspecies: [],
             indexInicial:0,
@@ -75,13 +76,16 @@ export default class InfoGeneralEmbarque extends Component {
             seteo:0,
             pallet_base:0,
             caja_base:30,
-            foto_cargo:"",
+            foto_cargo:"1",
             listado_especies:{},
 
             precarga:false,
             creado_web:'',
             foto_numero_contenedor:'',
             muestraMoto:true,
+            cantidad_productos:0,
+            presentar_datos:true,
+            modalVisible:false,
 
         };
         this.recibidor = React.createRef();
@@ -149,11 +153,17 @@ export default class InfoGeneralEmbarque extends Component {
 
     }
 
+    setModalVisible = async (visible, texto) => {
+        this.setState({ modalVisible: visible, texto_busqueda:texto });
+    }  
+
+
+
     mostrarEspecies = ({item}  ) => {
         //console.log("item  item.key["+JSON.stringify(item.key)+"]   ->"+ JSON.stringify(this.state.arregloEspecies[item.key]))
         console.log("item  item.key["+JSON.stringify(item)+"]  ");
-        let a = this.state.arregloEspecies[item.key].producto_id;// this.state.texto_paso_producto_id,
-        let b = this.state.arregloEspecies[item.key].cantidad_pallet; //this.state.texto_paso_pallet,
+        let a = (this.state.arregloEspecies[item.key].producto_id)?(this.state.arregloEspecies[item.key].producto_id):(0);// this.state.texto_paso_producto_id,
+        let b = (this.state.arregloEspecies[item.key].cantidad_pallet)?(this.state.arregloEspecies[item.key].cantidad_pallet):(0); //this.state.texto_paso_pallet,
         const c = (this.state.arregloEspecies[item.key].cantidad_cajas!='')?this.state.arregloEspecies[item.key].cantidad_cajas:0 ; //this.state.texto_paso_box;
 
 
@@ -168,7 +178,7 @@ export default class InfoGeneralEmbarque extends Component {
             <View style={{flexDirection:'row'}}>
                                <View style={{flex:1.5}}>
 
-                               <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:30}} >
+                               <View  style={{backgroundColor:'#efeeef',marginTop:'4%', width:'80%', marginLeft:30}} >
 
                             <Select
                                 disabled={true}
@@ -257,7 +267,7 @@ export default class InfoGeneralEmbarque extends Component {
                                     /> */}
 
                                </View>
-                               {/* <View style={{flex:1}}>
+                               {this.state.presentar_datos==true?(<View style={{flex:0.5}}>
                                <TouchableOpacity
                                style={{marginTop:'0%'}}
                                         onPress={() => 
@@ -267,14 +277,15 @@ export default class InfoGeneralEmbarque extends Component {
                                     }
                                 >
                                     
-                                    <Icon2 style={{color:'#ef882d', paddingTop:'50%', marginRight:30}} name="add-circle" size={25}  />
+                                    <Icon2 style={{color:'#ef882d', paddingTop:'50%', marginRight:0}} name="trash-sharp" size={25}  />
                                     
                                     
                                     
 
                                 </TouchableOpacity>
                                    
-                               </View> */}
+                               </View>):(<View></View>)}
+                               
 
 
 
@@ -293,18 +304,25 @@ export default class InfoGeneralEmbarque extends Component {
 
     elimina_dato_especie = async (id) => {
 
-            console.log("eliminar dato"+id);
-            console.info(this.state.arregloEspecies[id]);
-        var a = this.eliminaItem(this.state.arregloEspecies, id);
-        console.info(a);
-    }
+            console.log("eliminar dato "+id);
+            console.info(this.state.arregloEspecies);
+            //var a = this.eliminaItem(this.state.arregloEspecies, id);
+            this.setState({suma_pallet: this.state.suma_pallet - this.state.arregloEspecies[id].cantidad_pallet});
+            this.setState({suma_box: this.state.suma_box - this.state.arregloEspecies[id].cantidad_cajas});
+            var arraypaso = this.state.arregloEspecies;
+            arraypaso.splice(id, 1);
 
-    eliminaItem = (array, item) =>{
+            console.log(arraypaso);
+            this.setState({arregloEspecies:arraypaso});
+            // console.info(a);
+        }
+
+        eliminaItem = (array, item) =>{
         return array.filter((e) => {
             return e !== item;
         });
 
-    }
+        }
 
      removeItem(index) {
           this.setState((arregloEspecies) => ({
@@ -313,14 +331,14 @@ export default class InfoGeneralEmbarque extends Component {
     carga_objetosEspecie = async () =>{
 
         console.log("texto_paso_producto_id "+this.state.texto_paso_producto_id);
-        if(this.state.texto_paso_producto_id==null){
+        if(this.state.texto_paso_producto_id==null && this.state.arregloEspecies.length==0){
 
           this.HintAlertas.current.mostrarConParametros("Debe seleccionar un Producto");
           return;
         }
 
         console.log("texto_paso_pallet "+this.state.texto_paso_pallet);
-        if(this.state.texto_paso_pallet==null || this.state.texto_paso_pallet==''){
+        if((this.state.texto_paso_pallet==null || this.state.texto_paso_pallet=='')){
 
           this.HintAlertas.current.mostrarConParametros("Debe Ingresar una cantidad de pallet > 0");
           return;
@@ -356,7 +374,8 @@ export default class InfoGeneralEmbarque extends Component {
        // this.especie.current.clear();
         this.setState({ arregloEspecies: [...this.state.arregloEspecies, objetoEspecie] });
         this.setState({ indexInicial: this.state.indexInicial + 1 });
-        this.setState({caja_base:0,especie:null, seteo:'0'});
+        this.setState({caja_base:0,especie:null, seteo:'0', cantidad_productos:this.state.cantidad_productos+1, especie_seleccionada:false,
+        texto_paso_producto_id:null,texto_paso_pallet:0, texto_paso_box:0 });
 
         this.box.current.clear();
         this.especie.current.recarga();
@@ -595,7 +614,7 @@ export default class InfoGeneralEmbarque extends Component {
                 this.setState({ suma_pallet: this.state.suma_pallet + a.especie_cantidad_pallets });
                 this.setState({ suma_box: this.state.suma_box + a.especie_cantidad_cajas });
 
-                this.setState({ precarga:true, creado_web:result.data.creado_web});
+                this.setState({ precarga:true, creado_web:result.data.creado_web, presentar_datos:false});
 
 
                 
@@ -625,6 +644,8 @@ export default class InfoGeneralEmbarque extends Component {
             //recibidor_data:[...this.state.recibidor_data,[MyArray2]]
             });
 
+
+            
            
 
          //   this.props.navigation.navigate('App')
@@ -668,7 +689,7 @@ export default class InfoGeneralEmbarque extends Component {
                                             //this.setState({ keyC: 0, comunaDeChile: [] })
                                             //await this.guardarSoloRegion(x);
                                             console.log("usuariox => ", x);
-                                            this.setState({especie_seleccionada:x,texto_paso_producto_id:x});
+                                            this.setState({especie_seleccionada:true,texto_paso_producto_id:x});
                                             //this.mostrarMontoMax(x);
 
                                         }}
@@ -704,11 +725,11 @@ export default class InfoGeneralEmbarque extends Component {
 
     carga_imagenes = async () =>{
 
-        if(this.state.foto_numero_contenedor==1){
+        if(this.state.creado_web==1){
             this.setState({foto_cargo:'0'});
         }
-        else{
-
+        else{ 
+               if(this.state.foto_numero_contenedor!=1){
         let arregloImagenes1 = this.Selector1.current.obtenerArregloImagenes();
            // let arregloImagenes2 = this.Selector2.current.obtenerArregloImagenes();
            // let arregloImagenes3 = this.Selector3.current.obtenerArregloImagenes();
@@ -758,21 +779,53 @@ export default class InfoGeneralEmbarque extends Component {
     
     
             this.setState({ foto_cargo: jsonImagenes1 });
-
+        }else{
+            this.setState({ foto_cargo: 1 });
+        }
         }
 
     }
 
     envio_menu = async () => {
-        this.carga_imagenes();
 
-       // this.carga_objetosEspecie();
+
+        // this.carga_objetosEspecie();
         //this.Loading.current.mostrar();
-        if(this.state.arregloEspecies.length==0){
-        this.HintAlertas.current.mostrarConParametros("Debe ingresar almenos una Producto");
-        return;
+        // if(this.state.arregloEspecies.length==0){
+        //     this.HintAlertas.current.mostrarConParametros("Debe ingresar almenos una Producto");
+        //     return;
+        //     }
+            console.log("el recividor {"+this.state.recibidor_id+"}");
+            
+            if(this.state.recibidor_id==" " || this.state.recibidor_id==null){
+                this.HintAlertas.current.mostrarConParametros("Debe ingresar ingresar un 'reciver'");
+                return;
+                } 
+
+        var a =  await this.carga_imagenes();
+
+        if (a==1){
+            this.HintAlertas.current.mostrarConParametros("Debe ingresar una imagen ");
+            return
         }
-        else{
+        if(this.state.presentar_datos==true){           
+        
+
+
+         console.log("la cantidad de productos ["+this.state.cantidad_productos+"]");
+
+         if(this.state.cantidad_productos==0 || this.state.especie_seleccionada==true){
+            await this.carga_objetosEspecie();
+         }
+
+         
+        }
+        
+
+       
+
+
+        
         console.log("aqui");
                 await AsyncStorage.setItem("informeGeneral", "2");
                 await AsyncStorage.setItem("identificacionCarga", "2");
@@ -788,42 +841,54 @@ export default class InfoGeneralEmbarque extends Component {
 
         try {
 
-            
-            let motonavex = this.BuscaModal.current.devolverSeleccionadosTexto();
-            console.log("datox_motonavex ->",motonavex);
+            let motonavex ="";
+            let puerto_origen="";
+            let puerto_destino="";
 
-            let puerto_origen = this.BuscaModal1.current.devolverSeleccionadosTexto();
-            console.log("puerto_origen ->",puerto_origen);
+            console.log("el valor essss:["+this.state.arregloEspecies.length+"]");
+            if(this.state.creado_web!=1 && this.state.presentar_datos==true ){
 
-            let puerto_destino = this.BuscaModal2.current.devolverSeleccionadosTexto();
-            console.log("puerto_destino ->",puerto_destino);
+                
+                
+                    console.log("los datos son: ["+this.state.creado_web+"] y ["+this.state.arregloEspecies.length+"]");
+
+                    motonavex = this.BuscaModal.current.devolverSeleccionadosTexto();
+                    console.log("datox_motonavex ->",motonavex);
+
+                    if(motonavex==""){
+                        this.HintAlertas.current.mostrarConParametros("Debe ingresar una 'Vessel'");
+                        return
+                    }
+
+                    puerto_origen = this.BuscaModal1.current.devolverSeleccionadosTexto();
+                    console.log("puerto_origen ->",puerto_origen);
+
+                    if(puerto_origen==""){
+                        this.HintAlertas.current.mostrarConParametros("Debe ingresar 'Port of loading'");
+                        return
+                    }
+
+                    puerto_destino = this.BuscaModal2.current.devolverSeleccionadosTexto();
+                    console.log("puerto_destino ->",puerto_destino);
 
 
-            if (puerto_origen==puerto_destino) {
-                if(puerto_origen !='' && puerto_destino !=''){
-                    this.HintAlertas.current.mostrarConParametros("Error en los puertos");
-                    return;
-                }
+                    if(puerto_destino==""){
+                        this.HintAlertas.current.mostrarConParametros("Debe ingresar una 'Port of destination'");
+                        return
+                    }
+
+                        if (puerto_origen==puerto_destino) {
+                            if(puerto_origen !='' && puerto_destino !=''){
+                                this.HintAlertas.current.mostrarConParametros("Error en los puertos");
+                                return;
+                            }
+                            
+                        }
                 
             }
 
 
-
-
-            // let motonavex ='';
-
-            // dato_motonavex.forEach((a) =>{
-            //     console.log("datoxxxx de a ",a.text);
-            //     motonavex = a.text;
-                
-            // });
-
-           // console.log("datox_motonavex ->",dato_motonavex);
-
-            //let motonavex =  dato_motonavex.text;
-        
-            //console.log("el nombre de la motonave es->", motonavex);
-           // return;
+            
 
             let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
             let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
@@ -849,13 +914,16 @@ export default class InfoGeneralEmbarque extends Component {
         //    console.info(e);
         });
 
+        if(motonavex==""){motonavex=this.state.motonave}
+        if(puerto_origen==""){puerto_origen=this.state.puerto_carga}
+        if(puerto_destino==""){puerto_destino=this.state.puerto_destino}
 
             //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
             let resultado = await WSRestApi.fnWSGuardaCargoDetail(USUARIO_ID,PLANTA_ID,embarque, embarque_planta, 
-                (motonavex==''?(this.state.motonave):(motonavex)),
+                ( this.state.creado_web==1  ? (this.state.motonave):(motonavex)),
                 this.state.recibidor_id, 
-                (puerto_origen==''?(this.state.puerto_carga):(puerto_origen)), 
-                (puerto_destino==''?(this.state.puerto_destino):(puerto_destino)), 
+                ( this.state.creado_web==1 ?(this.state.puerto_carga):(puerto_origen)), 
+                (this.state.creado_web==1 ?(this.state.puerto_destino):(puerto_destino)), 
                 this.state.numero_booking,
                 paso,this.state.foto_cargo);
             //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
@@ -898,7 +966,7 @@ export default class InfoGeneralEmbarque extends Component {
             console.warn(e);
         }
 
-        }
+        
        // this.props.navigation.navigate('ConsolidacionCarga', {a:'a'})
     };
 
@@ -908,7 +976,7 @@ export default class InfoGeneralEmbarque extends Component {
        // console.log("la pregarga es1 :"+ this.state.precarga)
             
         //if(this.state.precarga==true){
-    if(this.state.creado_web==1){
+    if(this.state.creado_web==1 || this.state.presentar_datos==false){
     return (
         <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
             <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
@@ -921,146 +989,215 @@ export default class InfoGeneralEmbarque extends Component {
 
 
                 <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo details</Text>
-                <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                <TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
+                    <View style={{}}>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                                        
+                    </View> 
+  </TouchableWithoutFeedback>
 
             </View>
 
             <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
-        
+            <Modal 
+                     style={{height:90, width:90}}
+                    animationType="fade"
+                   // presentationStyle="formSheet"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                        <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width:'80%',height:'20%' ,backgroundColor:'white'}}>
+                                    <View style={{ flex: 1 ,alignItems:'center', flexDirection: 'column'}} >
+                                   <View style={{flex:1}}>
+                                   <Text style={{fontSize:30}}>¿Sign off?</Text>
+                                   </View>
+
+                                    <View style={{flex:2, flexDirection:'row'}}>
+                                        <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="times" size={30} color="red" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Login')}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="check" size={30} color="green" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    </View>
+                                    </View>
+
+                            </View>
+                        
+                        </View>
+                        
+                </Modal>
             <FlatList nestedScrollEnabled={true}
-            //inverted={true}
-            ListHeaderComponent={
-                <View>
-                <Text style={{marginLeft:'10%', marginTop:10}}>Container N°</Text>
-                 <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.numero_contenedor}</Text>
+           
+                        ListHeaderComponent={
+                        <View>
+                        <Text style={{marginLeft:'10%', marginTop:10}}>Container N°</Text>
+                        <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.numero_contenedor}</Text>
+
+
+                        <View  >
+
+                        {this.state.foto_numero_contenedor == 1 ? (
+                        <View style={{marginLeft:'10%',  marginBottom:20, marginTop:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
+                        <View style={{flex:0.5}}>
+                        <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                        </View>
+                        <View style={{flex:2, marginLeft:10}}>
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container number photo</Text> 
+                        </View>                        
+                        <View style={{flex:.5}}>
+                        <TouchableHighlight style={{with:10}}
+                        title="Press me"
+                        onPress={() => this.setState({foto_numero_contenedor:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                        >
+
+
+
+                        <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                        </TouchableHighlight>
+
+                        </View>   
+
+                        </View>
+                        ):(<SelectorMultimediaCargo style={{marginLeft:'50%'}}
+                        ref={this.Selector1}
+                        mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                        ocultarTeclado={() => this.ocultarTeclado()}
+                        />)}
+
+
+                        </View>
+
+
+
+                        <HintImagenAmpliada
+                        ref={this.HintImagenAmpliada1}
+                        title={""}
+                        componente={<Image style={{ height: 200, width: 200 }} source={{ uri: `data:image/jpeg;base64,${this.state.imagenAmpliada1}` }} />}
+                        eliminarFotoSelector={(key) => this.eliminarFotoSelector1(key)}
+                        >
+                        </HintImagenAmpliada>
+
+
+                        <View>
+                        <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
+                        <TextInput
+                        style={styles.input}
+                        editable={false}
+
+                        value={this.state.motonave}
+                        />
+                        </View>
+
+
+                        <View>
+                        <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
+                        <View   >
+                        <TextInput
+                        style={styles.input}
+                        editable={false}
+                        // onChangeText={(clave) => this.setState({clave})}
+                        // onChangeText={(text) => this.validate(text)}
+                        //    recibidor_id:'',
+                        //    recibidor_nombre:'',
+                        //    puerto_carga:'',
+                        //    puerto_destino:'',
+                        value={this.state.recibidor_nombre}
+                        />
+
+                        </View>
+                        </View>
+
+                        <View>
+                        <Text style={{marginLeft:30, marginTop:10}}>Port of loading</Text>
+                        <View   >
+
+
+                        <TextInput
+                        style={styles.input}
+                        editable={false}
+                        // onChangeText={(clave) => this.setState({clave})}
+                        // onChangeText={(text) => this.validate(text)}
+                        value={this.state.puerto_carga}
+                        />
+
+
+                        </View>
+                        </View>
+
+                        <View>
+                        <Text style={{marginLeft:30, marginTop:10}}>Port of destination</Text>
+                        <View  >
+
+                        <TextInput
+                        style={styles.input}
+                        editable={false}
+                        // onChangeText={(clave) => this.setState({clave})}
+                        // onChangeText={(text) => this.validate(text)}
+                        value={this.state.puerto_destino}
+                        />
+                        </View>
+                        </View>
+
+                        <View>
+                        <Text style={{marginLeft:30, marginTop:10}}>Booking N°</Text>
+                        <TextInput
+                        style={styles.input}
+                        editable={false}
+                        // onChangeText={(clave) => this.setState({clave})}
+                        // onChangeText={(text) => this.validate(text)}
+                        value={this.state.numero_booking}
+                        />
+                        </View> 
+
+                        <View style={{flexDirection:'row'}}>
+                <View style={{flex:1.5}}>
+                <Text style={{marginLeft:30, marginTop:10}}>Product</Text>
+                <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:30}} >
+                
+               
                 
                 
-                <View  >
-                
-                {this.state.foto_numero_contenedor == 1 ? (
-                   <View style={{marginLeft:'10%',  marginBottom:20, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'80%', alignContent:'center'}}>
-                   <View style={{flex:0.5}}>
-                   <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
-                   </View>
-                   <View style={{flex:2, marginLeft:10}}>
-                   <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Container number photo</Text> 
-                   </View>                        
-                   <View style={{flex:.5}}>
-                   <TouchableHighlight style={{with:10}}
-                         title="Press me"
-                         onPress={() => this.setState({foto_numero_contenedor:0, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
-                             >
-
-
-
-                         <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
-               </TouchableHighlight>
-                            
-                   </View>   
-                       
-                   </View>
-                ):(<SelectorMultimediaCargo style={{marginLeft:'50%'}}
-                ref={this.Selector1}
-                mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                ocultarTeclado={() => this.ocultarTeclado()}
-                />)}
-
                 
                 </View>
+                </View>
+                <View style={{flex:1}}>
+                <Text style={{marginLeft:30, marginTop:10}}>Pallets</Text>
+               
                 
                 
-                 
-                 <HintImagenAmpliada
-                 ref={this.HintImagenAmpliada1}
-                 title={""}
-                 componente={<Image style={{ height: 200, width: 200 }} source={{ uri: `data:image/jpeg;base64,${this.state.imagenAmpliada1}` }} />}
-                 eliminarFotoSelector={(key) => this.eliminarFotoSelector1(key)}
-                 >
-                 </HintImagenAmpliada>
-                
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 
-                 value={this.state.motonave}
-                 />
-                 </View>
-                
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
-                 <View   >
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 // onChangeText={(clave) => this.setState({clave})}
-                 // onChangeText={(text) => this.validate(text)}
-                 //    recibidor_id:'',
-                 //    recibidor_nombre:'',
-                 //    puerto_carga:'',
-                 //    puerto_destino:'',
-                 value={this.state.recibidor_nombre}
-                 />
-                 
-                 </View>
-                 </View>
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Port of loading</Text>
-                 <View   >
+                </View>
+                <View style={{flex:1}}>
+                <Text style={{marginLeft:10, marginTop:10}}>Boxes</Text>
                  
                 
-                 <TextInput
-                 style={styles.input}
-                 editable={false}
-                 // onChangeText={(clave) => this.setState({clave})}
-                 // onChangeText={(text) => this.validate(text)}
-                 value={this.state.puerto_carga}
-                 />
                 
-                
-                 </View>
-                 </View>
-                
-                 <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Port of destination</Text>
-                     <View  >
-                     
-                     <TextInput
-                     style={styles.input}
-                     editable={false}
-                     // onChangeText={(clave) => this.setState({clave})}
-                     // onChangeText={(text) => this.validate(text)}
-                     value={this.state.puerto_destino}
-                     />
-                     </View>
-                 </View>
-                
-                 <View>
-                     <Text style={{marginLeft:30, marginTop:10}}>Booking N°</Text>
-                     <TextInput
-                     style={styles.input}
-                     editable={false}
-                     // onChangeText={(clave) => this.setState({clave})}
-                     // onChangeText={(text) => this.validate(text)}
-                     value={this.state.numero_booking}
-                     />
-                 </View> 
-                
-            
-                
-                
-                 
-                
-                 </View>
+                </View>
+                </View>  
+
+
+
+
+                        </View>
                                 }
                     ListFooterComponent={ (item) =>
                         <View >
                            <View style={{flexDirection:'row'}}>
-                           <View style={{flex:3}}>
+                           <View style={{flex:2}}>
                             <Text style={{marginLeft:'60%'}} >Total:</Text>
                             </View>
                            <View style={{flex:0.8}}>
@@ -1079,7 +1216,7 @@ export default class InfoGeneralEmbarque extends Component {
                             title="Press me"
                             onPress={() => this.envio_menu()}
                             >
-                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+                            <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Next</Text>
                             </TouchableHighlight>
                         </View>
                         </View>
@@ -1111,6 +1248,8 @@ export default class InfoGeneralEmbarque extends Component {
       </View>
     );
  }else{
+    
+
     return (
         <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
             <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
@@ -1122,13 +1261,61 @@ export default class InfoGeneralEmbarque extends Component {
                 </TouchableWithoutFeedback>
 
 
-                <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo details</Text>
-                <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Cargo details </Text>
+                <TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
+                    <View style={{}}>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                                        
+                    </View> 
+  </TouchableWithoutFeedback>
 
             </View>
 
             <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
         
+            <Modal 
+                     style={{height:90, width:90}}
+                    animationType="fade"
+                   // presentationStyle="formSheet"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                        <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width:'80%',height:'20%' ,backgroundColor:'white'}}>
+                                    <View style={{ flex: 1 ,alignItems:'center', flexDirection: 'column'}} >
+                                   <View style={{flex:1}}>
+                                   <Text style={{fontSize:30}}>¿Sign off?</Text>
+                                   </View>
+
+                                    <View style={{flex:2, flexDirection:'row'}}>
+                                        <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="times" size={30} color="red" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Login')}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="check" size={30} color="green" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    </View>
+                                    </View>
+
+                            </View>
+                        
+                        </View>
+                        
+                </Modal>
+
             <FlatList nestedScrollEnabled={true}
             //inverted={true}
             ListHeaderComponent={
@@ -1187,13 +1374,21 @@ export default class InfoGeneralEmbarque extends Component {
                  <Text style={{marginLeft:30, marginTop:10}}>Vessel</Text>
                  <View style={{flexDirection:'row'}}>
                  
-                 <TextInput
+                 {/* <TextInput
                  style={styles.inputBusqueda}
                  selectTextOnFocus={true}
                       onChangeText={(valor) => this.setState({motonave:valor})}
                       inlineImageLeft=''
                  value={this.state.motonave}
-                 />
+                 /> */}
+                 <View style={{flex:1}} >
+                  <BuscaModal                        
+                        ref={this.BuscaModal} 
+                        datox={this.state.motonave}
+                        >
+                </BuscaModal>
+                </View>
+                <View style={{flex:0.2}} >
                  <TouchableHighlight style={{width:20}}
                           title="Press me"
                           onPress={() => {
@@ -1201,17 +1396,15 @@ export default class InfoGeneralEmbarque extends Component {
                               console.log("texto a buscar:",this.state.muestraMoto);
                               //this.BuscaModal.current.setModalVisible(true, this.state.motonave);
                               this.BuscaModal.current.carga_dato_busqueda(true, this.state.motonave, "vesselsearch");
-
-                              //this.BuscaModal.current.carga_dato_busqueda();
-
+                             // this.setState({motonave:this.BuscaModal.current.devolverSeleccionadosTexto()})  
+                                                          
                             }}
                               >
-                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:20}} name="search" size={20} color="red" />  
+                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:10}} name="search" size={20} color="#F4891F" />  
                 </TouchableHighlight>
+                </View>
                  </View>
-                 <BuscaModal                        
-                        ref={this.BuscaModal} >
-                </BuscaModal>
+                
                 
                  <View>
                  <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
@@ -1253,14 +1446,21 @@ export default class InfoGeneralEmbarque extends Component {
                 
                  </View> */}
                  <View style={{flexDirection:'row'}}>
-                 
-                 <TextInput
+                 <View style={{flex:1}} >
+                <BuscaModal                        
+                        ref={this.BuscaModal1} 
+                        datox={this.state.puerto_carga}
+                        >
+                </BuscaModal> 
+                </View>
+                 {/* <TextInput
                  style={styles.inputBusqueda}
                  selectTextOnFocus={true}
                       onChangeText={(valor) => this.setState({puerto_carga:valor})}
                       inlineImageLeft=''
                  value={this.state.puerto_carga}
-                 />
+                 /> */}
+                 <View style={{flex:0.2}} >
                  <TouchableHighlight style={{width:20}}
                           title="Press me"
                           onPress={() => {
@@ -1273,12 +1473,12 @@ export default class InfoGeneralEmbarque extends Component {
 
                             }}
                               >
-                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:20}} name="search" size={20} color="red" />  
+                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:10}} name="search" size={20} color="#F4891F" />  
                 </TouchableHighlight>
+                </View>
+
                  </View>
-                 <BuscaModal                        
-                        ref={this.BuscaModal1} >
-                </BuscaModal>
+                 
                  </View>
                 
                  <View>
@@ -1293,15 +1493,22 @@ export default class InfoGeneralEmbarque extends Component {
                      />
                      </View> */}
 
-<View style={{flexDirection:'row'}}>
-                 
-                 <TextInput
+                <View style={{flexDirection:'row'}}>
+                <View style={{flex:1}}>
+                <BuscaModal                        
+                        ref={this.BuscaModal2} 
+                        datox={this.state.puerto_destino}
+                        >
+                </BuscaModal>
+                </View>
+                <View style={{flex:0.2}} >
+                 {/* <TextInput
                  style={styles.inputBusqueda}
                  selectTextOnFocus={true}
                       onChangeText={(valor) => this.setState({puerto_destino:valor})}
                       inlineImageLeft=''
                  value={this.state.puerto_destino}
-                 />
+                 /> */}
                  <TouchableHighlight style={{width:20}}
                           title="Press me"
                           onPress={() => {
@@ -1314,12 +1521,10 @@ export default class InfoGeneralEmbarque extends Component {
 
                             }}
                               >
-                          <Icon2 style={{ marginTop:5, flex: 1, paddingTop:20}} name="search" size={20} color="red" />  
+                             <Icon2 style={{ marginTop:5, flex: 1, paddingTop:10}} name="search" size={20} color="#F4891F" />  
                 </TouchableHighlight>
                  </View>
-                 <BuscaModal                        
-                        ref={this.BuscaModal2} >
-                </BuscaModal>
+                 </View>
 
 
                  </View>
@@ -1410,6 +1615,7 @@ export default class InfoGeneralEmbarque extends Component {
                 />
                 
                 </View>
+                <View style={{flex:0.2}}></View>
                 </View>
                 
                  </View>
@@ -1417,13 +1623,13 @@ export default class InfoGeneralEmbarque extends Component {
                     ListFooterComponent={ (item) =>
                         <View >
                            <View style={{flexDirection:'row'}}>
-                           <View style={{flex:3}}>
+                           <View style={{flex:2}}>
                             <Text style={{marginLeft:'60%'}} >Total:</Text>
                             </View>
-                           <View style={{flex:0.8}}>
+                           <View style={{flex:1}}>
                             <Text style={{marginLeft:'0%'}} >{this.state.suma_pallet} </Text>
                             </View>
-                            <View style={{flex:0.8}}>
+                            <View style={{flex:1}}>
                             <Text style={{marginLeft:'0%'}} > {this.state.suma_box}</Text>
                             </View>
 

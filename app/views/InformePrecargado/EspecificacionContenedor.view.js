@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, TouchableWithoutFeedback} from 'react-native';
+import { View, Text, TextInput , StyleSheet,Image,Button , ScrollView, TouchableWithoutFeedback, Modal} from 'react-native';
 //import logimStyle from './login.style.js';
 import Footer from '../../component/Footer/FooterSimple.component';
 import FormLogin from '../../component/Login/FormLogin.component.js';
@@ -10,7 +10,7 @@ import Select from '../../component/Select/Select.component.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import InputSpinner from "react-native-input-spinner";
-
+import DatePicker2 from 'react-native-modern-datepicker';
 
 //import Icon from 'react-native-vector-icons/Feather';
 //import Icon2 from 'react-native-vector-icons/Ionicons';
@@ -32,7 +32,7 @@ import SelectorMultimedia3 from '../../components/SelectorMultimedia/SelectorMul
 
 import CheckBox from '@react-native-community/checkbox';
 
-
+import Loading from '../../components/Loading/Loading.component';
 
 import Hint from '../../components/Hint/Hint.component';
 import HintAlertas from '../../components/Hint/Hint.component';
@@ -106,7 +106,7 @@ export default class EspecificacionContenedor
                foto_grados_celsius:'1',
                //confirmacion: result.data.confirmacion,
 
-            ano_fabricacion_contenedor:'2020',
+            ano_fabricacion_contenedor:'',
             pti:'',
             preenfriado:0,
             limpio_sin_olor:0,
@@ -121,6 +121,8 @@ export default class EspecificacionContenedor
             checked2:false,
             checked3:false,
             checked4:false,
+            selectedDate:'',
+            modalVisible:false,
 
         };
 
@@ -145,7 +147,7 @@ export default class EspecificacionContenedor
         this.HintPDF2 = React.createRef();
         this.HintPDF3 = React.createRef();
 
-
+        this.Loading = React.createRef();
 
     }
 
@@ -164,7 +166,9 @@ export default class EspecificacionContenedor
       }
 
 
-     
+      setModalVisible = async (visible, texto) => {
+        this.setState({ modalVisible: visible, texto_busqueda:texto });
+    }
     
 
     componentDidMount = async () => {
@@ -284,7 +288,7 @@ export default class EspecificacionContenedor
                //recibidor_data:[...this.state.recibidor_data,[MyArray2]]
                });
    
-              
+               console.log("este es el puto año :",this.state.ano_fabricacion);
    
             //   this.props.navigation.navigate('App')
            }else{
@@ -439,59 +443,77 @@ export default class EspecificacionContenedor
 
     carga_imagenes = async () => {
 
-        let arregloImagenes1 = this.Selector1.current.obtenerArregloImagenes();
-        let arregloImagenes2 = this.Selector2.current.obtenerArregloImagenes();
-        let arregloImagenes3 = this.Selector3.current.obtenerArregloImagenes();
-        let arregloImagenes4 = this.Selector4.current.obtenerArregloImagenes();
-        let arregloImagenes5 = this.Selector5.current.obtenerArregloImagenes();
+        
+        
 
-       // console.log("arreglox1 -->"+ JSON.stringify(arregloImagenes1));
-        let jsonImagenes1 = "";
+        if (this.state.foto_ano_fabricacion==1) {
 
-       // console.log("cantidad de imagenes .----> "+arregloImagenes1.length);
+            this.setState({ ano_fabricacion: 1 });
+            
+        } else {
 
-        if(arregloImagenes1.length ==0 || arregloImagenes2.length == 0 || arregloImagenes3.length == 0 || arregloImagenes4.length == 0 || arregloImagenes5.length == 0){
+            
 
-            this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
-            return 1;
+            let jsonImagenes1 = "";
+            let arregloImagenes1 = this.Selector1.current.obtenerArregloImagenes();
+
+            if(arregloImagenes1.length ==0 ){
+
+                this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 1");
+                return 1;
+            }
+
+            for (let i = 0; i < arregloImagenes1.length; i++) {
+                let elemento = arregloImagenes1[i];
+                //let nombre = arregloImagenes[i].NombreArchivo;
+                let nombre = "rem_";
+                let numero = i + 1;
+                if (i < 10) {
+                    nombre = nombre + "0" + numero.toString();
+                } else {
+                    nombre = nombre + numero.toString();
+                }
+    
+                let extension = arregloImagenes1[i].Extension;
+                let archivo = arregloImagenes1[i].Archivo;
+    
+                //let hash = await this.setJsStringHash(archivo);
+    
+                // con parametro hash
+                //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
+                jsonImagenes1 += '' + archivo + '';
+    
+                // sin parametro hash
+                //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
+    
+    
+                if (i != arregloImagenes1.length - 1) {
+                    jsonImagenes1 += ',';
+                }
+            }
+    
+            //console.log(jsonImagenes);
+    
+    
+            this.setState({ foto_ano_fabricacion: jsonImagenes1 });
+
         }
 
-
-        for (let i = 0; i < arregloImagenes1.length; i++) {
-            let elemento = arregloImagenes1[i];
-            //let nombre = arregloImagenes[i].NombreArchivo;
-            let nombre = "rem_";
-            let numero = i + 1;
-            if (i < 10) {
-                nombre = nombre + "0" + numero.toString();
+            if (this.state.foto_pti==1) {
+                this.setState({ foto_pti: 1 });
             } else {
-                nombre = nombre + numero.toString();
-            }
 
-            let extension = arregloImagenes1[i].Extension;
-            let archivo = arregloImagenes1[i].Archivo;
-
-            //let hash = await this.setJsStringHash(archivo);
-
-            // con parametro hash
-            //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
-            jsonImagenes1 += '' + archivo + '';
-
-            // sin parametro hash
-            //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
+                
 
 
-            if (i != arregloImagenes1.length - 1) {
-                jsonImagenes1 += ',';
-            }
-        }
+                let arregloImagenes2 = this.Selector2.current.obtenerArregloImagenes();
+                let jsonImagenes2 = "";
 
-        //console.log(jsonImagenes);
+                if( arregloImagenes2.length == 0 ){
 
-
-        this.setState({ foto_ano_fabricacion: jsonImagenes1 });
-
-        let jsonImagenes2 = "";
+                    this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 2");
+                    return 1;
+                }
 
         for (let i = 0; i < arregloImagenes2.length; i++) {
             let elemento = arregloImagenes2[i];
@@ -526,45 +548,76 @@ export default class EspecificacionContenedor
 
 
         this.setState({ foto_pti: jsonImagenes2 });
+            }
+        
+        
 
-
-        let jsonImagenes3 = "";
-
-        for (let i = 0; i < arregloImagenes3.length; i++) {
-            let elemento = arregloImagenes3[i];
-            //let nombre = arregloImagenes[i].NombreArchivo;
-            let nombre = "rem_";
-            let numero = i + 1;
-            if (i < 10) {
-                nombre = nombre + "0" + numero.toString();
+            if (this.state.foto_temperatura==1) {
+                this.setState({ foto_temperatura: 1 });
+                
             } else {
-                nombre = nombre + numero.toString();
+
+               
+
+
+                let arregloImagenes3 = this.Selector3.current.obtenerArregloImagenes();
+                let jsonImagenes3 = "";
+                
+                if(arregloImagenes3.length == 0 ){
+
+                    this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 3");
+                    return 1;
+                }
+                for (let i = 0; i < arregloImagenes3.length; i++) {
+                    let elemento = arregloImagenes3[i];
+                    //let nombre = arregloImagenes[i].NombreArchivo;
+                    let nombre = "rem_";
+                    let numero = i + 1;
+                    if (i < 10) {
+                        nombre = nombre + "0" + numero.toString();
+                    } else {
+                        nombre = nombre + numero.toString();
+                    }
+        
+                    let extension = arregloImagenes3[i].Extension;
+                    let archivo = arregloImagenes3[i].Archivo;
+        
+                    //let hash = await this.setJsStringHash(archivo);
+        
+                    // con parametro hash
+                    //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
+                    jsonImagenes3 += '' + archivo + '';
+        
+                    // sin parametro hash
+                    //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
+        
+        
+                    if (i != arregloImagenes3.length - 1) {
+                        jsonImagenes3 += ',';
+                    }
+                }
+        
+                //console.log(jsonImagenes);
+        
+        
+                this.setState({ foto_temperatura: jsonImagenes3 });
             }
 
-            let extension = arregloImagenes3[i].Extension;
-            let archivo = arregloImagenes3[i].Archivo;
+            if (this.state.foto_estado_motor==1) {
 
-            //let hash = await this.setJsStringHash(archivo);
-
-            // con parametro hash
-            //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Hash":"' + hash + '","Archivo":"' + archivo + '"}';
-            jsonImagenes3 += '' + archivo + '';
-
-            // sin parametro hash
-            //jsonImagenes += '{"NombreArchivo":"' + nombre + "." + extension + '","Extension":"' + extension + '","Archivo":"' + archivo + '"}';
-
-
-            if (i != arregloImagenes3.length - 1) {
-                jsonImagenes3 += ',';
-            }
-        }
-
-        //console.log(jsonImagenes);
-
-
-        this.setState({ foto_temperatura: jsonImagenes3 });
-
+                this.setState({ foto_estado_motor: 1 }); 
+            } else {
+                
+                
+                let arregloImagenes4 = this.Selector4.current.obtenerArregloImagenes();
+                
         let jsonImagenes4 = "";
+
+        if(arregloImagenes4.length == 0 ){
+
+            this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 4");
+            return 1;
+        }
 
         for (let i = 0; i < arregloImagenes4.length; i++) {
             let elemento = arregloImagenes4[i];
@@ -599,9 +652,23 @@ export default class EspecificacionContenedor
 
 
         this.setState({ foto_estado_motor: jsonImagenes4 });
+            }
+        
+            if (this.state.foto_ventilacion==1) {
+                this.setState({ foto_ventilacion: 1 });  
+            } else {
+
+               
 
 
-        let jsonImagenes5 = "";
+                let arregloImagenes5 = this.Selector5.current.obtenerArregloImagenes();
+
+                let jsonImagenes5 = "";
+                if(arregloImagenes5.length == 0){
+
+                    this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 5");
+                    return 1;
+                }
 
         for (let i = 0; i < arregloImagenes5.length; i++) {
             let elemento = arregloImagenes5[i];
@@ -638,6 +705,20 @@ export default class EspecificacionContenedor
         this.setState({ foto_ventilacion: jsonImagenes5 });
 
 
+            }
+        
+        
+
+       // console.log("arreglox1 -->"+ JSON.stringify(arregloImagenes1));
+       
+
+       // console.log("cantidad de imagenes .----> "+arregloImagenes1.length);
+
+        
+      
+         
+
+
 
         return 0;
     }   
@@ -649,13 +730,18 @@ export default class EspecificacionContenedor
     
     envio_menu = async () => {
 
-        if(this.state.confirmacion==0){
-            this.HintAlertas.current.mostrarConParametros("Debe confirmar los datos");
-            return;
-        }
+        // if(this.state.confirmacion==0){
+        //     this.HintAlertas.current.mostrarConParametros("Debe confirmar los datos");
+        //     return;
+        // }
+        this.Loading.current.mostrar();
+       var a =  await this.carga_imagenes();
 
-        this.carga_imagenes();
-
+        console.log("la validacion img es ["+a+"]", a);
+        if (a ==1){
+            this.HintAlertas.current.mostrarConParametros("Debe Ingresar imagenes");
+            this.Loading.current.ocultar();
+            return;}
         //return;
        // this.carga_objetosEspecie();
         //this.Loading.current.mostrar();
@@ -691,7 +777,7 @@ export default class EspecificacionContenedor
 
 
             //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
-            let resultado = await WSRestApi.fnWSGuardaContenedor(USUARIO_ID,PLANTA_ID,embarque, embarque_planta, '02-06-2022',this.state.ano_fabricacion_contenedor, this.state.pti, this.state.preenfriado, this.state.limpio_sin_olor, this.state.buen_estado, this.state.temperatura, this.state.ventilacion, this.state.confirmacion, this.state.foto_ano_fabricacion,this.state.foto_pti, this.state.foto_temperatura, this.state.foto_estado_motor, this.state.foto_ventilacion);
+            let resultado = await WSRestApi.fnWSGuardaContenedor(USUARIO_ID,PLANTA_ID,embarque, embarque_planta, '02-06-2022',(this.state.ano_fabricacion==null)?(this.state.ano_fabricacion_contenedor):(this.state.ano_fabricacion), this.state.pti, this.state.preenfriado, this.state.limpio_sin_olor, this.state.buen_estado, this.state.temperatura, this.state.ventilacion, this.state.confirmacion, this.state.foto_ano_fabricacion,this.state.foto_pti, this.state.foto_temperatura, this.state.foto_estado_motor, this.state.foto_ventilacion);
             //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
             console.log("resultadox ->"+JSON.stringify(resultado)) ;
 
@@ -712,7 +798,7 @@ export default class EspecificacionContenedor
                 await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
                 await AsyncStorage.setItem("Observaciones", "0");
 
-
+                this.Loading.current.ocultar();
                 this.props.navigation.navigate('ConsolidacionCarga', {
                     embarque : resultado.data.embarque_id, 
                     embarque_planta : resultado.data.embarque_planta_id,
@@ -722,7 +808,8 @@ export default class EspecificacionContenedor
 
             }else{
                 console.log("sin resultadox");
-                this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+                this.Loading.current.ocultar();
+                this.HintAlertas.current.mostrarConParametros("Error", resultado.message);
             }   
 
 
@@ -730,6 +817,7 @@ export default class EspecificacionContenedor
 
         }catch(e){
             console.warn(e);
+            this.Loading.current.ocultar();
         }
 
         
@@ -748,14 +836,24 @@ export default class EspecificacionContenedor
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:10, color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Container's specification</Text><Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:10, color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Container's specification</Text>
+                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
+                    <View style={{}}>
+                    <Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                                        
+                    </View> 
+  </TouchableWithoutFeedback>
 
                 </View>
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
                 <ScrollView>
-                            <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Container's fabrication year</Text> 
+                            <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Container's fabrication year </Text> 
                             <View style={{width:'80%', marginLeft:'9%'}}>
+
+                        
+
+
                             {this.state.ano_fabricacion!=''? (
                             //   <View style={{width:'100%',paddingBottom:20,  marginTop:10, marginBottom:10, backgroundColor:'#efeeef', borderWidth:0.5, borderColor:'#E8E8E8'}}>
                             //   <Text style={{marginLeft:20, marginTop:'3%'}}>{this.state.ano_fabricacion}</Text>
@@ -765,15 +863,48 @@ export default class EspecificacionContenedor
                                 label={this.state.añorefInicio.label}
                                 value={this.state.añorefInicio.value}
                                 datos={[
-                                { label: '2021', value: '2021' },
-                                { label: '2020', value: '2020' },
-                                { label: '2019', value: '2019' },
+                                    { label: '2024', value: '2024' },
+                                    { label: '2023', value: '2023' },
+                                    { label: '2021', value: '2021' },
+                                    { label: '2020', value: '2020' },
+                                    { label: '2019', value: '2019' },
+                                    { label: '2018', value: '2018' },
+                                    { label: '2017', value: '2017' },
+                                    { label: '2016', value: '2016' },
+                                    { label: '2015', value: '2015' },
+                                    { label: '2014', value: '2014' },
+                                    { label: '2013', value: '2013' },
+                                    { label: '2012', value: '2012' },
+                                    { label: '2011', value: '2011' },
+                                    { label: '2010', value: '2010' },
+                                    { label: '2009', value: '2009' },
+                                    { label: '2008', value: '2008' },
+                                    { label: '2007', value: '2007' },
+                                    { label: '2006', value: '2006' },
+                                    { label: '2005', value: '2005' },
+                                    { label: '2004', value: '2004' },
+                                    { label: '2003', value: '2003' },
+                                    { label: '2002', value: '2002' },
+                                    { label: '2001', value: '2001' },
+                                    { label: '2000', value: '2000' },
+                                    { label: '1999', value: '1999' },
+                                    { label: '1997', value: '1997' },
+                                    { label: '1998', value: '1998' },
+                                    { label: '1996', value: '1996' },
+                                    { label: '1995', value: '1995' },
+                                    { label: '1994', value: '1994' },
+                                    { label: '1993', value: '1993' },
+                                    { label: '1992', value: '1992' },
+                                    { label: '1991', value: '1991' },
+                                    { label: '1991', value: '1991' },
+                                    { label: '1990', value: '1990' },
+
                                 ]}
                                 xfuncion={async (x) => {
                                     //this.setState({ keyC: 0, comunaDeChile: [] })
                                     //await this.guardarSoloRegion(x);
                                     console.log("usuariox => ", x);
-                                    this.setState({ano_fabricacion:x});
+                                    this.setState({ano_fabricacion_contenedor:x});
                                     //this.mostrarMontoMax(x);
     
                                 }}
@@ -781,12 +912,45 @@ export default class EspecificacionContenedor
                             ) :(
                                 <Select  
                                 ref={this.añoref}
-                                label={this.state.añorefInicio.label}
-                                value={this.state.añorefInicio.value}
+                                label={this.state.ano_fabricacion}
+                                value={this.state.ano_fabricacion}
                                 datos={[
-                                { label: '2021', value: '2021' },
-                                { label: '2020', value: '2020' },
-                                { label: '2019', value: '2019' },
+                                    { label: '2024', value: '2024' },
+                                    { label: '2023', value: '2023' },
+                                    { label: '2021', value: '2021' },
+                                    { label: '2020', value: '2020' },
+                                    { label: '2019', value: '2019' },
+                                    { label: '2018', value: '2018' },
+                                    { label: '2017', value: '2017' },
+                                    { label: '2016', value: '2016' },
+                                    { label: '2015', value: '2015' },
+                                    { label: '2014', value: '2014' },
+                                    { label: '2013', value: '2013' },
+                                    { label: '2012', value: '2012' },
+                                    { label: '2011', value: '2011' },
+                                    { label: '2010', value: '2010' },
+                                    { label: '2009', value: '2009' },
+                                    { label: '2008', value: '2008' },
+                                    { label: '2007', value: '2007' },
+                                    { label: '2006', value: '2006' },
+                                    { label: '2005', value: '2005' },
+                                    { label: '2004', value: '2004' },
+                                    { label: '2003', value: '2003' },
+                                    { label: '2002', value: '2002' },
+                                    { label: '2001', value: '2001' },
+                                    { label: '2000', value: '2000' },
+                                    { label: '1999', value: '1999' },
+                                    { label: '1997', value: '1997' },
+                                    { label: '1998', value: '1998' },
+                                    { label: '1996', value: '1996' },
+                                    { label: '1995', value: '1995' },
+                                    { label: '1994', value: '1994' },
+                                    { label: '1993', value: '1993' },
+                                    { label: '1992', value: '1992' },
+                                    { label: '1991', value: '1991' },
+                                    { label: '1991', value: '1991' },
+                                    { label: '1990', value: '1990' },
+
                                 ]}
                                 xfuncion={async (x) => {
                                     //this.setState({ keyC: 0, comunaDeChile: [] })
@@ -841,7 +1005,7 @@ export default class EspecificacionContenedor
 
 
                         <View> 
-                        <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>PTI</Text> 
+                        <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>PTI </Text> 
                             <View>
                                 {this.state.pti!=null ? (
                                 <DatePicker
@@ -852,7 +1016,7 @@ export default class EspecificacionContenedor
                                 showIcon={true}
                                 //placeholder={this.state.fechaActual}
                                 format="YYYY-MM-DD"
-                                disabled={true}
+                                //disabled={true}
                                 // minDate={this.state.fechaMinima}
                                 //maxDate={this.state.fechaMaxima}
                                 confirmBtnText="Confirmar"
@@ -985,9 +1149,9 @@ export default class EspecificacionContenedor
                             <View style={{flexDirection:'row',paddingTop:10, borderWidth:1, width:'75%', height:70, marginLeft:40, borderColor:'#D3D3D3'}}>
                                <View style={{flex:1}}>
                                <InputSpinner
-                                    max={100}
-                                    min={-100}
-                                    step={0.01}
+                                    max={24}
+                                    min={-24}
+                                    step={0.1}
                                     type={"real"}
                                     accelerationDelay={1000}
                                     longStep={1}
@@ -1082,8 +1246,8 @@ export default class EspecificacionContenedor
                                <View style={{flex:1}}>
                                <InputSpinner
                                     max={100}
-                                    min={-100}
-                                    step={0.01}
+                                    min={0}
+                                    step={5}
                                     height={40}
                                     type={"real"}
                                     accelerationDelay={1000}
@@ -1093,7 +1257,7 @@ export default class EspecificacionContenedor
                                     style={{width:'80%', marginLeft:'10%'}}
                                     color={"#F4891F"}
                                     colorMax={"red"}
-                                    colorMin={"blue"}
+                                    colorMin={"#F4891F"}
                                     size={20}
                                     value={this.state.number}
                                     onChange={(num) => {
@@ -1181,11 +1345,52 @@ export default class EspecificacionContenedor
                                     ref={this.HintPDF1}
                                     eliminarFotoSelector={(key) => this.eliminarFotoSelector1(key)}
                                 ></HintPDF>
-                               
+                               <Loading ref={this.Loading} />
                         </View>
                                 
                         
-                                
+                        <Modal 
+                     style={{height:90, width:90}}
+                    animationType="fade"
+                   // presentationStyle="formSheet"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(false);
+                        //Alert.alert('Modal has been closed.');
+                    }}>
+                        <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width:'80%',height:'20%' ,backgroundColor:'white'}}>
+                                    <View style={{ flex: 1 ,alignItems:'center', flexDirection: 'column'}} >
+                                   <View style={{flex:1}}>
+                                   <Text style={{fontSize:30}}>¿Sign off?</Text>
+                                   </View>
+
+                                    <View style={{flex:2, flexDirection:'row'}}>
+                                        <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="times" size={30} color="red" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={{flex:1, alignItems:'center'}}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Login')}>
+                                    <View style={{}}>
+                                    <Icon4 style={{marginRight:20}} name="check" size={30} color="green" />
+
+                                    </View> 
+                                    </TouchableWithoutFeedback>
+                                    </View>
+                                    </View>
+                                    </View>
+
+                            </View>
+                        
+                        </View>
+                        
+                </Modal>
                                 
                             
                                 </ScrollView>
