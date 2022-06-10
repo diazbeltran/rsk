@@ -967,6 +967,8 @@ export default class ConsolidacionCarga extends Component {
                     {buttonObservaciones}
                     
                 </ScrollView>
+
+
                 <Modal 
                      style={{height:90, width:90}}
                     animationType="fade"
@@ -1009,6 +1011,8 @@ export default class ConsolidacionCarga extends Component {
                         </View>
                         
                 </Modal>
+
+                
                 </View>   
                                 <HintAlertas
                                     title={this.state.tituloHintAlerta}

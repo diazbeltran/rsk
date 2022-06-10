@@ -178,7 +178,7 @@ export default class InfoGeneralEmbarque extends Component {
             <View style={{flexDirection:'row'}}>
                                <View style={{flex:1.5}}>
 
-                               <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:30}} >
+                               <View  style={{backgroundColor:'#efeeef',marginTop:'4%', width:'80%', marginLeft:30}} >
 
                             <Select
                                 disabled={true}
@@ -1197,7 +1197,7 @@ export default class InfoGeneralEmbarque extends Component {
                     ListFooterComponent={ (item) =>
                         <View >
                            <View style={{flexDirection:'row'}}>
-                           <View style={{flex:3}}>
+                           <View style={{flex:2}}>
                             <Text style={{marginLeft:'60%'}} >Total:</Text>
                             </View>
                            <View style={{flex:0.8}}>
@@ -1623,13 +1623,13 @@ export default class InfoGeneralEmbarque extends Component {
                     ListFooterComponent={ (item) =>
                         <View >
                            <View style={{flexDirection:'row'}}>
-                           <View style={{flex:3}}>
+                           <View style={{flex:2}}>
                             <Text style={{marginLeft:'60%'}} >Total:</Text>
                             </View>
-                           <View style={{flex:0.8}}>
+                           <View style={{flex:1}}>
                             <Text style={{marginLeft:'0%'}} >{this.state.suma_pallet} </Text>
                             </View>
-                            <View style={{flex:0.8}}>
+                            <View style={{flex:1}}>
                             <Text style={{marginLeft:'0%'}} > {this.state.suma_box}</Text>
                             </View>
 

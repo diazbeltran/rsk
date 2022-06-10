@@ -7,6 +7,7 @@ import InformeCaja from '../../component/InformeCaja/InformeCaja.component.js'
 import SelectDropdown from 'react-native-select-dropdown'
 import Select from '../../component/Select/Select.component.js';
 
+
 import SelectorMultimedia from '../../components/SelectorMultimedia/SelectorMultimediaMultiple.component.js';
 
 import SelectorMultimedia1 from '../../components/SelectorMultimedia/SelectorMultimediaGeneral.component.js';
@@ -169,15 +170,17 @@ if(embarque==null || embarque == undefined){
                   }
                   
                   let data2 = {
+                      key: elem.id,
                     value: elem.id,
                     label: elem.name ,
-                    selected: '',
+                    //selected: '',
                     //isSelect: elem.isSelect,
                     //selectedClass: elem.selectedClass
                 }
 
                   MyArray.push(data);
-                  MyArray2.push(elem.name);
+                  //MyArray2.push(elem.name);
+                  MyArray2.push(data2);
               
           });
   
@@ -779,7 +782,7 @@ setModalVisible = async (visible, texto) => {
                        
 
                         <Text style={{marginLeft:'10%', marginTop:10}}>Exporter</Text> 
-                        <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:'10%'}} >
+                        <View  style={{backgroundColor:'#efeeef', width:'80%',height:40, marginLeft:'10%'}} >
                             {/* <Select  
                             ref={this.exportador}
                             label={this.state.exportador_nombre}
@@ -789,11 +792,15 @@ setModalVisible = async (visible, texto) => {
                             //   datos={this.state.beneficiarios} 
                             /> */}
 
-                            <SelectDropdown
-
+                            {/* <SelectDropdown
+                            buttonStyle={{color:'red'}}
+                            rowTextStyle={{color:'red'}}
+                            
+                            dropdownStyle={{color:'red'}}
+                            style={{fontSize:10}}
                             data={this.state.exportadorInicio}
                             defaultButtonText ={this.state.exportador_nombre}
-                            disabled={true}
+                           // disabled={true}
                             onSelect={(selectedItem, index) => {
                                 console.log(selectedItem, index)
                             }}
@@ -804,12 +811,33 @@ setModalVisible = async (visible, texto) => {
                             }}
                             >
                                 
-                            </SelectDropdown>
+                            </SelectDropdown> */}
+
+                    <Text style={{marginLeft:5,fontSize:15, marginTop:10, fontWeight:'bold'}}>{this.state.exportador_nombre}</Text>
+
+
+                        {/* <Select
+                        value={this.state.exportador_id}
+                        //label={this.state.exportador_nombre}
+                        //ref={this.especie}
+                        datos={this.state.exportadorInicio}
+                        xfuncion={async (x) => {
+                            //this.setState({ keyC: 0, comunaDeChile: [] })
+                            //await this.guardarSoloRegion(x);
+                            console.log("usuariox => ", x);
+                            this.setState({recibidor_id:x});
+                           // this.setState({especie_seleccionada_Arreglo:[x]});
+                           // especie_seleccionada_Arreglo
+                            //this.mostrarMontoMax(x);
+
+                         }}
+                        /> */}
+
                         </View>
 
                         <View>
                             <Text style={{marginLeft:'10%', marginTop:10}}>Report date</Text> 
-                            <Text style={{marginLeft:20, marginTop:10, fontWeight:'bold'}}>{this.state.fecha_creacion}</Text> 
+                            <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.fecha_creacion}</Text> 
                             </View>
                     
                             <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>

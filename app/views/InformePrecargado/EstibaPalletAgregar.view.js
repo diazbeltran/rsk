@@ -1312,7 +1312,7 @@ export default class EstibaPalletAgregar
                                            <Text style={{marginTop:5}}>Yes</Text>
                            
                                            <CheckBox
-                                           value={this.state.checked4}
+                                           value={!this.state.checked3}
                                            boxType={'cirule'}
                                            animationDuration={0.1}
                                            tintColors={{ true: '#F4891F', false: '#F4891F' }}
@@ -1321,11 +1321,11 @@ export default class EstibaPalletAgregar
                                            let x = !value;
                                            let opcion = value==true ? 1:0;
                                            console.log("el opcion es "+opcion);
-                                          // this.setState({
-                                           //    checked4: value,
-                                           //    posicion:  opcion,
-                                           //    checked3:x
-                                           //})
+                                          this.setState({
+                                              checked4: value,
+                                              //posicion:  opcion,
+                                              //checked3:x
+                                           })
                                         }
                                            }
                                            />
