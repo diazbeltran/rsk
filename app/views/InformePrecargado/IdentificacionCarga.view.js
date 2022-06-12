@@ -333,14 +333,14 @@ export default class InfoGeneralEmbarque extends Component {
         console.log("texto_paso_producto_id "+this.state.texto_paso_producto_id);
         if(this.state.texto_paso_producto_id==null && this.state.arregloEspecies.length==0){
 
-          this.HintAlertas.current.mostrarConParametros("Debe seleccionar un Producto");
+          this.HintAlertas.current.mostrarConParametros("You must select a Product");
           return;
         }
 
         console.log("texto_paso_pallet "+this.state.texto_paso_pallet);
         if((this.state.texto_paso_pallet==null || this.state.texto_paso_pallet=='')){
 
-          this.HintAlertas.current.mostrarConParametros("Debe Ingresar una cantidad de pallet > 0");
+          this.HintAlertas.current.mostrarConParametros("You must enter pallet");
           return;
         }
 
@@ -348,7 +348,7 @@ export default class InfoGeneralEmbarque extends Component {
         console.log("texto_paso_box ["+this.state.texto_paso_box+"]");
         if(this.state.texto_paso_box==null || this.state.texto_paso_box==''){
 
-          this.HintAlertas.current.mostrarConParametros("Debe Ingresar una cantidad de cajas > 0");
+          this.HintAlertas.current.mostrarConParametros("You must enter box");
           return;
         }
 
@@ -789,18 +789,13 @@ export default class InfoGeneralEmbarque extends Component {
     envio_menu = async () => {
 
 
-        // this.carga_objetosEspecie();
-        //this.Loading.current.mostrar();
-        // if(this.state.arregloEspecies.length==0){
-        //     this.HintAlertas.current.mostrarConParametros("Debe ingresar almenos una Producto");
-        //     return;
-        //     }
+        
             console.log("el recividor {"+this.state.recibidor_id+"}");
             
-            if(this.state.recibidor_id==" " || this.state.recibidor_id==null){
-                this.HintAlertas.current.mostrarConParametros("enter a 'Receiver'");
-                return;
-                } 
+        if(this.state.recibidor_id==" " || this.state.recibidor_id==null){
+            this.HintAlertas.current.mostrarConParametros("Enter a Receiver");
+            return;
+            } 
 
         var a =  await this.carga_imagenes();
 
@@ -856,7 +851,7 @@ export default class InfoGeneralEmbarque extends Component {
                     console.log("datox_motonavex ->",motonavex);
 
                     if(motonavex==""){
-                        this.HintAlertas.current.mostrarConParametros("Debe ingresar una 'Vessel'");
+                        this.HintAlertas.current.mostrarConParametros("You must enter a Vessel");
                         return
                     }
 
@@ -864,7 +859,7 @@ export default class InfoGeneralEmbarque extends Component {
                     console.log("puerto_origen ->",puerto_origen);
 
                     if(puerto_origen==""){
-                        this.HintAlertas.current.mostrarConParametros("Debe ingresar 'Port of loading'");
+                        this.HintAlertas.current.mostrarConParametros("You must enter Port of loading");
                         return
                     }
 
@@ -873,7 +868,7 @@ export default class InfoGeneralEmbarque extends Component {
 
 
                     if(puerto_destino==""){
-                        this.HintAlertas.current.mostrarConParametros("Debe ingresar una 'Port of destination'");
+                        this.HintAlertas.current.mostrarConParametros("You must enter Port of destination");
                         return
                     }
 
@@ -884,7 +879,13 @@ export default class InfoGeneralEmbarque extends Component {
                             }
                             
                         }
-                
+
+                        
+                        if(numero_booking==""){
+                            this.HintAlertas.current.mostrarConParametros("You must enter Booking N°");
+                            return
+                        }  
+                    
             }
 
 
@@ -1546,7 +1547,7 @@ export default class InfoGeneralEmbarque extends Component {
                  >
                  <View style={{flexDirection:'row'}}>
                  <Icon2 style={{color:'#ef882d', marginLeft:'10%'}} name="add-circle" size={25}  />
-                 <Text style={{ color:'#ef882d', fontWeight:'bold', paddingTop:5}}>  Agregar una nueva especie</Text>
+                 <Text style={{ color:'#ef882d', fontWeight:'bold', paddingTop:5}}>  Add new product</Text>
                  </View>
                 
                 </TouchableOpacity>

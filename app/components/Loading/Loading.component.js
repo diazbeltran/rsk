@@ -51,7 +51,7 @@ export default class Loading extends Component {
                                     size="large"
                                     style={styles.activityIndicator}
                                 />
-                                <Text style={styles.textoLoading}>Cargando...</Text>
+                                <Text style={styles.textoLoading}>Loading...</Text>
                             </View>
                         </View>
 

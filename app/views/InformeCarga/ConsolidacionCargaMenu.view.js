@@ -173,10 +173,10 @@ export default class ConsolidacionCarga extends Component {
                 if(resultado.state==true)
                 {   
                     console.log("okkkkkk");
-                    let embarque_paso ='"'+ resultado.data.embarque_id + '"'
+                   // let embarque_paso ='"'+ resultado.data.embarque_id + '"'
 
-                    await AsyncStorage.setItem("embarque_id",'"'+ resultado.data.embarque_id+'"');
-                    await AsyncStorage.setItem("embarque_planta_id",'"'+ resultado.data.embarque_planta_id+'"');
+                   // await AsyncStorage.setItem("embarque_id",'"'+ resultado.data.embarque_id+'"');
+                   // await AsyncStorage.setItem("embarque_planta_id",'"'+ resultado.data.embarque_planta_id+'"');
 
 
                     console.log("aqui");
@@ -189,7 +189,9 @@ export default class ConsolidacionCarga extends Component {
                 await AsyncStorage.setItem("Observaciones", "2");
 
 
-                    this.props.navigation.navigate('App')
+                    this.props.navigation.navigate('App',{embarque : embarque, 
+                        embarque_planta : embarque_planta,
+                        actualiza:true   })
 
 
 

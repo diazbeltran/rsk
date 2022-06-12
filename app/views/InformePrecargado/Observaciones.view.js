@@ -297,6 +297,7 @@ export default class FotosCarga extends Component {
                             <TextInput style={styles.input}
                             multiline={true}
                             numberOfLines={10}
+                            
                             selectTextOnFocus={true}
                             onChangeText={(valor) => this.setState({texto_observacion:valor})}>
 
@@ -350,6 +351,7 @@ export default class FotosCarga extends Component {
 }
 const styles = StyleSheet.create({
     input: {
+        textAlignVertical: 'top',
       marginLeft:30,
       //height: 230,
       width:'80%',

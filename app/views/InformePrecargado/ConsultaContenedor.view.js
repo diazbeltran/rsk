@@ -93,7 +93,7 @@ export default class ConsultaContenedor extends Component {
                
                 <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column', alignItems:'center'}} >
                     <Text style={{fontWeight:'bold', marginTop:'10%'}}>Contenedor </Text>
-                    <Text style={{marginTop:'2%'}}>¿El contenedor viene vacio?</Text>  
+                    <Text style={{marginTop:'2%'}}>¿Is the container empty?</Text>  
                     
                     <View style={{flexDirection:'row', justifyContent: 'space-around', marginTop:'10%'}}>
                    <View>
@@ -107,7 +107,7 @@ export default class ConsultaContenedor extends Component {
                             informeGeneral:"1",
                         })} 
                         >
-                        <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#75BE48', color:'white', }}>Si</Text>
+                        <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#75BE48', color:'white', }}>YES</Text>
                         </TouchableHighlight>
                    </View>
                    <View>
@@ -115,7 +115,7 @@ export default class ConsultaContenedor extends Component {
                         title="Press me"
                         onPress={() => this.envio_menu()}
                             >
-                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#6f6aaa', color:'white', }}>No</Text>
+                                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#6f6aaa', color:'white', }}>NO</Text>
                             </TouchableHighlight>
                     </View>
                     

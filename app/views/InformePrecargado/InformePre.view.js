@@ -109,6 +109,38 @@ export default class InformePrecargado extends Component {
         }
       }
 
+
+
+      shouldComponentUpdate = async(nextProps, nextState) =>{
+        console.log('Ejecutando lista shouldComponentUpdate 1: ', nextProps )
+       console.log('Ejecutando lista shouldComponentUpdate 2: ', nextState )
+
+      
+      console.log("nextProps.route.params.actualiza 1",nextProps.route.params.actualiza);
+      console.log("nextProps.route.params.actualiza 2",nextState.actualiza);
+      
+
+      
+
+       try{
+        if(  nextProps.route.params.actualiza==true && nextState.actualiza!=false ){
+            console.log("se tiene que actualizarrrrr");
+
+            this.recarga()
+           
+
+        //return true
+        
+        
+           
+        }
+       }catch(e){
+        console.log("error accidente  "+e);
+       };
+        
+        return false
+      }
+
    
 
     envio_menu = async () => {

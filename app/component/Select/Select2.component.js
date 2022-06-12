@@ -56,7 +56,7 @@ export default class MySelect extends Component {
       <View style={{ width: '100%' }}>
         
         <RNPickerSelect
-        style={{fontSize:10}}
+        style={{fontSize:20}}
           disabled={this.props.disabled}
           placeholder={placeholder}
           items={this.props.datos}
@@ -122,8 +122,8 @@ export default class MySelect extends Component {
               right: 10,
             },
             placeholder: {
-              color: '#AFAFAF',
-              fontSize: 12,
+              color: 'black',
+              fontSize: 20,
               fontWeight: '100',
             },
           }}
@@ -183,7 +183,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%',
   },
   inputAndroid: {
-    fontSize: 12,
+    fontSize: 20,
     paddingHorizontal: 6,
     // borderWidth: 0.5,
     // borderColor: '#808080',

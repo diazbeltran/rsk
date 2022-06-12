@@ -7,6 +7,8 @@ import InformeCaja from '../../component/InformeCaja/InformeCaja.component.js'
 //import TextInput from '../../../components/TextInput/TextInput.component.js';
 import SelectDropdown from 'react-native-select-dropdown'
 import Select from '../../component/Select/Select.component.js';
+import Select2 from '../../component/Select/Select2.component.js';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import InputSpinner from "react-native-input-spinner";
@@ -858,7 +860,8 @@ export default class EspecificacionContenedor
                             //   <View style={{width:'100%',paddingBottom:20,  marginTop:10, marginBottom:10, backgroundColor:'#efeeef', borderWidth:0.5, borderColor:'#E8E8E8'}}>
                             //   <Text style={{marginLeft:20, marginTop:'3%'}}>{this.state.ano_fabricacion}</Text>
                             //   </View>
-                            <Select  
+                            <Select2  
+                                
                                 ref={this.añoref}
                                 label={this.state.añorefInicio.label}
                                 value={this.state.añorefInicio.value}
@@ -1149,6 +1152,7 @@ export default class EspecificacionContenedor
                             <View style={{flexDirection:'row',paddingTop:10, borderWidth:1, width:'75%', height:70, marginLeft:40, borderColor:'#D3D3D3'}}>
                                <View style={{flex:1}}>
                                <InputSpinner
+                                    editable={false}
                                     max={24}
                                     min={-24}
                                     step={0.1}
@@ -1245,6 +1249,7 @@ export default class EspecificacionContenedor
                             <View style={{flexDirection:'row',paddingTop:10, borderWidth:1, width:'75%', height:70, marginLeft:40, borderColor:'#D3D3D3'}}>
                                <View style={{flex:1}}>
                                <InputSpinner
+                                editable={false}
                                     max={100}
                                     min={0}
                                     step={5}

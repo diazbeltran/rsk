@@ -120,6 +120,8 @@ if(embarque==null || embarque == undefined){
           });
 
           if (result.state == true) {
+
+
         
             console.log("InfoGeneralEmbarque embarque_detalle resultadoxx:-> "+JSON.stringify(result.data));
             //this.setState({data_contenedor:result.data, usuario_id:USUARIO_ID, planta_id:PLANTA_ID}) ;
@@ -132,6 +134,8 @@ if(embarque==null || embarque == undefined){
             exportador_nombre:result.data.exportador_nombre,
             planta_nombre:PLANTA_NOMBRE,
             fecha_creacion:result.data.fecha_creacion});
+
+            
 
          //   this.props.navigation.navigate('App')
         }else{
@@ -837,7 +841,10 @@ setModalVisible = async (visible, texto) => {
 
                         <View>
                             <Text style={{marginLeft:'10%', marginTop:10}}>Report date</Text> 
-                            <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.fecha_creacion}</Text> 
+                            
+                            {/* <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.fecha_creacion}</Text>  */}
+                            <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>{this.state.fecha_creacion.substring(0,10)}  {this.state.fecha_creacion.substring(11,19)}</Text> 
+
                             </View>
                     
                             <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>

@@ -901,12 +901,12 @@ export default class EstibaPalletAgregar
     envio_menu = async () => {
 
         if(this.state.numero_pallet==""){
-            this.HintAlertas.current.mostrarConParametros("Debe Ingresar un numero de pallet");
+            this.HintAlertas.current.mostrarConParametros("must enter a pallet number");
             return;
         }
 
         if(this.state.ubicacion==""){
-            this.HintAlertas.current.mostrarConParametros("Debe ingresar una ubicacion");
+            this.HintAlertas.current.mostrarConParametros("you must enter a location");
             return;
         }
 
@@ -1183,6 +1183,7 @@ export default class EstibaPalletAgregar
                             <View style={{flexDirection:'row',paddingTop:10, borderWidth:1, width:'75%', height:70, marginLeft:40, borderColor:'#D3D3D3'}}>
                                <View style={{flex:1}}>
                                <InputSpinner
+                               editable={false}
                                     max={24}
                                     min={-24}
                                     step={0.1}
