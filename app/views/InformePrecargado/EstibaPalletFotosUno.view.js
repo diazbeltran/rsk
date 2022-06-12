@@ -81,7 +81,8 @@ export default class FotosContenedorUno extends Component {
             foto_buffer_plate:'',
             foto_fondo_contenedor:'',
             url1:'',
-            url2:''
+            url2:'',
+            tipo_id:0,
 
 
         };
@@ -168,7 +169,8 @@ export default class FotosContenedorUno extends Component {
                 
                this.setState({foto_buffer_plate:result.data.foto_cortina_atmosfera,
                 foto_fondo_contenedor:result.data.foto_cierre_contenedor,
-                url1:result.data.foto_buffer_plate_url, url2: result.data.foto_fondo_contenedor_url })
+                url1:result.data.foto_buffer_plate_url, url2: result.data.foto_fondo_contenedor_url ,
+                tipo_id: result.data.tipo_id})
    
    
                 let MyArray = [];
@@ -490,15 +492,31 @@ export default class FotosContenedorUno extends Component {
                     await AsyncStorage.setItem("FotosConsolidacionCarga", "1");
                     await AsyncStorage.setItem("Observaciones", "0");
 
+                    switch (this.state.tipo_id) {
+                        case 1:
+                            this.props.navigation.navigate('ConsolidacionCarga', {
+                                embarque : this.state.embarque_id, 
+                                embarque_planta : this.state.embarque_planta_id,
+                                informeGeneral : "2",
+                                identificacionCarga:"2",
+                                EspecificacionContenedor:"2",
+                                FotosContenedor:"2",
+                                EstibaPallet:"1" })
+                            break;
+                         case 2:
+                                this.props.navigation.navigate('ConsolidacionCargaCorto', {
+                                    embarque : this.state.embarque_id, 
+                                    embarque_planta : this.state.embarque_planta_id,
+                                    informeGeneral : "2",
+                                    identificacionCarga:"2",
+                                    EspecificacionContenedor:"2",
+                                    FotosContenedor:"2",
+                                    EstibaPallet:"1" })
+                                break;
+                        default:
+                            break;
+                    }
 
-                    this.props.navigation.navigate('ConsolidacionCarga', {
-                        embarque : this.state.embarque_id, 
-                        embarque_planta : this.state.embarque_planta_id,
-                        informeGeneral : "2",
-                        identificacionCarga:"2",
-                        EspecificacionContenedor:"2",
-                        FotosContenedor:"2",
-                        EstibaPallet:"1" })
 
 
                 }else{

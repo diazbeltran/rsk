@@ -131,7 +131,7 @@ if(embarque==null || embarque == undefined){
             exportador_id:result.data.exportador_id,
             exportador_nombre:result.data.exportador_nombre,
             planta_nombre:PLANTA_NOMBRE,
-            fecha_creacion:result.data.pti});
+            fecha_creacion:result.data.fecha_creacion});
 
          //   this.props.navigation.navigate('App')
         }else{
@@ -331,7 +331,7 @@ embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
    
        if(arregloImagenes1.length ==0 || arregloImagenes2.length == 0 || arregloImagenes3.length == 0){
    
-           this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+           this.HintAlertas.current.mostrarConParametros("Please upload image");
            return 1;
        }
    
@@ -587,9 +587,9 @@ setModalVisible = async (visible, texto) => {
                                         
                     </View> 
                     </TouchableWithoutFeedback>
-
+                    {/* (Preloaded) */}
                
-                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>General shipment information(Preloaded) </Text>
+                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18, fontWeight:'bold'}}>General shipment information </Text>
                     
                     {/* <Icon style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" /> */}
                     <TouchableWithoutFeedback onPress={() => this.setModalVisible(true)}>
@@ -663,7 +663,7 @@ setModalVisible = async (visible, texto) => {
                        <Icon style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
                        </View>
                        <View style={{flex:2, marginLeft:10}}>
-                       <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>External left side wall1</Text> 
+                       <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>External left side wall</Text> 
                        </View>                        
                        <View style={{flex:.5}}>
                        <TouchableHighlight style={{with:10}}

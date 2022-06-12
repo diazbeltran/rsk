@@ -87,6 +87,7 @@ export default class EstibaPallet extends Component {
             foto_numero_contenedor:'',
             informeGeneral:'',
             modalVisible:false,
+            tipo_id:0,
         };
         this.recibidor = React.createRef();
         this.especie = React.createRef();
@@ -440,7 +441,10 @@ export default class EstibaPallet extends Component {
                 this.setState({id_proximo_pallet:id_pallet_siguiente,
                     id_proximo_especie:id_especie_siguiente,tipo_nombre:result.data.tipo_nombre,
                 total_pallet_ok:contador_pallet_ok               })
+                    
 
+                this.setState({tipo_id:result.data.tipo_id})
+            
         //     //this.setState({data_contenedor:result.data, usuario_id:USUARIO_ID, planta_id:PLANTA_ID}) ;
         //     this.setState({ orden_embarque:result.data.orden_embarque,
         //     numero_contenedor:result.data.numero_contenedor,
@@ -513,7 +517,7 @@ export default class EstibaPallet extends Component {
     
             if(arregloImagenes1.length ==0 ){
     
-                this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+                this.HintAlertas.current.mostrarConParametros("Please upload image");
                 return 1;
             }
     
@@ -562,7 +566,7 @@ export default class EstibaPallet extends Component {
        // this.carga_objetosEspecie();
         //this.Loading.current.mostrar();
         if(this.state.arregloEspecies.length==0){
-        this.HintAlertas.current.mostrarConParametros("Debe ingresar almenos una Producto");
+        this.HintAlertas.current.mostrarConParametros("must enter a product");
         return;
         }
         else{
@@ -632,12 +636,29 @@ export default class EstibaPallet extends Component {
                 await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
                 await AsyncStorage.setItem("Observaciones", "0");
 
+            switch (this.state.tipo_id) {
+                case 1:
+                    this.props.navigation.navigate('ConsolidacionCarga', {
+                        embarque : resultado.data.embarque_id, 
+                        embarque_planta : resultado.data.embarque_planta_id,
+                        informeGeneral : "2",
+                        identificacionCarga:"2",})
 
-                this.props.navigation.navigate('ConsolidacionCarga', {
-                    embarque : resultado.data.embarque_id, 
-                    embarque_planta : resultado.data.embarque_planta_id,
-                    informeGeneral : "2",
-                    identificacionCarga:"2",})
+
+                    break;
+                case 2:
+                        this.props.navigation.navigate('ConsolidacionCargaCorto', {
+                            embarque : resultado.data.embarque_id, 
+                            embarque_planta : resultado.data.embarque_planta_id,
+                            informeGeneral : "2",
+                            identificacionCarga:"2",})
+    
+    
+                        break;
+                default:
+                    break;
+            }
+                
 
 
             }else{
@@ -666,7 +687,11 @@ export default class EstibaPallet extends Component {
     return (
         <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
             <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
-            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('ConsolidacionCarga')}>
+            <TouchableWithoutFeedback onPress={() => {
+                (this.state.tipo_id==1)? 
+                this.props.navigation.navigate('ConsolidacionCarga')
+                :
+                this.props.navigation.navigate('ConsolidacionCargaCorto')}}>
                 <View style={{}}>
                 <Icon2 style={{marginLeft:10}} name="chevron-back" size={30} color="#FFFF" />
 

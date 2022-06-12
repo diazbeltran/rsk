@@ -63,7 +63,13 @@ export default class ConsultaContenedor extends Component {
                 await AsyncStorage.setItem("Observaciones", "0");
 
 
-        this.props.navigation.navigate('ConsolidacionCargaCorto')
+        this.props.navigation.navigate('ConsolidacionCargaCorto',{
+            usuario: this.props.route.params.usuario,
+            planta: this.props.route.params.planta,
+            embarque: this.props.route.params.embarque,
+            embarque_planta: this.props.route.params.embarque_planta,
+            informeGeneral:"1",
+        })
     };
 
     

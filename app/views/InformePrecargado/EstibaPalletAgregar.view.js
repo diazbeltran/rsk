@@ -390,9 +390,19 @@ export default class EstibaPalletAgregar
                         codigo_termografo:"",
                         georeferenciado: "0",
                         termografo_tipo_id:"0",
-                        foto_numero_pallet:'',
+                        //foto_numero_pallet:'',
+                        foto_numero_pallet:0,
                         foto_termografo:'',
+                        checked1:false,
+                        checked2:true,
+                        checked3:false,
+                        checked4:false,
+                        
                     })
+                    this.Selector1.current.reset();
+                    //this.Selector1.current.reset();
+                    this.Selector2.current.reset();
+                    console.log("el estado de la foto esss...",this.state.foto_numero_pallet);
                 }
              
           }
@@ -696,7 +706,7 @@ export default class EstibaPalletAgregar
 
         // if(arregloImagenes1.length ==0 ){
 
-        //     this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+        //     this.HintAlertas.current.mostrarConParametros("Please upload images");
         //     return 1;
         // }
 
@@ -1064,12 +1074,14 @@ export default class EstibaPalletAgregar
                                      <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
                                      </View>
                                      <View style={{flex:2, marginLeft:10}}>
-                                     <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Photo N° pallet</Text> 
+                                     <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Photo N° palletx</Text> 
                                      </View>                        
                                      <View style={{flex:.5}}>
                                      <TouchableHighlight style={{with:10}}
                                            title="Press me"
-                                           onPress={() => this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}
+                                           onPress={() => {
+                                               console.log("el estado de la foto esss... 1", this.state.foto_numero_pallet);
+                                            this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}}
                                                >
              
                                         <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  

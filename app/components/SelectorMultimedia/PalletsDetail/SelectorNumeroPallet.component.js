@@ -839,7 +839,7 @@ export class SelectorMultimediaMultiple extends Component {
                         <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
                         </View>
                         <View style={{flex:2, marginLeft:10}}>
-                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Photo N° pallet</Text> 
+                        <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Photo N° pallet1</Text> 
                         </View>                        
                         <View style={{flex:.5}}>
                         <TouchableHighlight style={{with:10}}

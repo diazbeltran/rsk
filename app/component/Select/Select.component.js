@@ -45,7 +45,7 @@ export default class MySelect extends Component {
 
   render() {
     const placeholder = {
-      label: this.props.label != undefined ? this.props.label : "Seleccione un valor",
+      label: this.props.label != undefined ? this.props.label : "Select a value",
       value: null,
       color: '#AFAFAF',
     };

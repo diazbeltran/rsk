@@ -92,7 +92,7 @@ export default class InformePrecargado extends Component {
                         <View style={{flex:0.3,alignItems:'center'}}>
                         <Button 
                         color="#ef882d"
-                        title="Cerrar"
+                        title="Enter"
                         onPress={() => {this.setState({modalVisible:false})} }
                       />
                     
@@ -114,13 +114,13 @@ export default class InformePrecargado extends Component {
                     >
                   <View style={{flex:0.7,marginLeft:'10%',marginTop:'25%', backgroundColor:"#efeeef",  width:'80%', flexDirection:'column', borderRadius:20}}>
                     <View style={{flex:1,alignItems:'center'}}>
-                      <Text style={{marginTop:'30%'}}>Se envio la contraseña a su correo</Text>
+                      <Text style={{marginTop:'30%'}}>Access sent to email</Text>
                     
                         </View>
                         <View style={{flex:0.3,alignItems:'center'}}>
                         <Button 
                         color="#ef882d"
-                        title="Cerrar"
+                        title="Enter"
                         onPress={() => { this.props.navigation.navigate('Login')} }
                       />
                     

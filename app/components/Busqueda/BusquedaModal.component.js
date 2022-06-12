@@ -82,14 +82,14 @@ class ListMultiSelect extends Component {
         console.log("la cantidadxxx es: ["+this.state.datox+"]");
         if (this.state.datox==''||this.state.datox==null) {
             
-            this.Hint.current.mostrarConParametros("Debe ingresar 3 o mas caracteres");
+            this.Hint.current.mostrarConParametros("Must enter at least 3 characters");
             this.setState({sindatos:true});
             this.Loading.current.ocultar();
             return
             
         } else {
             if(this.state.datox.length<3){
-                this.Hint.current.mostrarConParametros("Debe ingresar 3 o mas caracteres");
+                this.Hint.current.mostrarConParametros("Must enter at least 3 characters");
                 this.setState({sindatos:true});
                 this.Loading.current.ocultar();
                 return

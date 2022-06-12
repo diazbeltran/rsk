@@ -146,7 +146,7 @@ export default class HintAlert extends Component {
 
                                     <TouchableOpacity onPress={this.props.ejecutarAceptar}>
                                         <View style={{ height: 40, width: "100%", borderRadius: 8, backgroundColor: "#FAFAFA", justifyContent: "center", alignItems: "center", }}>
-                                            <Text style={styles.subtitulo}>Aceptar</Text>
+                                            <Text style={styles.subtitulo}>Enter</Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>

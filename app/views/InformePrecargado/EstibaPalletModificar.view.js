@@ -672,7 +672,7 @@ export default class EstibaPalletModificar
 
         // if(arregloImagenes1.length ==0 ){
 
-        //     this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+        //     this.HintAlertas.current.mostrarConParametros("Please upload images");
         //     return 1;
         // }
 

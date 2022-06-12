@@ -459,7 +459,7 @@ export default class EspecificacionContenedor
 
             if(arregloImagenes1.length ==0 ){
 
-                this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 1");
+                this.HintAlertas.current.mostrarConParametros("Please upload image");
                 return 1;
             }
 
@@ -511,7 +511,7 @@ export default class EspecificacionContenedor
 
                 if( arregloImagenes2.length == 0 ){
 
-                    this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 2");
+                    this.HintAlertas.current.mostrarConParametros("please upload image");
                     return 1;
                 }
 
@@ -565,7 +565,7 @@ export default class EspecificacionContenedor
                 
                 if(arregloImagenes3.length == 0 ){
 
-                    this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 3");
+                    this.HintAlertas.current.mostrarConParametros("Please upload image");
                     return 1;
                 }
                 for (let i = 0; i < arregloImagenes3.length; i++) {
@@ -615,7 +615,7 @@ export default class EspecificacionContenedor
 
         if(arregloImagenes4.length == 0 ){
 
-            this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 4");
+            this.HintAlertas.current.mostrarConParametros("Please upload image");
             return 1;
         }
 
@@ -666,7 +666,7 @@ export default class EspecificacionContenedor
                 let jsonImagenes5 = "";
                 if(arregloImagenes5.length == 0){
 
-                    this.HintAlertas.current.mostrarConParametros("Ingresar imagenes 5");
+                    this.HintAlertas.current.mostrarConParametros("Please upload image");
                     return 1;
                 }
 
@@ -739,7 +739,7 @@ export default class EspecificacionContenedor
 
         console.log("la validacion img es ["+a+"]", a);
         if (a ==1){
-            this.HintAlertas.current.mostrarConParametros("Debe Ingresar imagenes");
+            this.HintAlertas.current.mostrarConParametros("Please upload image");
             this.Loading.current.ocultar();
             return;}
         //return;

@@ -722,7 +722,7 @@ export class SelectorMultimediaMultiple extends Component {
         console.log("REEMBOLSO_TAMAÑO => ", this.state.PESO_MAX);
 
 
-        let texto = `Puedes subir hasta un máximo de ${REEMBOLSO_TAMANO / 1000000} Mbs en fotografías`;
+        let texto = `${REEMBOLSO_TAMANO / 1000000} Mbs max`;
         this.setState({ texto: texto });
     }
 

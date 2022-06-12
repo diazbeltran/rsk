@@ -14,6 +14,16 @@ import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import Icon3 from 'react-native-vector-icons/AntDesign';
 import Icon4 from 'react-native-vector-icons/FontAwesome5';
 
+
+import HintAlertas from '../../components/Hint/Hint.component';
+
+
+import CheckBox from '@react-native-community/checkbox';
+
+import WSRestApi from '../../services/wsRestApi';
+
+
+
 export default class ConsolidadoCorto extends Component {
 
     static navigationOptions = {
@@ -45,11 +55,109 @@ export default class ConsolidadoCorto extends Component {
 
         
     }
-    async UNSAFE_componentWillMount() {
 
-        try {}
-        catch{}
+    componentDidMount = async () => {
+        let usuario = this.props.route.params.usuario, 
+        planta = this.props.route.params.planta, 
+        embarque = this.props.route.params.embarque, 
+        embarque_planta = this.props.route.params.embarque_planta;
+        let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+
+        
+        informeGeneral = this.props.route.params.informeGeneral
+
+
+        console.log("datox del ConsolidadoCorto embarquex->"+embarque);
+        console.log("datox del ConsolidadoCorto embarque_planta->"+embarque_planta);
+        console.log("datox del ConsolidadoCorto informeGeneral->"+informeGeneral);
+        this.setState({informeGeneral:informeGeneral,embarque_id:embarque, embarque_planta_id:embarque_planta});
     }
+
+    
+
+    finaliza = async () => {
+
+
+        if(this.state.confirmacion==false){
+            this.HintAlertas.current.mostrarConParametros("Debe confirmar");
+            return;
+        }
+
+
+        let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
+        let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
+
+        //let usuario = this.props.route.params.usuario,
+        //planta = this.props.route.params.planta,
+        let embarque = this.props.route.params.embarque;
+        let embarque_planta = this.props.route.params.embarque_planta;
+
+        let img1 = this.state.foto_general_contenedor;
+        let img2 = this.state.foto_pared_izquierda;
+      
+
+           
+
+           // console.log("Orden -->"+orden);
+           // console.log("numero -->"+numero);
+            console.log("USUARIO_ID -->"+USUARIO_ID);
+            console.log("PLANTA_ID -->"+PLANTA_ID);
+            //console.log("fecha -->"+fecha);
+           // console.log("expor -->"+expor);
+            
+           // console.log("img1 -->"+img1);
+           // console.log("img2 -->"+img2);
+           // console.log("img3 -->"+img3);
+
+            try {
+                //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
+                let resultado = await WSRestApi.fnWSCierre(USUARIO_ID,PLANTA_ID,embarque,embarque_planta, this.state.confirmacion);
+                //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+                console.log("resultadox ->"+JSON.stringify(resultado)) ;
+
+                //this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+
+                if(resultado.state==true)
+                {   
+                    console.log("okkkkkk");
+                    let embarque_paso ='"'+ resultado.data.embarque_id + '"'
+
+                    await AsyncStorage.setItem("embarque_id",'"'+ resultado.data.embarque_id+'"');
+                    await AsyncStorage.setItem("embarque_planta_id",'"'+ resultado.data.embarque_planta_id+'"');
+
+
+                    console.log("aqui");
+                await AsyncStorage.setItem("informeGeneral", "2");
+                await AsyncStorage.setItem("identificacionCarga", "2");
+                await AsyncStorage.setItem("EspecificacionContenedor", "2");
+                await AsyncStorage.setItem("FotosContenedor", "2");
+                await AsyncStorage.setItem("EstibaPallet", "2");
+                await AsyncStorage.setItem("FotosConsolidacionCarga", "2");
+                await AsyncStorage.setItem("Observaciones", "2");
+
+
+                    this.props.navigation.navigate('App')
+
+
+
+                }else{
+                    console.log("sin resultadox");
+                    this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+                }
+
+              } catch (error) {
+                let resultado = JSON.stringify(error);
+                //let resultado = "errorx";
+                console.log("ERROR exportador ??? : " + error);
+                return resultado;
+               // return false
+              }
+
+    }
+
+
+
+   
     async   UNSAFE_componentWillMount() {
 
         try {
@@ -99,13 +207,13 @@ export default class ConsolidadoCorto extends Component {
         this.setState({FotosConsolidacionCarga:await AsyncStorage.getItem("FotosConsolidacionCarga")});
         this.setState({Observaciones:await AsyncStorage.getItem("Observaciones")});
 
-        console.log("estadox --> "+this.state.informeGeneral);
-        console.log("estadox --> "+this.state.identificacionCarga);
-        console.log("estadox --> "+this.state.EspecificacionContenedor);
-        console.log("estadox --> "+this.state.FotosContenedor);
-        console.log("estadox --> "+this.state.EstibaPallet);
-        console.log("estadox --> "+this.state.FotosConsolidacionCarga);
-        console.log("estadox --> "+this.state.Observaciones);
+        // console.log("estadox --> "+this.state.informeGeneral);
+        // console.log("estadox --> "+this.state.identificacionCarga);
+        // console.log("estadox --> "+this.state.EspecificacionContenedor);
+        // console.log("estadox --> "+this.state.FotosContenedor);
+        // console.log("estadox --> "+this.state.EstibaPallet);
+        // console.log("estadox --> "+this.state.FotosConsolidacionCarga);
+        // console.log("estadox --> "+this.state.Observaciones);
        
 
     }
@@ -233,7 +341,7 @@ export default class ConsolidadoCorto extends Component {
                 </View> 
                 </TouchableWithoutFeedback>;
                 break;
-        case "2":
+            case "2":
             buttonInfoGeneral=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque')}>
                     <View style={{backgroundColor:'#75BE48',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                     <View style={{flex:0.4}}>
@@ -467,7 +575,7 @@ export default class ConsolidadoCorto extends Component {
                    
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Estiba de pallets</Text>
+                     <Text style={{color:'white',marginTop:10}}>Stuffing report</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="lock-outline" size={20} color="white" />
@@ -478,13 +586,18 @@ export default class ConsolidadoCorto extends Component {
                 break;
 
             case "1":
-                buttonEstibaPallet=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet')}>
+                buttonEstibaPallet=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                 <View style={{paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:.3, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                 <View style={{flex:0.4}}>
                 
                 </View>
                  <View style={{flex:3}}>
-                 <Text style={{color:'white',marginTop:10}}>Estiba de pallets</Text>
+                 <Text style={{color:'white',marginTop:10}}>Stuffing report</Text>
                  </View>
                 <View style={{flex:0.5}}>
                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -494,13 +607,18 @@ export default class ConsolidadoCorto extends Component {
                 </TouchableWithoutFeedback>;
                 break;
             case "2":
-                buttonEstibaPallet=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet')}>
+                buttonEstibaPallet=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                     <View style={{backgroundColor:'#75BE48',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                     <View style={{flex:0.4}}>
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Estiba de pallets</Text>
+                     <Text style={{color:'white',marginTop:10}}>Stuffing report</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -510,13 +628,18 @@ export default class ConsolidadoCorto extends Component {
                     </TouchableWithoutFeedback>;
                     break;
             case "3":
-                buttonEstibaPallet=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet')}>
+                buttonEstibaPallet=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EstibaPallet',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                                 <View style={{backgroundColor:'#B94848',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                                 <View style={{flex:0.4}}>
                                 <Icon3 style={{marginLeft:10, marginTop:10}} name="warning" size={20} color="white" />
                                 </View>
                                  <View style={{flex:3}}>
-                                 <Text style={{color:'white',marginTop:10}}>Estiba de pallets</Text>
+                                 <Text style={{color:'white',marginTop:10}}>Stuffing report</Text>
                                  </View>
                                 <View style={{flex:0.5}}>
                                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -539,7 +662,7 @@ export default class ConsolidadoCorto extends Component {
                    
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Fotos de consolidacion de carga</Text>
+                     <Text style={{color:'white',marginTop:10}}>Cargo's stuffing photos</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="lock-outline" size={20} color="white" />
@@ -550,13 +673,18 @@ export default class ConsolidadoCorto extends Component {
                 break;
 
             case "1":
-                buttonFotosConsolidacionCarga=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FotosCarga')}>
+                buttonFotosConsolidacionCarga=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FotosCarga',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                 <View style={{paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:.3, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                 <View style={{flex:0.4}}>
                 
                 </View>
                  <View style={{flex:3}}>
-                 <Text style={{color:'white',marginTop:10}}>Fotos de consolidacion de carga</Text>
+                 <Text style={{color:'white',marginTop:10}}>Cargo's stuffing photos</Text>
                  </View>
                 <View style={{flex:0.5}}>
                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -566,13 +694,18 @@ export default class ConsolidadoCorto extends Component {
                 </TouchableWithoutFeedback>;
                 break;
             case "2":
-                buttonFotosConsolidacionCarga=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FotosCarga')}>
+                buttonFotosConsolidacionCarga=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FotosCarga',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                     <View style={{backgroundColor:'#75BE48',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                     <View style={{flex:0.4}}>
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Fotos de consolidacion de carga</Text>
+                     <Text style={{color:'white',marginTop:10}}>Cargo's stuffing photos</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -582,13 +715,18 @@ export default class ConsolidadoCorto extends Component {
                     </TouchableWithoutFeedback>;
                     break;
             case "3":
-                buttonFotosConsolidacionCarga=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FotosCarga')}>
+                buttonFotosConsolidacionCarga=<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('FotosCarga',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                                 <View style={{backgroundColor:'#B94848',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                                 <View style={{flex:0.4}}>
                                 <Icon3 style={{marginLeft:10, marginTop:10}} name="warning" size={20} color="white" />
                                 </View>
                                  <View style={{flex:3}}>
-                                 <Text style={{color:'white',marginTop:10}}>Fotos de consolidacion de carga</Text>
+                                 <Text style={{color:'white',marginTop:10}}>Cargo's stuffing photos</Text>
                                  </View>
                                 <View style={{flex:0.5}}>
                                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -613,7 +751,7 @@ export default class ConsolidadoCorto extends Component {
                    
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Observaciones</Text>
+                     <Text style={{color:'white',marginTop:10}}>Comments</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="lock-outline" size={20} color="white" />
@@ -627,13 +765,18 @@ export default class ConsolidadoCorto extends Component {
             case "1":
                 buttonObservaciones=
                 <View style={{marginBottom:50}}>
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Observacion')}>
+                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Observacion',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                 <View style={{paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:.3, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                 <View style={{flex:0.4}}>
                 
                 </View>
                  <View style={{flex:3}}>
-                 <Text style={{color:'white',marginTop:10}}>Observaciones</Text>
+                 <Text style={{color:'white',marginTop:10}}>Comments</Text>
                  </View>
                 <View style={{flex:0.5}}>
                 <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -645,13 +788,18 @@ export default class ConsolidadoCorto extends Component {
                 break;
             case "2":
                 buttonObservaciones=<View>
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Observacion')}>
+                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Observacion',{
+                    usuario: this.state.usuario_id,
+                    planta: this.state.planta_id,
+                    embarque: this.state.embarque_id,
+                    embarque_planta: this.state.embarque_planta_id
+                })}>
                     <View style={{backgroundColor:'#75BE48',paddingTop:5,marginLeft:20,marginTop:20, borderWidth:1,opacity:1, borderRadius:5, flex:0.3, flexDirection:'row', width:'90%', height:50, justifyContent:'space-around'}}>
                     <View style={{flex:0.4}}>
                     <Icon style={{marginLeft:10, marginTop:10}} name="checkmark-circle" size={20} color="white" />
                     </View>
                      <View style={{flex:3}}>
-                     <Text style={{color:'white',marginTop:10}}>Observaciones</Text>
+                     <Text style={{color:'white',marginTop:10}}>Comments</Text>
                      </View>
                     <View style={{flex:0.5}}>
                     <Icon2 style={{marginLeft:10, marginTop:10}} name="navigate-next" size={20} color="white" />
@@ -662,21 +810,35 @@ export default class ConsolidadoCorto extends Component {
 
                     <View style={{alignItems:'center', marginTop:'5%', marginBottom:20}} >
 
-<View style={{flexDirection:'row'}} >
-<Icon2 style={{marginLeft:50}} name="check-box-outline-blank" size={30} color="white" />
+                    <View style={{flexDirection:'row',width:'80%'}} >
+                    <CheckBox
+                                            value={this.state.confirmacion}
+                                            boxType={'square'}
+                                            animationDuration={0.1}
+                                            tintColors={{ true: '#F4891F', false: '#F4891F' }}
+                                            onValueChange={(value) =>
+                                            {console.log("el valorx es "+value);
+                                            let opcion = value==true ? 1:0;
+                                            console.log("el opcion es "+opcion);
+                                            this.setState({
+                                                confirmacion: value
+                                                
+                                            })}
+                                            }
+                                            />
 
-<View style={{flex:1, marginLeft:2,paddingBottom:10, color:'white'}}>
-<Text style={{color:'white'}}> Confirmo que los datos del informe son correctos</Text>    
-</View>
+                    <View style={{flex:1, marginLeft:2,paddingBottom:10, color:'white'}}>
+                    <Text style={{color:'white'}}> I confirm than the information in this report is correct</Text>    
+                    </View>
 
-</View>
+                    </View>
 
     
         <TouchableHighlight style={{height:'100%', width:'50%'}}
         title=""
-        onPress={() => this.props.navigation.navigate('App')}
+        onPress={() => {this.finaliza()}}
             >
-                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Ingresar</Text>
+                <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Send report</Text>
             </TouchableHighlight>
     </View>
                 
@@ -714,7 +876,7 @@ export default class ConsolidadoCorto extends Component {
                     </TouchableWithoutFeedback>
 
                
-                     <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Informe final de carga</Text><Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
+                     <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Stuffing report</Text><Icon4 style={{marginRight:20}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
                

@@ -100,7 +100,7 @@ export class Hint extends Component {
                             <Text></Text>
                         </Text>
                         <Text style={{ textAlign: "left" }}>
-                            <Text style={{ }}>Validar campo: </Text>
+                            <Text style={{ }}>Check field: </Text>
                             <Text style={{ fontWeight: "bold", color: '#F4891F' }}>{texto2}</Text>
                         </Text>
                     </View>
@@ -434,7 +434,7 @@ export class Hint extends Component {
 
                                         <TouchableOpacity onPress={this.cerrar}>
                                             <View style={{ height: 40, width: "100%", borderRadius: 8, backgroundColor: "#FAFAFA", justifyContent: "center", alignItems: "center", }}>
-                                                <Text style={styles.subtitulo}>Aceptar</Text>
+                                                <Text style={styles.subtitulo}>Enter</Text>
                                             </View>
                                         </TouchableOpacity>
 

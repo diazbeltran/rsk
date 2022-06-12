@@ -1406,7 +1406,7 @@
     "mkdirp" "^1.0.4"
     "rimraf" "^3.0.2"
 
-"@react-native-async-storage/async-storage@^1.17.5":
+"@react-native-async-storage/async-storage@^1.13.4", "@react-native-async-storage/async-storage@^1.17.5":
   "integrity" "sha512-0XT5zZa3mh8XfAFYytq9hPyI6w0FJEBED4pjeLc17pkNF9tND86fsTX2pQFr15uV0nvfYeHisbd/mM7bpGrWKA=="
   "resolved" "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.17.5.tgz"
   "version" "1.17.5"
@@ -3764,11 +3764,6 @@
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
-"fsevents@^2.1.2":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
-
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
   "resolved" "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
@@ -4521,6 +4516,11 @@
   dependencies:
     "html-escaper" "^2.0.0"
     "istanbul-lib-report" "^3.0.0"
+
+"jalaali-js@^1.1.0":
+  "integrity" "sha512-io974va+Qyu+UfuVX3UIAgJlxLhAMx9Y8VMfh+IG00Js7hXQo1qNQuwSiSa0xxco0SVgx5HWNkaiCcV+aZ8WPw=="
+  "resolved" "https://registry.npmjs.org/jalaali-js/-/jalaali-js-1.2.6.tgz"
+  "version" "1.2.6"
 
 "jest-changed-files@^26.6.2":
   "integrity" "sha512-fDS7szLcY9sCtIip8Fjry9oGf3I2ht/QT21bAHm5Dmf0mD4X3ReNUf17y+bO6fR8WgbIZTlbyG1ak/53cbRzKQ=="
@@ -5737,7 +5737,24 @@
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
 
-"moment@^2.22.0":
+"moment-jalaali@^0.9.2":
+  "integrity" "sha512-v8wXjQplvk5ez+sUqgsWIrafwIf1BEXXvzTYwsg1wHcqh27nSgKPCJ6FnZRrCz03MoNyB9N31L0oms+vE8Rq7g=="
+  "resolved" "https://registry.npmjs.org/moment-jalaali/-/moment-jalaali-0.9.6.tgz"
+  "version" "0.9.6"
+  dependencies:
+    "jalaali-js" "^1.1.0"
+    "moment" "^2.22.2"
+    "moment-timezone" "^0.5.21"
+    "rimraf" "^3.0.2"
+
+"moment-timezone@^0.5.21":
+  "integrity" "sha512-3zAEHh2hKUs3EXLESx/wsgw6IQdusOT8Bxm3D9UrHPQR7zlMmzwybC8zHEM1tQ4LJwP7fcxrWr8tuBg05fFCbg=="
+  "resolved" "https://registry.npmjs.org/moment-timezone/-/moment-timezone-0.5.34.tgz"
+  "version" "0.5.34"
+  dependencies:
+    "moment" ">= 2.9.0"
+
+"moment@^2.22.0", "moment@^2.22.2", "moment@>= 2.9.0":
   "integrity" "sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw=="
   "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.3.tgz"
   "version" "2.29.3"
@@ -6374,7 +6391,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@^15.7.2", "prop-types@^15.8.1", "prop-types@>=15.4.0":
+"prop-types@^15.5.10", "prop-types@^15.6.2", "prop-types@^15.7.2", "prop-types@^15.8.1", "prop-types@>=15.4.0":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -6462,6 +6479,13 @@
     "base-64" "0.1.0"
     "glob" "^7.1.6"
 
+"react-native-camera@^4.2.1", "react-native-camera@>=1.0.2":
+  "integrity" "sha512-+Vkql24PFYQfsPRznJCvPwJQfyzCnjlcww/iZ4Ej80bgivKjL9eU0IMQIXp4yi6XCrKi4voWXxIDPMupQZKeIQ=="
+  "resolved" "https://registry.npmjs.org/react-native-camera/-/react-native-camera-4.2.1.tgz"
+  "version" "4.2.1"
+  dependencies:
+    "prop-types" "^15.6.2"
+
 "react-native-codegen@^0.0.7":
   "integrity" "sha512-dwNgR8zJ3ALr480QnAmpTiqvFo+rDtq6V5oCggKhYFlRjzOmVSFn3YD41u8ltvKS5G2nQ8gCs2vReFFnRGLYng=="
   "resolved" "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.0.7.tgz"
@@ -6498,10 +6522,10 @@
     "base-64" "^0.1.0"
     "utf8" "^3.0.0"
 
-"react-native-gesture-handler@^2.1.1", "react-native-gesture-handler@>= 1.0.0":
-  "integrity" "sha512-1+qMhsXKKWTPAFi2ZY8rEhP/4xIevWNb1zLU9MzJkr7tRIEW4G+ipxjLyCw+7hQeqeeIbyZ8kkTyHAUuwTrHDA=="
-  "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.1.1.tgz"
-  "version" "2.1.1"
+"react-native-gesture-handler@^2.4.2", "react-native-gesture-handler@>= 1.0.0":
+  "integrity" "sha512-K3oMiQV7NOVB5RvNlxkyJxU1Gn6m1cYu53MoFA542FVDSTR491d1eQkWDdqy4lW52rfF7IK7eE1LCi+kTJx7jw=="
+  "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.4.2.tgz"
+  "version" "2.4.2"
   dependencies:
     "@egjs/hammerjs" "^2.0.17"
     "hoist-non-react-statics" "^3.3.0"
@@ -6526,12 +6550,25 @@
   dependencies:
     "prop-types" "^15.7.2"
 
+"react-native-modern-datepicker@^1.0.0-beta.91":
+  "integrity" "sha512-tyyS6iswwxn/CWIgk9j82X5/9gkgAQuI4fiWa+TEWjOo1WIhBr0x7914mtagrVuVgJCMRnHCopCIWL78afakHw=="
+  "resolved" "https://registry.npmjs.org/react-native-modern-datepicker/-/react-native-modern-datepicker-1.0.0-beta.91.tgz"
+  "version" "1.0.0-beta.91"
+  dependencies:
+    "moment-jalaali" "^0.9.2"
+    "prop-types" "^15.7.2"
+
 "react-native-pdf@^6.5.0":
   "integrity" "sha512-R/RNF+/nhFXBkhrdAWLQRhtg9xcZkq/3wC+wq9lA+ORgn1sx+6VDtU7hWnY047FK0FRG8REUj4jILVSdpG2zDg=="
   "resolved" "https://registry.npmjs.org/react-native-pdf/-/react-native-pdf-6.5.0.tgz"
   "version" "6.5.0"
   dependencies:
     "crypto-js" "^3.2.0"
+
+"react-native-permissions@^2.0.2":
+  "integrity" "sha512-ihf4shQDSX5Oo9ChQXb9kr13mmyyNem5MaEvOpr3dCjhBOBWyEMztXm9/uPK1Qg5PsNpaYLa1KpcPZDCw87LXg=="
+  "resolved" "https://registry.npmjs.org/react-native-permissions/-/react-native-permissions-2.2.2.tgz"
+  "version" "2.2.2"
 
 "react-native-permissions@^3.3.1":
   "integrity" "sha512-Ap9nVWBWJ7lyU6Ye3Qltm2V+Ut6XjDcs+6ZBmK1UUxcCoSSGx/mQg2GbMJLjlnoVtUgVHR3IhyZ0mN9DlMPRFQ=="
@@ -6545,6 +6582,15 @@
   dependencies:
     "@react-native-picker/picker" "^1.8.3"
     "lodash.isequal" "^4.5.0"
+
+"react-native-qrcode-scanner@^1.5.5":
+  "integrity" "sha512-il79uStkFqUvofqXJQfOL30qgQyU17MUKxj7IGHv6oT2OxIY/vutTwuPPDbsivtv0yTMHP4dGx/79oys4eAuNw=="
+  "resolved" "https://registry.npmjs.org/react-native-qrcode-scanner/-/react-native-qrcode-scanner-1.5.5.tgz"
+  "version" "1.5.5"
+  dependencies:
+    "@react-native-async-storage/async-storage" "^1.13.4"
+    "prop-types" "^15.5.10"
+    "react-native-permissions" "^2.0.2"
 
 "react-native-safe-area-context@^4.2.1", "react-native-safe-area-context@>= 3.0.0":
   "integrity" "sha512-fHxroZRPrXK9cPfdzQN5Y1I4m3aQzyOlUycczFwCVgD6bIPwy9VGhKVszYeza7mZgT+AMec3HWCzwonJ+erFUw=="
@@ -6581,7 +6627,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.68 || 1000.0.0", "react-native@>= 0.60.0", "react-native@>= 0.62", "react-native@>=0.40.0", "react-native@>=0.57", "react-native@>=0.59", "react-native@>=0.63.3", "react-native@0.66.4":
+"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.68 || 1000.0.0", "react-native@>= 0.60.0", "react-native@>= 0.62", "react-native@>=0.40.0", "react-native@>=0.57", "react-native@>=0.59", "react-native@>=0.60.0", "react-native@>=0.63.3", "react-native@0.66.4":
   "integrity" "sha512-9vx5dlSfQlKbbDtr8+xMon6qsmSu7jvjdXWZpEKh3XVKpUidbbODv7048gwVKX8YAel1egeR7hN8vzSeI6ssTw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.66.4.tgz"
   "version" "0.66.4"
@@ -6641,7 +6687,7 @@
     "react-shallow-renderer" "^16.13.1"
     "scheduler" "^0.20.2"
 
-"react@*", "react@^16.0.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@^17.0.0", "react@>=15.4.0", "react@>=16.13.1", "react@16 || 17", "react@17.0.2":
+"react@*", "react@^16.0.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@^17.0.0", "react@>=15.4.0", "react@>=16.13.1", "react@>=16.8.6", "react@16 || 17", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"

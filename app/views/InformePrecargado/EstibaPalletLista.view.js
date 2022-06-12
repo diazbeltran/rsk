@@ -409,7 +409,7 @@ export default class EstibaPalletLista extends Component {
                                         
                     </View> 
                     </TouchableWithoutFeedback>
-                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Estiba de Pallet {this.state.total_pallet_ok}/{this.state.total_pallet} </Text><Icon2 style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
+                    <Text style={{flex:1,marginLeft:50, color:'white',marginTop:0, fontSize:18}}>Pallet's stowage {this.state.total_pallet_ok}/{this.state.total_pallet} </Text><Icon2 style={{marginRight:20}} name="exit-outline" size={30} color="#FFFF" />
 
                 </View>
                 
@@ -463,7 +463,8 @@ export default class EstibaPalletLista extends Component {
                                 <View style={{ flexDirection: 'row', marginLeft:'10%', marginTop:20, width:'60%'}} >
                                             
                                         {(this.state.total_pallet_ok==this.state.total_pallet)?(
-                                            <View>
+                                            <View style={{flexDirection:'column'}}>
+                                                <View style={{flexDirection:'row'}}>
                                                 <CheckBox
                                             value={this.state.confirmacion}
                                             boxType={'square'}
@@ -480,6 +481,7 @@ export default class EstibaPalletLista extends Component {
                                             }
                                             />
                                              <Text style={{marginTop:5, color:'#F4891F', fontWeight:'bold'}}>I confirm that all pallets' details are correct</Text>
+                                             </View>
                                              <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
                 <TouchableHighlight style={{with:10}}
                         title="Press me"

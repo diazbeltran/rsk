@@ -741,7 +741,7 @@ export default class InfoGeneralEmbarque extends Component {
     
             if(arregloImagenes1.length ==0 ){
     
-                this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+                this.HintAlertas.current.mostrarConParametros("Please upload image");
                 return 1;
             }
     
@@ -798,14 +798,14 @@ export default class InfoGeneralEmbarque extends Component {
             console.log("el recividor {"+this.state.recibidor_id+"}");
             
             if(this.state.recibidor_id==" " || this.state.recibidor_id==null){
-                this.HintAlertas.current.mostrarConParametros("Debe ingresar ingresar un 'reciver'");
+                this.HintAlertas.current.mostrarConParametros("enter a 'Receiver'");
                 return;
                 } 
 
         var a =  await this.carga_imagenes();
 
         if (a==1){
-            this.HintAlertas.current.mostrarConParametros("Debe ingresar una imagen ");
+            this.HintAlertas.current.mostrarConParametros("You must enter a picture ");
             return
         }
         if(this.state.presentar_datos==true){           
@@ -1105,7 +1105,7 @@ export default class InfoGeneralEmbarque extends Component {
 
 
                         <View>
-                        <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
+                        <Text style={{marginLeft:30, marginTop:10}}>Receiver/consignee</Text>
                         <View   >
                         <TextInput
                         style={styles.input}
@@ -1407,7 +1407,7 @@ export default class InfoGeneralEmbarque extends Component {
                 
                 
                  <View>
-                 <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
+                 <Text style={{marginLeft:30, marginTop:10}}>Receiver/consignee</Text>
                  <View style={{width:'80%', marginLeft:'10%'}}   >
                  
 

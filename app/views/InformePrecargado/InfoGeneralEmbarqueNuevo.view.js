@@ -324,7 +324,7 @@ export default class InfoGeneralEmbarque extends Component {
 
         if(arregloImagenes1.length ==0 || arregloImagenes2.length == 0 || arregloImagenes3.length == 0){
 
-            this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+            this.HintAlertas.current.mostrarConParametros("Please upload image");
             return 1;
         }
 
@@ -451,7 +451,7 @@ export default class InfoGeneralEmbarque extends Component {
         console.log("valida_orden = "+valida_orden);
 
         if (valida_orden=='' || valida_orden ==undefined || valida_orden==null){
-            this.HintAlertas.current.mostrarConParametros("Faltan datos por ingresar*Orden de Embarque");
+            this.HintAlertas.current.mostrarConParametros("Please complete*Stuffing instructions");
             //this.TextInputOrdenEmbarque.focus();
             
             //this.setState({focoOrden:true})
@@ -465,7 +465,7 @@ export default class InfoGeneralEmbarque extends Component {
         console.log("valida_numero = "+valida_numero);
 
         if (valida_numero=='' || valida_numero ==undefined || valida_numero==null){
-            this.HintAlertas.current.mostrarConParametros("Faltan datos por ingresar*Numero de Contenedor");
+            this.HintAlertas.current.mostrarConParametros("Please complete*Container N°");
             //this.TextInputOrdenEmbarque.focus();
             
             //this.setState({focoOrden:true})
@@ -479,7 +479,7 @@ export default class InfoGeneralEmbarque extends Component {
         console.log("valida_exportador = "+valida_exportador);
 
         if (valida_exportador=='' || valida_exportador ==undefined || valida_exportador==null){
-            this.HintAlertas.current.mostrarConParametros("Faltan datos por ingresar*Exportador");
+            this.HintAlertas.current.mostrarConParametros("Please complete*Exportador");
             //this.TextInputOrdenEmbarque.focus();
             
             //this.setState({focoOrden:true})
@@ -813,6 +813,7 @@ export default class InfoGeneralEmbarque extends Component {
                                                     style={{ width: "80%",marginLeft:'10%', marginTop:10, fontWeight:'bold' }}
                                                     date={this.state.fechaSeleccionada}
                                                     mode="date"
+                                                    disabled={true}
                                                     showIcon={false}
                                                     //placeholder={this.state.fechaActual}
                                                     format="DD-MM-YYYY"

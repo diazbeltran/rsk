@@ -173,7 +173,7 @@ export default class ConsultaEstibaConfirmaElimina extends Component {
                     </TouchableWithoutFeedback>
 
                
-                    <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Pallets' stowagex</Text>
+                    <Text style={{flex:1,marginLeft:'0%', color:'white',marginTop:0, fontSize:18, textAlign:'center'}}>Pallets' stowage</Text>
                     <Icon style={{marginRight:'10%'}} name="sign-out-alt" size={30} color="#FFFF" />
 
                 </View>
@@ -182,7 +182,7 @@ export default class ConsultaEstibaConfirmaElimina extends Component {
                     <Text style={{fontWeight:'bold', marginTop:'10%'}}>Pallet N° </Text>
                    <View style={{flex:.3, width:'70%'}}>
                     <Text style={{marginTop:'2%'}}>You are deleting this pallet.</Text>  
-                    <Text style={{marginTop:'2%'}}>Continue.</Text>  
+                    <Text style={{marginTop:'2%'}}>¿Continue?</Text>  
                     </View>
                     <View style={{flexDirection:'row', justifyContent: 'space-around', marginTop:'10%'}}>
                    <View>

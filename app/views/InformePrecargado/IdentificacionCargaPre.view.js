@@ -704,7 +704,7 @@ export default class InfoGeneralEmbarque extends Component {
     
             if(arregloImagenes1.length ==0 ){
     
-                this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+                this.HintAlertas.current.mostrarConParametros("Please upload image");
                 return 1;
             }
     
@@ -867,7 +867,7 @@ let a = <View>
 
 
  <View>
- <Text style={{marginLeft:30, marginTop:10}}>Reciver/consignee</Text>
+ <Text style={{marginLeft:30, marginTop:10}}>Receiver/consignee</Text>
  <View   >
  <TextInput
  style={styles.input}

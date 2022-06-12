@@ -467,7 +467,7 @@ export default class FotosContenedor extends Component {
 
             if (a==1)
             {
-                this.HintAlertas.current.mostrarConParametros("Ingresar imagenes");
+                this.HintAlertas.current.mostrarConParametros("Please upload image");
                 return;
             }
         }else{

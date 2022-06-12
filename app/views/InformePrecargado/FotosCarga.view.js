@@ -54,6 +54,7 @@ export default class FotosCarga extends Component {
             photo_background_container: '',
             photo_curtain_atmosphere: '',
             container_closure_photo: '',
+            tipo_id:0,
 
 
 
@@ -90,6 +91,7 @@ export default class FotosCarga extends Component {
         pallet_id:id_pallet, especie_id:id_especie});
 
         this.carga_fotos_embarque(USUARIO_ID, PLANTA_ID, embarque, embarque_planta);
+        this.carga_datos_embarque(USUARIO_ID, PLANTA_ID, embarque, embarque_planta);
        // this.carga_recibidor();
         //this.carga_especies();
        // this.carga_objetosEspecie();
@@ -124,7 +126,8 @@ export default class FotosCarga extends Component {
                     photo_buffer_plate: result.data.photo_buffer_plate,
                     photo_background_container: result.data.photo_background_container,
                     photo_curtain_atmosphere: result.data.photo_curtain_atmosphere,
-                    container_closure_photo: result.data.container_closure_photo   })
+                    container_closure_photo: result.data.container_closure_photo,
+                     })
    
            
    
@@ -153,6 +156,81 @@ export default class FotosCarga extends Component {
       }
 
 
+      carga_datos_embarque = async (usuario, planta, embarque, embarque_planta) =>{
+
+        //   console.log("carga_datos_embarque -->"+PLANTA_NOMBRE);
+               let result;
+            await this.embarque_detalle(usuario, planta, embarque, embarque_planta).then(function (data) {
+               result = data;
+             });
+   
+             if (result.state == true) {
+   
+               console.log("Estiba Pallet embarque_detalle resultado:-> "+JSON.stringify(result.data));
+   
+               console.log("array especies -->" + JSON.stringify(result.data.especies));
+               let paso_pallet = JSON.stringify(result.data.pallets);
+   
+               console.log("array pallets --> paso_pallet  "+paso_pallet);
+               console.log("array pallets --> paso_especie  "+result.data.pallets.length);
+                
+               this.setState({  tipo_id: result.data.tipo_id})
+   
+   
+                let MyArray = [];
+                let MyArray2 = [];
+               
+               let contador_pallet_vacios = 0;
+               let contador_pallet_ok = 0;
+               let id_pallet_siguiente = 0;
+               let id_especie_siguiente = 0;
+   
+              
+   
+                  // console.log("cantidad de pallet "+result.data.pallets.length);
+                 //  console.log("cantidad de pallet ok "+contador_pallet_ok);
+                 //  console.log("cantidad de pallet vacios "+contador_pallet_vacios);
+                 //  console.log("ID siguiente pallet "+id_pallet_siguiente);
+                  // console.log("ID siguiente especie "+id_especie_siguiente);
+                   //console.log("ID siguiente especie "+);
+                
+                
+            //        this.setState({id_proximo_pallet:id_pallet_siguiente,
+            //            id_proximo_especie:id_especie_siguiente,
+            //            tipo_nombre:result.data.tipo_nombre,
+            //         total_pallet:result.data.pallets.length,
+            //     total_pallet_ok:contador_pallet_ok,
+            // total_pallet_faltantes:contador_pallet_vacios})
+   
+          
+              
+   
+            //   this.props.navigation.navigate('App')
+           }else{
+              // this.setState({modalVisible:true})
+              console.log("2");
+           }
+   
+   
+       }
+
+
+       embarque_detalle = async (usuario, planta,embarque, embarque_planta) => {
+        try {
+          let resultado = await WSRestApi.fnWSDetalleembarque(usuario, planta,embarque, embarque_planta);
+          //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+          return resultado;
+        } catch (error) {
+          let resultado = JSON.stringify(error);
+          //let resultado = "errorx";
+          console.log("ERROR1??? : " + error);
+          return resultado;
+         // return false
+        }
+      }
+
+
+
     envio_menu = async () => {
 
         //this.Loading.current.mostrar();
@@ -166,14 +244,31 @@ export default class FotosCarga extends Component {
                 await AsyncStorage.setItem("FotosConsolidacionCarga", "2");
                 await AsyncStorage.setItem("Observaciones", "1");
 
-
-        this.props.navigation.navigate('ConsolidacionCarga', {embarque : this.state.embarque_id, 
-            embarque_planta : this.state.embarque_planta_id,
-            informeGeneral : "2",
-            identificacionCarga:"2",
-            EspecificacionContenedor:"2",
-            FotosContenedor:"2",
-            EstibaPallet:"1" })
+                switch (this.state.tipo_id) {
+                    case 1:
+                        this.props.navigation.navigate('ConsolidacionCarga', {
+                            embarque : this.state.embarque_id, 
+                            embarque_planta : this.state.embarque_planta_id,
+                            informeGeneral : "2",
+                            identificacionCarga:"2",
+                            EspecificacionContenedor:"2",
+                            FotosContenedor:"2",
+                            EstibaPallet:"1" })
+                        break;
+                     case 2:
+                            this.props.navigation.navigate('ConsolidacionCargaCorto', {
+                                embarque : this.state.embarque_id, 
+                                embarque_planta : this.state.embarque_planta_id,
+                                informeGeneral : "2",
+                                identificacionCarga:"2",
+                                EspecificacionContenedor:"2",
+                                FotosContenedor:"2",
+                                EstibaPallet:"1" })
+                            break;
+                    default:
+                        break;
+                }
+        
     };
     
 
@@ -184,7 +279,11 @@ export default class FotosCarga extends Component {
         return (
             <View style={{ flex: 1 , backgroundColor: '#6c649c'}}>
                 <View style={{ flex: 0.2 ,alignItems:'center', flexDirection: 'row'}} >
-                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('ConsolidacionCarga')}>
+                <TouchableWithoutFeedback onPress={() => {
+                (this.state.tipo_id==1)? 
+                this.props.navigation.navigate('ConsolidacionCarga')
+                :
+                this.props.navigation.navigate('ConsolidacionCargaCorto')}}>
                     <View style={{}}>
                     <Icon2 style={{marginLeft:10}} name="chevron-back" size={30} color="#FFFF" />
                                         
