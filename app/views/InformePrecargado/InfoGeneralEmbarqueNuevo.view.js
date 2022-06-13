@@ -787,7 +787,7 @@ export default class InfoGeneralEmbarque extends Component {
                                 value={this.state.clave}
                                 /> */}
 
-                        <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:'10%'}} >
+                        <View  style={{backgroundColor:'#efeeef', width:'80%',height:30,paddingTop:10,paddingBottom:10, marginLeft:'10%'}} >
 
                                 <Select
                                 ref={this.exportador}                            

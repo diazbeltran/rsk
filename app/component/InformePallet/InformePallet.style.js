@@ -53,7 +53,7 @@ export default StyleSheet.create({
     },
     titulo: {
         fontSize: moderateScale(themes.FONT_SIZE_SMALL),
-        fontFamily: "Overpass-Bold",
+      //  fontFamily: "Overpass-Bold",
         marginBottom: verticalScale(10)
     },
     icono: {

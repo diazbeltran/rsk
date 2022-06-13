@@ -34,7 +34,7 @@ export default StyleSheet.create({
     },
 
     textoLoading: {
-        fontFamily: "Overpass-Bold",
+        //fontFamily: "Overpass-Bold",
         //color: '#007acc', 
         color: "white",
         fontSize: width >= 768 ? moderateScale(18) : moderateScale(16),

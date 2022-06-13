@@ -480,7 +480,7 @@ export default class EstibaPalletLista extends Component {
                                             })}
                                             }
                                             />
-                                             <Text style={{marginTop:5, color:'#F4891F', fontWeight:'bold'}}>I confirm that all pallets' details are correct</Text>
+                                             <Text style={{marginTop:5, color:'#F4891F', fontWeight:'bold', marginRight:20,marginLeft:10}}>I confirm that all pallets' details are correct</Text>
                                              </View>
                                              <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>
                 <TouchableHighlight style={{with:10}}

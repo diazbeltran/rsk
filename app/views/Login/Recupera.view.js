@@ -139,7 +139,7 @@ export default class InformePrecargado extends Component {
                        
                     </View>
                     <View>
-                       <Text style={{marginLeft:30}}>Enter registerred email</Text> 
+                       <Text style={{marginLeft:30}}>Enter registered email</Text> 
                        <TextInput
                         style={styles.input}
                         onChangeText={(email) => this.setState({email})}

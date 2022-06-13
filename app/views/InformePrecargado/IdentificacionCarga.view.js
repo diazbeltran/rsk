@@ -881,10 +881,10 @@ export default class InfoGeneralEmbarque extends Component {
                         }
 
                         
-                        if(numero_booking==""){
-                            this.HintAlertas.current.mostrarConParametros("You must enter Booking N°");
-                            return
-                        }  
+                        // if(numero_booking==""){
+                        //     this.HintAlertas.current.mostrarConParametros("You must enter Booking N°");
+                        //     return
+                        // }  
                     
             }
 
@@ -1383,7 +1383,8 @@ export default class InfoGeneralEmbarque extends Component {
                  value={this.state.motonave}
                  /> */}
                  <View style={{flex:1}} >
-                  <BuscaModal                        
+                  <BuscaModal
+                                            
                         ref={this.BuscaModal} 
                         datox={this.state.motonave}
                         >
@@ -1409,7 +1410,7 @@ export default class InfoGeneralEmbarque extends Component {
                 
                  <View>
                  <Text style={{marginLeft:30, marginTop:10}}>Receiver/consignee</Text>
-                 <View style={{width:'80%', marginLeft:'10%'}}   >
+                 <View style={{width:'80%',height:20,marginTop:10, marginBottom:10, marginLeft:'10%'}}   >
                  
 
                         <Select
@@ -1556,7 +1557,7 @@ export default class InfoGeneralEmbarque extends Component {
                 <View style={{flexDirection:'row'}}>
                 <View style={{flex:1.5}}>
                 <Text style={{marginLeft:30, marginTop:10}}>Product</Text>
-                <View  style={{backgroundColor:'#efeeef', width:'80%', marginLeft:30}} >
+                <View  style={{backgroundColor:'#efeeef', width:'80%',height:40,marginTop:10, paddingBottom:10, paddingTop:10, marginLeft:30}} >
                 
                 {this.pinta_select_producto(this.state.seteo)}
                 

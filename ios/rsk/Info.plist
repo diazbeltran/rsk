@@ -22,6 +22,10 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Permite capturar y adjuntar fotos para informacion de embarques.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Permite capturar y adjuntar fotos para informacion de embarques.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -41,6 +45,7 @@
 	<array>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
+		<string>Nunito.ttf</string>
 		<string>EvilIcons.ttf</string>
 		<string>Feather.ttf</string>
 		<string>FontAwesome.ttf</string>

@@ -1137,11 +1137,11 @@ export default class EstibaPalletAgregar
                                             }
                                             />
                                             
-                                            <Text style={{marginTop:5}}>Front</Text>
+                                            <Text style={{marginTop:5, marginRight:20,marginLeft:10}}>Front</Text>
                             
                                             <CheckBox
                                             value={!this.state.posicion}
-                                            boxType={'cirule'}
+                                            boxType={'square'}
                                             animationDuration={0.1}
                                             tintColors={{ true: '#F4891F', false: '#F4891F' }}
                                             onValueChange={(value) =>
@@ -1155,7 +1155,7 @@ export default class EstibaPalletAgregar
                                         }
                                             }
                                             />
-                                            <Text style={{marginTop:5}}>Side</Text>
+                                            <Text style={{marginTop:5, marginRight:20,marginLeft:10}}>Side</Text>
                             </View>
 
                             <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Product </Text>               
@@ -1232,11 +1232,11 @@ export default class EstibaPalletAgregar
                                            }
                                            />
                                            
-                                           <Text style={{marginTop:5}}>Yes</Text>
+                                           <Text style={{marginTop:5, marginRight:20,marginLeft:10}}>Yes</Text>
                            
                                            <CheckBox
                                            value={this.state.checked2}
-                                           boxType={'cirule'}
+                                           boxType={'square'}
                                            animationDuration={0.1}
                                            tintColors={{ true: '#F4891F', false: '#F4891F' }}
                                            onValueChange={(value) =>
@@ -1254,7 +1254,7 @@ export default class EstibaPalletAgregar
                                         }
                                            }
                                            />
-                                           <Text style={{marginTop:5}}>No</Text>
+                                           <Text style={{marginTop:5, marginRight:20,marginLeft:10}}>No</Text>
                            </View>
                            
                            {this.state.checked1==true ? (
@@ -1326,7 +1326,7 @@ export default class EstibaPalletAgregar
                            
                                <CheckBox
                                            value={this.state.checked3}
-                                           boxType={'cirule'}
+                                           boxType={'square'}
                                            animationDuration={0.1}
                                            tintColors={{ true: '#F4891F', false: '#F4891F' }}
                                            onValueChange={(value) =>
@@ -1342,11 +1342,11 @@ export default class EstibaPalletAgregar
                                            }
                                            />
                                            
-                                           <Text style={{marginTop:5}}>Yes</Text>
+                                           <Text style={{marginTop:5, marginRight:20,marginLeft:10}}>Yes</Text>
                            
                                            <CheckBox
                                            value={!this.state.checked3}
-                                           boxType={'cirule'}
+                                           boxType={'square'}
                                            animationDuration={0.1}
                                            tintColors={{ true: '#F4891F', false: '#F4891F' }}
                                            onValueChange={(value) =>
@@ -1362,7 +1362,7 @@ export default class EstibaPalletAgregar
                                         }
                                            }
                                            />
-                                           <Text style={{marginTop:5}}>No</Text>
+                                           <Text style={{marginTop:5, marginRight:20,marginLeft:10}}>No</Text>
                            </View>
                            {this.state.checked3==true ? (
                                <View>

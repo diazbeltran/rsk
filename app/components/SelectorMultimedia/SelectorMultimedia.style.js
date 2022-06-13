@@ -7,10 +7,10 @@ const backgroundTextInput = "#F4F4F4";
 const textColor = "#595B5A";
 //colores y fuentes para el placeholder de los text input 
 const textPlaceholder = "#8F8F8F";
-const placeholder = "Overpass light italic";
+const placeholder = "";
 
 colorButtom = "#00953A";
-buttomText = "Overpass Bold" //16pt
+//buttomText = "Overpass Bold" //16pt
 
 selectIconColor = "#595B5A";
 //titulos de los input
@@ -41,13 +41,13 @@ export default StyleSheet.create({
     textoAdjuntarImagen: {
         fontSize: themes.FONT_SIZE_SMALL,
         opacity: 0.5,
-        fontFamily: "Overpass-Bold",
+       // fontFamily: "Overpass-Bold",
         marginBottom: 5
     },
     datosImagen: {
         fontSize: themes.FONT_SIZE_SMALLER,
         opacity: 0.5,
-        fontFamily: "Overpass-Bold",
+       // fontFamily: "Overpass-Bold",
         marginBottom: 5
     },
     foto: {

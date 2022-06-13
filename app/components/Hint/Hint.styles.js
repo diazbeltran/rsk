@@ -16,17 +16,17 @@ export default StyleSheet.create({
     },
     titulo: {
         fontSize: width >= 768 ? moderateScale(themes.FONT_SIZE_LARGE)-2 :  moderateScale(themes.FONT_SIZE_LARGE), //moderateScale(themes.FONT_SIZE_LARGE),
-        fontFamily: "Overpass-Bold",
+        //fontFamily: "Overpass-Bold",
         color: "white"
     },
     subtitulo: {
         fontSize: width >= 768 ? moderateScale(themes.FONT_SIZE_MEDIUM)-2 :  moderateScale(themes.FONT_SIZE_MEDIUM), //moderateScale(themes.FONT_SIZE_MEDIUM),
-        fontFamily: "Overpass-Bold",
+        //fontFamily: "Overpass-Bold",
         color: "#595B5A"
     },
     textoChico: {
         fontSize: width >= 768 ? moderateScale(themes.FONT_SIZE_SMALL)-2 :  moderateScale(themes.FONT_SIZE_SMALL), //moderateScale(themes.FONT_SIZE_SMALL),
-        fontFamily: "Overpass-Regular",
+      //  fontFamily: "Overpass-Regular",
         color: "#595B5A"
     },
 

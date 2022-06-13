@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: moderateScale(70),
         marginLeft:moderateScale(70),
-        width: moderateScale(200),
+        width: moderateScale(250),
         height: verticalScale(350),
         resizeMode: 'center'
     },
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     },
     titulo: {
         fontSize: moderateScale(themes.FONT_SIZE_SMALL),
-        fontFamily: "Overpass-Bold",
+       // fontFamily: "Overpass-Bold",
         marginBottom: verticalScale(10)
     },
     icono: {

@@ -1106,7 +1106,7 @@ export default class EspecificacionContenedor
                                             }
                                             />
                                             
-                                            <Text style={{marginTop:5}}>Pre-cooler container</Text>
+                                            <Text style={{marginTop:5, marginRight:20,marginLeft:10}}>Pre-cooler container</Text>
                             </View>
 
                             <View style={{ flexDirection: 'row', marginLeft:'10%', marginTop:20}} >
@@ -1125,7 +1125,7 @@ export default class EspecificacionContenedor
                                             })}
                                             }
                                             />
-                                            <Text style={{marginTop:5}}>Clean and without odours</Text>
+                                            <Text style={{marginTop:5, marginRight:20,marginLeft:10}}>Clean and without odours</Text>
                             </View>
 
                             <View style={{ flexDirection: 'row', marginLeft:'10%', marginTop:20}} >
@@ -1144,7 +1144,7 @@ export default class EspecificacionContenedor
                                             })}
                                             }
                                             />
-                                            <Text style={{marginTop:5}}>Container in good condition</Text>
+                                            <Text style={{marginTop:5, marginRight:20,marginLeft:10}}>Container in good condition</Text>
                             </View>
 
 
@@ -1326,7 +1326,7 @@ export default class EspecificacionContenedor
                                             })}
                                             }
                                             />
-                                            <Text style={{marginTop:5, color:'#F4891F', fontWeight:'bold'}}>I confirm that the temperature and ventilation information is correct</Text>
+                                            <Text style={{marginTop:5, color:'#F4891F', fontWeight:'bold', marginRight:20,marginLeft:10}}>I confirm that the temperature and ventilation information is correct</Text>
                             </View>
 
                             <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20, paddingBottom:20}}>

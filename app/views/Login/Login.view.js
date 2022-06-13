@@ -21,9 +21,9 @@ export default class Login extends Component {
         this.state = {
             status: false,
            // correo:'tecnico@aeurus.cl',
-           correo:'tecnico@aeurus.cl',
+           correo:'',
             ///clave:'12345678',
-            clave:'12345678',
+            clave:'',
             email :'',
             modalVisible:false,
             modal_error:'',
@@ -128,13 +128,13 @@ export default class Login extends Component {
                     >
                   <View style={{flex:0.7,marginLeft:'10%',marginTop:'25%', backgroundColor:"#efeeef",  width:'80%', flexDirection:'column', borderRadius:20}}>
                     <View style={{flex:1,alignItems:'center'}}>
-                      <Text style={{marginTop:'30%'}}>Error en las credenciales</Text>
+                      <Text style={{marginTop:'30%'}}>Credentials error</Text>
                     
                         </View>
                         <View style={{flex:0.3,alignItems:'center'}}>
                         <Button 
                         color="#ef882d"
-                        title="Cerrar"
+                        title="Close"
                         onPress={() => {this.setState({modalVisible:false})} }
                       />
                     
@@ -145,7 +145,7 @@ export default class Login extends Component {
                     
                 </Modal>
                     <View >
-                       <Text style={{marginLeft:'10%', color:'#747474', fontFamily:'Nunito'}}>User</Text> 
+                       <Text style={{marginLeft:'10%', color:'#747474'}}>User</Text> 
                        <TextInput
                         style={styles.input}
                         onChangeText={(correo) => this.setState({correo})}
