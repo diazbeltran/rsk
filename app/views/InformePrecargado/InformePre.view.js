@@ -141,6 +141,31 @@ export default class InformePrecargado extends Component {
         return false
       }
 
+
+      recarga = async() =>{
+        let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
+        let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
+
+        //let usuario = this.props.route.params.usuario,
+        //planta = this.props.route.params.planta,
+        let embarque = this.props.route.params.embarque;
+        let embarque_planta = this.props.route.params.embarque_planta;
+        let PLANTA_NOMBRE = await AsyncStorage.getItem('PLANTA_NOMBRE');
+
+
+        informeGeneral = this.props.route.params.informeGeneral
+
+
+        console.log("datox del InfoGeneralEmbarque USUARIO_ID->"+USUARIO_ID);
+        console.log("datox del InfoGeneralEmbarque PLANTA_ID->"+PLANTA_ID);
+        console.log("datox del InfoGeneralEmbarque embarque->"+embarque);
+        console.log("datox del InfoGeneralEmbarque embarque_planta->"+embarque_planta);
+        //console.log("datox del InfoGeneralEmbarque informeGeneral->"+informeGeneral);
+        this.setState({informeGeneral:informeGeneral, embarque_id:embarque, embarque_planta_id:embarque_planta, actualiza:false});
+
+        this.carga_datos_embarque(USUARIO_ID, PLANTA_ID, embarque, embarque_planta);
+
+    }
    
 
     envio_menu = async () => {

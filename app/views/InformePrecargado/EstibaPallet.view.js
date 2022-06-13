@@ -713,7 +713,7 @@ export default class EstibaPallet extends Component {
             <View style={{borderTopLeftRadius: 20, borderTopRightRadius: 20,  flex: 1, backgroundColor: 'white', flexDirection: 'column'}} >
 
             <Text style={{marginLeft:'35%', marginTop:30}}>Type {this.state.tipo_nombre}</Text> 
-                                <Text style={{marginLeft:80, marginTop:30,fontWeight:'bold'}}>Pallets have not been added</Text> 
+                                <Text style={{marginLeft:'', marginTop:30,fontWeight:'bold'}}>Pallets have not been added</Text> 
                                 <View style={{alignItems:'center', backgroundColor:'white', flex:0.2, paddingTop:20}}>
                         <TouchableHighlight style={{with:10}}
                         title="Press me"
