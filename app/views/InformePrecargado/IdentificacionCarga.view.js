@@ -28,7 +28,7 @@ import BuscaModal from '../../components/Busqueda/BusquedaModal.component';
 
 import WSRestApi from '../../services/wsRestApi';
 
-
+import Loading from '../../components/Loading/Loading.component';
 
 export default class InfoGeneralEmbarque extends Component {
 
@@ -116,7 +116,7 @@ export default class InfoGeneralEmbarque extends Component {
         this.HintAlertas = React.createRef();
         this.HintPDF1 = React.createRef();
 
-
+        this.Loading = React.createRef();
 
 
     }
@@ -786,20 +786,216 @@ export default class InfoGeneralEmbarque extends Component {
 
     }
 
+
     envio_menu = async () => {
 
 
         
+        console.log("el recividor {"+this.state.recibidor_id+"}");
+        
+    if(this.state.recibidor_id==" " || this.state.recibidor_id==null){
+        this.HintAlertas.current.mostrarConParametros("Enter a Receiver");
+        return;
+        } 
+
+    var a =  await this.carga_imagenes();
+
+    if (a==1){
+        this.HintAlertas.current.mostrarConParametros("You must enter a picture ");
+        return
+    }
+    if(this.state.presentar_datos==true){           
+    
+
+
+     console.log("la cantidad de productos ["+this.state.cantidad_productos+"]");
+
+     if(this.state.cantidad_productos==0 || this.state.especie_seleccionada==true){
+        await this.carga_objetosEspecie();
+     }
+
+     
+    }
+    
+
+   
+
+
+    
+    console.log("aqui");
+            await AsyncStorage.setItem("informeGeneral", "2");
+            await AsyncStorage.setItem("identificacionCarga", "2");
+            await AsyncStorage.setItem("EspecificacionContenedor", "1");
+            await AsyncStorage.setItem("FotosContenedor", "0");
+            await AsyncStorage.setItem("EstibaPallet", "0");
+            await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
+            await AsyncStorage.setItem("Observaciones", "0");
+
+            console.log("arregloEspeciesx "+ JSON.stringify(this.state.arregloEspecies) );
+            console.info(this.state.arregloEspecies);
+
+
+    try {
+
+        let motonavex ="";
+        let puerto_origen="";
+        let puerto_destino="";
+
+        console.log("el valor essss:["+this.state.arregloEspecies.length+"]");
+        if(this.state.creado_web!=1 && this.state.presentar_datos==true ){
+
+            
+            
+                console.log("los datos son: ["+this.state.creado_web+"] y ["+this.state.arregloEspecies.length+"]");
+
+                motonavex = this.BuscaModal.current.devolverSeleccionadosTexto();
+                console.log("datox_motonavex ->",motonavex);
+
+                if(motonavex==""){
+                    this.HintAlertas.current.mostrarConParametros("You must enter a Vessel");
+                    return
+                }
+
+                puerto_origen = this.BuscaModal1.current.devolverSeleccionadosTexto();
+                console.log("puerto_origen ->",puerto_origen);
+
+                if(puerto_origen==""){
+                    this.HintAlertas.current.mostrarConParametros("You must enter Port of loading");
+                    return
+                }
+
+                puerto_destino = this.BuscaModal2.current.devolverSeleccionadosTexto();
+                console.log("puerto_destino ->",puerto_destino);
+
+
+                if(puerto_destino==""){
+                    this.HintAlertas.current.mostrarConParametros("You must enter Port of destination");
+                    return
+                }
+                    console.log("Origen["+puerto_origen+"] Destino["+puerto_destino+"]");
+                    if (puerto_origen==puerto_destino) {
+                        if(puerto_origen !='' && puerto_destino !=''){
+                            this.HintAlertas.current.mostrarConParametros("Error en los puertos");
+                            return;
+                        }
+                        
+                    }
+
+                    
+                    // if(numero_booking==""){
+                    //     this.HintAlertas.current.mostrarConParametros("You must enter Booking N°");
+                    //     return
+                    // }  
+                
+        }
+
+
+        
+
+        let USUARIO_ID = await AsyncStorage.getItem('USUARIO_ID');
+        let PLANTA_ID = await AsyncStorage.getItem('PLANTA_ID');
+
+    //let usuario = this.props.route.params.usuario,
+    //planta = this.props.route.params.planta,
+    let embarque = this.props.route.params.embarque;
+    let embarque_planta = this.props.route.params.embarque_planta;
+    
+    let var_paso = this.state.arregloEspecies;
+
+   // console.info(var_paso);
+    var paso = [];
+    var_paso.forEach((e) =>
+    {
+        let objeto_especie = {
+            especie_id : e.producto_id,
+            especie_cantidad_pallets: e.cantidad_pallet,
+            especie_cantidad_cajas: e.cantidad_cajas
+
+        }
+        paso.push(objeto_especie);
+    //    console.info(e);
+    });
+
+    if(motonavex==""){motonavex=this.state.motonave}
+    if(puerto_origen==""){puerto_origen=this.state.puerto_carga}
+    if(puerto_destino==""){puerto_destino=this.state.puerto_destino}
+
+        //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
+        let resultado = await WSRestApi.fnWSGuardaCargoDetail(USUARIO_ID,PLANTA_ID,embarque, embarque_planta, 
+            ( this.state.creado_web==1  ? (this.state.motonave):(motonavex)),
+            this.state.recibidor_id, 
+            ( this.state.creado_web==1 ?(this.state.puerto_carga):(puerto_origen)), 
+            (this.state.creado_web==1 ?(this.state.puerto_destino):(puerto_destino)), 
+            this.state.numero_booking,
+            paso,this.state.foto_cargo);
+        //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
+        console.log("resultadox ->"+JSON.stringify(resultado)) ;
+
+        if(resultado.state==true)
+        {   
+            //console.log("okkkkkk");
+           // let embarque_paso ='"'+ resultado.data.embarque_id + '"'
+
+            //await AsyncStorage.setItem("embarque_id",'"'+ resultado.data.embarque_id+'"');
+            //await AsyncStorage.setItem("embarque_planta_id",'"'+ resultado.data.embarque_planta_id+'"');
+
+
+            await AsyncStorage.setItem("informeGeneral", "2");
+            await AsyncStorage.setItem("identificacionCarga", "2");
+            await AsyncStorage.setItem("EspecificacionContenedor", "1");
+            await AsyncStorage.setItem("FotosContenedor", "0");
+            await AsyncStorage.setItem("EstibaPallet", "0");
+            await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
+            await AsyncStorage.setItem("Observaciones", "0");
+
+
+            this.props.navigation.navigate('ConsolidacionCarga', {
+                embarque : resultado.data.embarque_id, 
+                embarque_planta : resultado.data.embarque_planta_id,
+                informeGeneral : "2",
+                identificacionCarga:"2",})
+
+
+        }else{
+            console.log("sin resultadox");
+            this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+        }   
+
+
+
+
+    }catch(e){
+        console.warn(e);
+    }
+
+    
+   // this.props.navigation.navigate('ConsolidacionCarga', {a:'a'})
+};
+
+
+    envio_menu_nuevo = async () => {
+
+        
+        
             console.log("el recividor {"+this.state.recibidor_id+"}");
             
         if(this.state.recibidor_id==" " || this.state.recibidor_id==null){
+            this.Loading.current.ocultar();
             this.HintAlertas.current.mostrarConParametros("Enter a Receiver");
             return;
             } 
 
+
+            if(this.state.numero_booking==" " || this.state.numero_booking==null){
+                this.Loading.current.ocultar();
+                this.HintAlertas.current.mostrarConParametros("Enter a Booking N°");
+                return;
+                } 
+
         var a =  await this.carga_imagenes();
 
         if (a==1){
+            this.Loading.current.ocultar();
             this.HintAlertas.current.mostrarConParametros("You must enter a picture ");
             return
         }
@@ -851,6 +1047,7 @@ export default class InfoGeneralEmbarque extends Component {
                     console.log("datox_motonavex ->",motonavex);
 
                     if(motonavex==""){
+                        this.Loading.current.ocultar();
                         this.HintAlertas.current.mostrarConParametros("You must enter a Vessel");
                         return
                     }
@@ -859,6 +1056,7 @@ export default class InfoGeneralEmbarque extends Component {
                     console.log("puerto_origen ->",puerto_origen);
 
                     if(puerto_origen==""){
+                        this.Loading.current.ocultar();
                         this.HintAlertas.current.mostrarConParametros("You must enter Port of loading");
                         return
                     }
@@ -868,12 +1066,14 @@ export default class InfoGeneralEmbarque extends Component {
 
 
                     if(puerto_destino==""){
+                        this.Loading.current.ocultar();
                         this.HintAlertas.current.mostrarConParametros("You must enter Port of destination");
                         return
                     }
-
+                        console.log("Origen["+puerto_origen+"] Destino["+puerto_destino+"]");
                         if (puerto_origen==puerto_destino) {
                             if(puerto_origen !='' && puerto_destino !=''){
+                                this.Loading.current.ocultar();
                                 this.HintAlertas.current.mostrarConParametros("Error en los puertos");
                                 return;
                             }
@@ -947,7 +1147,7 @@ export default class InfoGeneralEmbarque extends Component {
                 await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
                 await AsyncStorage.setItem("Observaciones", "0");
 
-
+                this.Loading.current.ocultar();
                 this.props.navigation.navigate('ConsolidacionCarga', {
                     embarque : resultado.data.embarque_id, 
                     embarque_planta : resultado.data.embarque_planta_id,
@@ -957,6 +1157,7 @@ export default class InfoGeneralEmbarque extends Component {
 
             }else{
                 console.log("sin resultadox");
+                this.Loading.current.ocultar();
                 this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
             }   
 
@@ -1642,7 +1843,9 @@ export default class InfoGeneralEmbarque extends Component {
                             
                             <TouchableHighlight style={{with:10}}
                             title="Press me"
-                            onPress={() => this.envio_menu()}
+                            onPress={() => {
+                                this.Loading.current.mostrar();
+                                this.envio_menu_nuevo();}}
                             >
                             <Text style={{borderRadius:5, paddingTop:5,paddingBottom:5, paddingLeft:35,paddingRight:35, backgroundColor:'#ef882d', color:'white', }}>Enter</Text>
                             </TouchableHighlight>
@@ -1664,7 +1867,7 @@ export default class InfoGeneralEmbarque extends Component {
 
                         </View>
 
-
+                        <Loading ref={this.Loading} />
 
 
             <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >

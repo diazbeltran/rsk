@@ -32,7 +32,7 @@ import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import Icon4 from 'react-native-vector-icons/FontAwesome5';
 import WSRestApi from '../../services/wsRestApi';
 
-
+import Loading from '../../components/Loading/Loading.component';
 export default class InfoGeneralEmbarque extends Component {
 
     static navigationOptions = {
@@ -90,7 +90,7 @@ export default class InfoGeneralEmbarque extends Component {
         this.HintPDF2 = React.createRef();
         this.HintPDF3 = React.createRef();
 
-
+        this.Loading = React.createRef();
 
     }
 
@@ -439,10 +439,11 @@ export default class InfoGeneralEmbarque extends Component {
     }   
 
     validarCampos = async () => {
-        
+        this.Loading.current.mostrar();
         let a = await this.carga_imagenes();
 
         if(a==1){
+            this.Loading.current.ocultar();
             return;
         }
 
@@ -453,7 +454,7 @@ export default class InfoGeneralEmbarque extends Component {
         if (valida_orden=='' || valida_orden ==undefined || valida_orden==null){
             this.HintAlertas.current.mostrarConParametros("Please complete*Stuffing instructions");
             //this.TextInputOrdenEmbarque.focus();
-            
+            this.Loading.current.ocultar();
             //this.setState({focoOrden:true})
             console.log("validarxxx");
             return;
@@ -467,7 +468,7 @@ export default class InfoGeneralEmbarque extends Component {
         if (valida_numero=='' || valida_numero ==undefined || valida_numero==null){
             this.HintAlertas.current.mostrarConParametros("Please complete*Container N°");
             //this.TextInputOrdenEmbarque.focus();
-            
+            this.Loading.current.ocultar();
             //this.setState({focoOrden:true})
             console.log("validarxxx valida_numero");
             return;
@@ -481,7 +482,7 @@ export default class InfoGeneralEmbarque extends Component {
         if (valida_exportador=='' || valida_exportador ==undefined || valida_exportador==null){
             this.HintAlertas.current.mostrarConParametros("Please complete*Exportador");
             //this.TextInputOrdenEmbarque.focus();
-            
+            this.Loading.current.ocultar();
             //this.setState({focoOrden:true})
             console.log("validarxxx valida_exportador");
             return;
@@ -583,7 +584,7 @@ export default class InfoGeneralEmbarque extends Component {
                     await AsyncStorage.setItem("FotosConsolidacionCarga", "0");
                     await AsyncStorage.setItem("Observaciones", "0");
 
-
+                    this.Loading.current.ocultar();
                     this.props.navigation.navigate('ConsolidacionCarga', {
                         embarque : resultado.data.embarque_id, 
                         embarque_planta : resultado.data.embarque_planta_id,
@@ -845,7 +846,7 @@ export default class InfoGeneralEmbarque extends Component {
                                 </ScrollView>
                             </View>                           
                
-                
+                            <Loading ref={this.Loading} />
                 
                
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
