@@ -261,7 +261,7 @@ export default class EstibaPalletLista extends Component {
    
    
        }
-
+       
 
        shouldComponentUpdate = async(nextProps, nextState) =>{
         console.log('Ejecutando lista shouldComponentUpdate 1: ', nextProps )

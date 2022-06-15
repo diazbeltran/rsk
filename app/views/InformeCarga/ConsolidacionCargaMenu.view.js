@@ -17,6 +17,7 @@ import Icon4 from 'react-native-vector-icons/FontAwesome5';
 
 import HintAlertas from '../../components/Hint/Hint.component';
 
+import InformePrecargado from '../InformePrecargado/InformePre.view';
 
 import CheckBox from '@react-native-community/checkbox';
 
@@ -61,6 +62,7 @@ export default class ConsolidacionCarga extends Component {
 
         };
         this.HintAlertas = React.createRef();
+       // this.InformePrecargado = React.createRef();
         
     }
 
@@ -187,11 +189,15 @@ export default class ConsolidacionCarga extends Component {
                 await AsyncStorage.setItem("EstibaPallet", "2");
                 await AsyncStorage.setItem("FotosConsolidacionCarga", "2");
                 await AsyncStorage.setItem("Observaciones", "2");
+                await AsyncStorage.setItem("superactualizacion", "3");
 
 
-                    this.props.navigation.navigate('App',{embarque : embarque, 
+                    
+                
+                    
+                    this.props.navigation.navigate('App2',{embarque : embarque, 
                         embarque_planta : embarque_planta,
-                        actualiza:true   })
+                        actualiza:true , dato_act:3  })
 
 
 
@@ -967,6 +973,12 @@ export default class ConsolidacionCarga extends Component {
                     {buttonEstibaPallet}
                     {buttonFotosConsolidacionCarga}
                     {buttonObservaciones}
+
+
+
+                    
+
+                
                     
                 </ScrollView>
 
@@ -1016,6 +1028,10 @@ export default class ConsolidacionCarga extends Component {
 
                 
                 </View>   
+                {/* <InformePrecargado 
+                ref={this.InformePrecargado}>
+
+                </InformePrecargado> */}
                                 <HintAlertas
                                     title={this.state.tituloHintAlerta}
                                     ref={this.HintAlertas}

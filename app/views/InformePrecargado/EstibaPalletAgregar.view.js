@@ -1066,41 +1066,7 @@ export default class EstibaPalletAgregar
                         
 
                             
-                            <View> 
-                            <View style={{marginLeft:'0%', flexDirection:'column', alignItems:'center'}}>
-                                 {this.state.foto_numero_pallet==1?(
-                                     <View style={{marginBottom:20, paddingBottom:10, paddingTop:10, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'10%', alignContent:'center'}}>
-                                     <View style={{flex:0.5}}>
-                                     <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
-                                     </View>
-                                     <View style={{flex:2, marginLeft:10}}>
-                                     <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Photo N° palletx</Text> 
-                                     </View>                        
-                                     <View style={{flex:.5}}>
-                                     <TouchableHighlight style={{with:10}}
-                                           title="Press me"
-                                           onPress={() => {
-                                               console.log("el estado de la foto esss... 1", this.state.foto_numero_pallet);
-                                            this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}}
-                                               >
-             
-                                        <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
-                                 </TouchableHighlight>
-                                              
-                                     </View>   
-                                         
-                                     </View>
-                                 ):(<SelectorNumeroPallet
-                                    ref={this.Selector1}
-                                    mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
-                                    ocultarTeclado={() => this.ocultarTeclado()}
-                                    />)} 
-                                     
-                                    
-                                     
-                                     </View>
-
-                            </View>
+                           
 
                                 <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Location</Text> 
                             <View style={{width:'90%', marginLeft:'0%'}}>
@@ -1209,6 +1175,41 @@ export default class EstibaPalletAgregar
                               
                                
                                    </View> 
+                            </View>
+                            <View> 
+                            <View style={{marginLeft:'0%', flexDirection:'column', alignItems:'center'}}>
+                                 {this.state.foto_numero_pallet==1?(
+                                     <View style={{marginBottom:20, paddingBottom:10, paddingTop:10, flex: 1, backgroundColor: '#efeeef', flexDirection: 'row', width:'10%', alignContent:'center'}}>
+                                     <View style={{flex:0.5}}>
+                                     <Icon2 style={{marginLeft:20, flex: 1}} name="image" size={30} color="#ef882d" />    
+                                     </View>
+                                     <View style={{flex:2, marginLeft:10}}>
+                                     <Text style={{ color:'#ef882d', fontWeight:'bold', marginTop:5}}>Photo N° palletx</Text> 
+                                     </View>                        
+                                     <View style={{flex:.5}}>
+                                     <TouchableHighlight style={{with:10}}
+                                           title="Press me"
+                                           onPress={() => {
+                                               console.log("el estado de la foto esss... 1", this.state.foto_numero_pallet);
+                                            this.setState({estacargado:false, arregloCuadrados:[],indexInicial:0,ArregloImagenes:[], pesoTotalAcumulado:0  })}}
+                                               >
+             
+                                        <Icon2 style={{ marginTop:5, flex: 1}} name="trash-bin" size={20} color="red" />  
+                                 </TouchableHighlight>
+                                              
+                                     </View>   
+                                         
+                                     </View>
+                                 ):(<SelectorNumeroPallet
+                                    ref={this.Selector1}
+                                    mostrarImagenAmpliada={(imagen, key, extension) => this.mostrarImagenAmpliada1(imagen, key, extension)}
+                                    ocultarTeclado={() => this.ocultarTeclado()}
+                                    />)} 
+                                     
+                                    
+                                     
+                                     </View>
+
                             </View>
                             <Text style={{marginLeft:'10%', marginTop:10, fontWeight:'bold'}}>Temperature device</Text> 
                            

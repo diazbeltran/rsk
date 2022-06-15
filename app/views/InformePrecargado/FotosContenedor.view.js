@@ -575,7 +575,7 @@ export default class FotosContenedor extends Component {
 
                 }else{
                     console.log("sin resultadox");
-                    this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+                    this.HintAlertas.current.mostrarConParametros("Error"+JSON.stringify(resultado.message));
                 }
 
               } catch (error) {

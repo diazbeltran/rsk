@@ -22,7 +22,7 @@ import Icon22 from 'react-native-vector-icons/MaterialIcons';
 import { RNCamera } from 'react-native-camera';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
-export default class InformePrecargado extends Component {
+export default class InformePrecargado2 extends Component {
 
     static navigationOptions = {
         header: null,
@@ -242,7 +242,7 @@ export default class InformePrecargado extends Component {
      case 1:
        var_tipo=<TouchableWithoutFeedback 
           
-       onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque',{
+       onPress={() => this.props.navigation.navigate('InfoGeneralEmbarque2',{
          usuario: this.state.usuario_id,
          planta: this.state.planta_id,
          embarque: item.embarque_id,

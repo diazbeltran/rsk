@@ -563,7 +563,9 @@ export default class InfoGeneralEmbarque extends Component {
                 //(user, panta,fecha,oden,numero_contenedor, exportador, img1, img2, img3) 
                 let resultado = await WSRestApi.fnWSGuardaEmbarque(USUARIO_ID,PLANTA_ID,fecha,orden,numero,expor,img1, img2, img3);
                 //console.log(`Obtenido el resultado ConsultaUsuario : ${resultado.Error.OCodError}`);
-                console.log("resultadox ->"+JSON.stringify(resultado)) ;
+                console.log("resultadox 1->"+JSON.stringify(resultado)) ;
+               // console.log("resultadox 2->",resultado) ;
+            
 
                 //this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
 
@@ -593,8 +595,9 @@ export default class InfoGeneralEmbarque extends Component {
 
 
                 }else{
-                    console.log("sin resultadox");
-                    this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+                    console.log("sin resultadox:",resultado.message);
+                    this.Loading.current.ocultar();
+                    this.HintAlertas.current.mostrarConParametros("Error:"+resultado.message);
                 }
 
               } catch (error) {
@@ -788,7 +791,7 @@ export default class InfoGeneralEmbarque extends Component {
                                 value={this.state.clave}
                                 /> */}
 
-                        <View  style={{backgroundColor:'#efeeef', width:'80%',height:30,paddingTop:10,paddingBottom:10, marginLeft:'10%'}} >
+                        <View  style={{backgroundColor:'#efeeef', width:'80%',height:40,paddingTop:0,paddingBottom:0, marginLeft:'10%'}} >
 
                                 <Select
                                 ref={this.exportador}                            

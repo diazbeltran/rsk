@@ -173,6 +173,7 @@ import SplashScreen from '../views/SplashScreen.js';
 //---- AuthStack ----
 import LoginScreen from '../views/Login/Login.view.js';
 import InformeScreen from '../views/InformePrecargado/InformePre.view.js';
+import Informe2Screen from '../views/InformePrecargado/InformePre2.view.js';
 import ConsultaContenedorScreen from '../views/InformePrecargado/ConsultaContenedor.view.js';
 
 import EstibaPalletConfirma from '../views/InformePrecargado/EstibaPalletConfirma.view.js';
@@ -182,6 +183,8 @@ import EstibaPalletFotosUno from '../views/InformePrecargado/EstibaPalletFotosUn
 
 
 import InfoGeneralEmbarque from '../views/InformePrecargado/InformeGeneralEmbarque.view.js';
+import InfoGeneralEmbarque2 from '../views/InformePrecargado/InformeGeneralEmbarque2.view.js';
+
 import InfoGeneralEmbarqueNuevo from '../views/InformePrecargado/InfoGeneralEmbarqueNuevo.view.js';          
 import IdentificacionCarga from '../views/InformePrecargado/IdentificacionCarga.view.js';
 //import IdentificacionCarga from '../views/InformePrecargado/IdentificacionCargaPre.view';
@@ -258,6 +261,12 @@ function AuthNavigator() {
                 options={{ headerShown: false }} 
                 component={InformeScreen} />
 
+                <Stack.Screen name="App2" 
+                options={{ headerShown: false }} 
+                component={Informe2Screen} />
+
+
+
 
                 {/* <Stack.Screen name="ConsultaContenedor" 
                 options={{ headerShown: false }} 
@@ -272,6 +281,11 @@ function AuthNavigator() {
                 <Stack.Screen name="InfoGeneralEmbarque" 
                 options={{ headerShown: false }} 
                 component={InfoGeneralEmbarque} />
+
+                <Stack.Screen name="InfoGeneralEmbarque2" 
+                options={{ headerShown: false }} 
+                component={InfoGeneralEmbarque2} />
+
 
                 <Stack.Screen name="InfoGeneralEmbarqueNuevo" 
                 options={{ headerShown: false }} 

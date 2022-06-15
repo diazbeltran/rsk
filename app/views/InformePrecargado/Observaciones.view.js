@@ -12,7 +12,7 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 
-
+import HintAlertas from '../../components/Hint/Hint.component'
 import WSRestApi from '../../services/wsRestApi';
 
 
@@ -32,8 +32,12 @@ export default class FotosCarga extends Component {
             embarque_planta_id:'',
             informeGeneral:'',
 
-        };
+            val1:'',
+            val2:'',
+            val3:'',
 
+        };
+        this.HintAlertas = React.createRef();
         
     }
 
@@ -86,7 +90,8 @@ export default class FotosCarga extends Component {
                console.log("array pallets --> paso_pallet  "+paso_pallet);
                console.log("array pallets --> paso_especie  "+result.data.pallets.length);
                 
-               this.setState({ tipo_id: result.data.tipo_id})
+               this.setState({ tipo_id: result.data.tipo_id,
+                val1:result.data.pre_enfriado,val1:result.data.limpio_sin_olor,val1:result.data.buen_estado})
    
    
                 let MyArray = [];
@@ -162,7 +167,18 @@ export default class FotosCarga extends Component {
         let img1 = this.state.foto_general_contenedor;
         let img2 = this.state.foto_pared_izquierda;
       
+        let sum = this.state.val1 +this.state.val2+this.state.val3; 
 
+        if (sum<3){
+
+            if (this.state.texto_observacion=='' || this.state.texto_observacion ==null){
+
+                this.HintAlertas.current.mostrarConParametros("you must enter a comment");
+                return;
+
+            }
+
+        }
            
 
            // console.log("Orden -->"+orden);
@@ -245,7 +261,7 @@ export default class FotosCarga extends Component {
 
                 }else{
                     console.log("sin resultadox");
-                    this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+                    this.HintAlertas.current.mostrarConParametros("Error:"+JSON.stringify(resultado.message));
                 }
 
               } catch (error) {
@@ -334,7 +350,10 @@ export default class FotosCarga extends Component {
                             </View>                           
                
                 
-                
+                            <HintAlertas
+                                title={this.state.tituloHintAlerta}
+                                ref={this.HintAlertas}
+                            ></HintAlertas>
                 
                 <View style={{ flex: 0.02, backgroundColor: 'steelblue' }} >
                     

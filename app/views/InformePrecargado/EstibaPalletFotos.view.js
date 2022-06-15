@@ -376,11 +376,12 @@ export default class FotosContenedor extends Component {
        // console.log("arreglox1 -->"+ JSON.stringify(arregloImagenes1));
         let jsonImagenes1 = "";
 
-        console.log("cantidad de imagenes .----> "+arregloImagenes1.length);
+        console.log("cantidad de imagenes .1----> "+arregloImagenes1.length);
+        console.log("cantidad de imagenes .2----> "+arregloImagenes2.length);
 
         if(arregloImagenes1.length ==0 || arregloImagenes2.length == 0 ){
 
-            this.HintAlertas.current.mostrarConParametros("Please upload image");
+            this.HintAlertas.current.mostrarConParametros("Please upload image 2");
             return 1;
         }
 
@@ -456,21 +457,23 @@ export default class FotosContenedor extends Component {
         this.setState({ foto_pared_izquierda: jsonImagenes2 });
 
 
-        
+        console.log("se esta enviando xxx");
         return 0;
     }   
 
     validarCampos = async () => {
-        
+        let cargax = '';
+        console.log("validando img ");
         if(this.state.foto_buffer_plate!=1 && this.state.foto_fondo_contenedor!=1){
-            let a = await this.carga_imagenes();
+            
+            cargax = await this.carga_imagenes();
         }else{
            console.log("wewe");
         }
         
-        
+        console.log("el va|lor de a es:" ,cargax);
 
-        if (1==1) {
+        if (cargax==0) {
 
             //console.log("Mensaje final para enviar datos  ", this.state.mensajeAprobado, " ", this.state.IdSolicitud);
 
@@ -482,6 +485,10 @@ export default class FotosContenedor extends Component {
 
         } else {
             console.log("incorrecto");
+
+            this.HintAlertas.current.mostrarConParametros("Please upload image 1");
+
+
             //this.setState({ hint: "rechazado" });
 
             //this.Hint2.current.mostrar();

@@ -1156,9 +1156,10 @@ export default class InfoGeneralEmbarque extends Component {
 
 
             }else{
+
                 console.log("sin resultadox");
                 this.Loading.current.ocultar();
-                this.HintAlertas.current.mostrarConParametros("Error al cargar los datos, Favor validar información");
+                this.HintAlertas.current.mostrarConParametros("Error"+JSON.stringify(resultado.message));
             }   
 
 
@@ -1611,7 +1612,7 @@ export default class InfoGeneralEmbarque extends Component {
                 
                  <View>
                  <Text style={{marginLeft:30, marginTop:10}}>Receiver/consignee</Text>
-                 <View style={{width:'80%',height:20,marginTop:10, marginBottom:10, marginLeft:'10%'}}   >
+                 <View style={{width:'80%',height:40,marginTop:0, marginBottom:0, marginLeft:'10%'}}   >
                  
 
                         <Select
@@ -1758,7 +1759,7 @@ export default class InfoGeneralEmbarque extends Component {
                 <View style={{flexDirection:'row'}}>
                 <View style={{flex:1.5}}>
                 <Text style={{marginLeft:30, marginTop:10}}>Product</Text>
-                <View  style={{backgroundColor:'#efeeef', width:'80%',height:40,marginTop:10, paddingBottom:10, paddingTop:10, marginLeft:30}} >
+                <View  style={{backgroundColor:'#efeeef', width:'80%',height:40,marginTop:10, paddingBottom:0, paddingTop:5, marginLeft:30}} >
                 
                 {this.pinta_select_producto(this.state.seteo)}
                 

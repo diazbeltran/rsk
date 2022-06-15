@@ -353,7 +353,15 @@ export default class FotosContenedorUno extends Component {
         //let arregloImagenes3 = this.Selector3.current.obtenerArregloImagenes();
 
        // console.log("arreglox1 -->"+ JSON.stringify(arregloImagenes1));
-    
+
+       console.log("cantidad de imagenes .2----> "+arregloImagenes2.length);
+
+
+       if( arregloImagenes2.length == 0 ){
+
+        this.HintAlertas.current.mostrarConParametros("Please upload image 2");
+        return 1;
+    }
 
         let jsonImagenes2 = "";
 
@@ -397,9 +405,9 @@ export default class FotosContenedorUno extends Component {
     }   
 
     validarCampos = async () => {
-        
-        if(this.state.foto_buffer_plate!=1 && this.state.foto_fondo_contenedor!=1){
-            let a = await this.carga_imagenes();
+        let a = '';
+        if( this.state.foto_fondo_contenedor!=1){
+             a = await this.carga_imagenes();
         }else{
            console.log("wewe");
         }
@@ -413,7 +421,7 @@ export default class FotosContenedorUno extends Component {
         
 
   
-        if (1==1) {
+        if (a==0) {
 
             //console.log("Mensaje final para enviar datos  ", this.state.mensajeAprobado, " ", this.state.IdSolicitud);
 
@@ -425,6 +433,7 @@ export default class FotosContenedorUno extends Component {
 
         } else {
             console.log("incorrecto");
+            this.HintAlertas.current.mostrarConParametros("Please upload image");
             //this.setState({ hint: "rechazado" });
 
             //this.Hint2.current.mostrar();

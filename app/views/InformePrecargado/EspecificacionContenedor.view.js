@@ -93,8 +93,12 @@ export default class EspecificacionContenedor
                 value: "1"
             },
 
-            ano_fabricacion : '',
-            foto_ano_fabricacion: '',
+            hoy: new Date(),
+
+
+
+            ano_fabricacion : '2022',
+            foto_ano_fabricacion: '2022',
                //pti: result.data.pti,
                foto_pti: '',
                pre_enfriado: 0,
@@ -285,6 +289,8 @@ export default class EspecificacionContenedor
                checked2: result.data.limpio_sin_olor ==0 ? false : true,
                checked3: result.data.buen_estado ==0 ? false : true,
                checked4: result.data.confirmacion ==0 ? false : true,
+               temperatura_mod:  result.data.creado_web==0? false : true,
+               creado_web: result.data.creado_web,
 
 
                //recibidor_data:[...this.state.recibidor_data,[MyArray2]]
@@ -811,7 +817,7 @@ export default class EspecificacionContenedor
             }else{
                 console.log("sin resultadox");
                 this.Loading.current.ocultar();
-                this.HintAlertas.current.mostrarConParametros("Error", resultado.message);
+                this.HintAlertas.current.mostrarConParametros("Error"+ JSON.stringify(resultado.message));
             }   
 
 
@@ -857,13 +863,11 @@ export default class EspecificacionContenedor
 
 
                             {this.state.ano_fabricacion!=''? (
-                            //   <View style={{width:'100%',paddingBottom:20,  marginTop:10, marginBottom:10, backgroundColor:'#efeeef', borderWidth:0.5, borderColor:'#E8E8E8'}}>
-                            //   <Text style={{marginLeft:20, marginTop:'3%'}}>{this.state.ano_fabricacion}</Text>
-                            //   </View>
+                           
                             <Select2  
                                 
                                 ref={this.añoref}
-                                label={this.state.añorefInicio.label}
+                                //label={this.state.añorefInicio.label}
                                 value={this.state.añorefInicio.value}
                                 datos={[
                                     { label: '2024', value: '2024' },
@@ -915,7 +919,7 @@ export default class EspecificacionContenedor
                             ) :(
                                 <Select  
                                 ref={this.añoref}
-                                label={this.state.ano_fabricacion}
+                               //label={this.state.ano_fabricacion}
                                 value={this.state.ano_fabricacion}
                                 datos={[
                                     { label: '2024', value: '2024' },
@@ -1013,11 +1017,11 @@ export default class EspecificacionContenedor
                                 {this.state.pti!=null ? (
                                 <DatePicker
                                 style={{ width: "80%",marginLeft:'10%', marginTop:10, fontWeight:'bold' }}
-                                date={this.state.pti}
+                                date={this.state.hoy}
                                 mode="date"
                                 
                                 showIcon={true}
-                                //placeholder={this.state.fechaActual}
+                                //placeholder={this.state.hoy}
                                 format="YYYY-MM-DD"
                                 //disabled={true}
                                 // minDate={this.state.fechaMinima}
@@ -1153,6 +1157,7 @@ export default class EspecificacionContenedor
                                <View style={{flex:1}}>
                                <InputSpinner
                                     editable={false}
+                                    disabled={this.state.temperatura_mod}
                                     max={24}
                                     min={-24}
                                     step={0.1}
@@ -1250,6 +1255,7 @@ export default class EspecificacionContenedor
                                <View style={{flex:1}}>
                                <InputSpinner
                                 editable={false}
+                                disabled={this.state.temperatura_mod}
                                     max={100}
                                     min={0}
                                     step={5}
